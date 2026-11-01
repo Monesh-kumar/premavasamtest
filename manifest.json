@@ -2,8 +2,8 @@
   "name": "Premavasam — A Home of Love",
   "short_name": "Premavasam",
   "description": "Catering to mentally & physically challenged and less fortunate children since 1999.",
-  "start_url": "/?source=pwa",
-  "scope": "/",
+  "start_url": "index.html?source=pwa",
+  "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FEF9F2",
@@ -16,12 +16,12 @@
   ],
   "icons": [
     {
-      "src": "/images/logo.png",
+      "src": "images/logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/images/logo.png",
+      "src": "images/logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
