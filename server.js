@@ -196,6 +196,7 @@ function applySecurityHeaders(res, origin = ALLOWED_ORIGIN) {
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https:",
     "connect-src 'self' " + (origin !== '*' ? origin : ''),
+    "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'"

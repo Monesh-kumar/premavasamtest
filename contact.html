@@ -342,14 +342,6 @@
   <script>
     if (window.lucide) lucide.createIcons();
 
-    // Mobile nav toggle
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const navMenu = document.getElementById('navMenu');
-    if (mobileBtn && navMenu) {
-      mobileBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('open');
-      });
-    }
 
     async function handleContactSubmit(e) {
       e.preventDefault();
