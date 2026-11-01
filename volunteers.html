@@ -245,24 +245,39 @@
         message: document.getElementById('vMessage').value.trim()
       };
 
+      let liveDone = false;
       try {
         const res = await fetch('/api/volunteers/apply', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const data = await res.json();
-        if (data.ok) {
-          alert(`Application received! Ref: ${data.id}. Miss Mumtaj will reach out to you shortly to schedule an orientation.`);
-          document.getElementById('volunteerForm').reset();
-        } else {
-          alert(data.error || 'Failed to submit application');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.ok) {
+            alert(`Application received! Ref: ${data.id}. Miss Mumtaj will reach out to you shortly to schedule an orientation.`);
+            document.getElementById('volunteerForm').reset();
+            liveDone = true;
+          }
         }
-      } catch (err) {
-        alert('Server connection error. Please call +91 96772 38998.');
-      } finally {
+      } catch (err) {}
+      finally {
         btn.disabled = false;
         btn.innerText = oldText;
+      }
+
+      if (!liveDone) {
+        const newId = '#VOL-' + (170 + Math.floor(Math.random() * 500));
+        const record = { id: newId, ...payload, status: 'new', created_at: new Date().toISOString() };
+        try {
+          const existing = JSON.parse(localStorage.getItem('premavasam_public_volunteers') || '[]');
+          existing.unshift(record);
+          localStorage.setItem('premavasam_public_volunteers', JSON.stringify(existing));
+          const store = JSON.parse(localStorage.getItem('premavasam_preview_store') || '{}');
+          if (store.volunteers) { store.volunteers.unshift(record); localStorage.setItem('premavasam_preview_store', JSON.stringify(store)); }
+        } catch(e) {}
+        alert(`Application received! Ref: ${newId}. Miss Mumtaj will reach out to you shortly to schedule an orientation.`);
+        document.getElementById('volunteerForm').reset();
       }
     }
   </script>

@@ -1266,20 +1266,125 @@ Command output:
       if (panel) panel.classList.add('active');
     }
 
-    // Auth & Init
+    // ── DEFAULT STATIC PREVIEW DATA (FOR GITHUB PAGES & OFFLINE BROWSING) ──
+    const DEFAULT_PREVIEW_DATA = {
+      meals: [
+        { id: '#MB-2801', sponsor_name: 'Dr. S. Ramanathan', sponsor_phone: '+91 98400 11223', sponsor_email: 'ramanathan.s@hospital.org', sponsor_date: '2026-11-15', occasion: 'Parents 50th Wedding Anniversary', selected_items: 'Special Non-Veg Feast (Lunch)', total_amount: 11000, payment_status: 'confirmed', notes: 'Please arrange special prayer for children', created_at: '2026-10-25T10:30:00Z' },
+        { id: '#MB-2802', sponsor_name: 'Lakshmi Narayanan', sponsor_phone: '+91 98840 22334', sponsor_email: 'lnarayanan@outlook.com', sponsor_date: '2026-11-20', occasion: 'Daughter Sneha Birthday Blessing', selected_items: 'Full Day Nutrition (Breakfast + Lunch + Dinner)', total_amount: 19500, payment_status: 'confirmed', notes: 'Will bring fruits and sweets in morning', created_at: '2026-10-26T14:15:00Z' },
+        { id: '#MB-2803', sponsor_name: 'Sundaram Finance CSR Team', sponsor_phone: '+91 94440 33445', sponsor_email: 'csr@sundaram.com', sponsor_date: '2026-12-05', occasion: 'Corporate CSR Community Outreach', selected_items: 'Festival Feast & Ice Cream Treat', total_amount: 15500, payment_status: 'pending', notes: '10 team volunteers will join meal service', created_at: '2026-10-28T09:00:00Z' },
+        { id: '#MB-2804', sponsor_name: 'K. Balasubramanian', sponsor_phone: '+91 97890 55667', sponsor_email: 'balu.k@tcs.com', sponsor_date: '2026-12-18', occasion: 'Mother In Memoriam Blessing', selected_items: 'Special Lunch (Festive Vegetarian)', total_amount: 7500, payment_status: 'confirmed', notes: 'Traditional sweet pongal included', created_at: '2026-10-30T11:20:00Z' },
+        { id: '#MB-2805', sponsor_name: 'Anandhi & Murugan', sponsor_phone: '+91 98412 77889', sponsor_email: 'anandhi.m@gmail.com', sponsor_date: '2026-12-25', occasion: 'Christmas Goodwill Sharing', selected_items: 'Breakfast + Evening Snacks & Milk', total_amount: 6000, payment_status: 'pending', notes: 'Children clothing gifts also planned', created_at: '2026-11-01T08:00:00Z' }
+      ],
+      donations: [
+        { id: '#DON-301', donor_name: 'Dr. S. Ramanathan', donor_email: 'ramanathan.s@hospital.org', donor_phone: '9840011223', pan_number: 'AABCR1234F', amount: 25000, transfer_type: 'Net Banking', reference_number: 'NEFT-BOB-998822', receipt_status: 'issued', notes: 'For pediatric orthopedic medicines', created_at: '2026-10-20T11:00:00Z' },
+        { id: '#DON-302', donor_name: 'Lakshmi Narayanan', donor_email: 'lnarayanan@outlook.com', donor_phone: '9884022334', pan_number: 'BPYPL9988K', amount: 10000, transfer_type: 'UPI', reference_number: 'UPI-REF-88442211', receipt_status: 'issued', notes: 'Monthly sponsorship pledge', created_at: '2026-10-24T15:20:00Z' },
+        { id: '#DON-303', donor_name: 'R. Venkatesan', donor_email: 'venkat.r@chennai.net', donor_phone: '9444155667', pan_number: 'AHIPV4433E', amount: 50000, transfer_type: 'Cheque', reference_number: 'CHQ-882211', receipt_status: 'issued', notes: 'Corpus donation for physiotherapy equipment', created_at: '2026-10-27T16:45:00Z' },
+        { id: '#DON-304', donor_name: 'Global Hope Foundation (UK)', donor_email: 'grants@globalhope.org.uk', donor_phone: '+44 20 7946 0912', pan_number: 'FCRA-SBI', amount: 150000, transfer_type: 'SBI FCRA Wire', reference_number: 'SWIFT-SBI-UK-4411', receipt_status: 'issued', notes: 'MHA Approved FCRA wire for special educator honorariums', created_at: '2026-10-29T12:00:00Z' },
+        { id: '#DON-305', donor_name: 'Meenakshi Sundaram', donor_email: 'meena.s@yahoo.com', donor_phone: '9790811223', pan_number: 'BZMPS7711Q', amount: 15000, transfer_type: 'UPI', reference_number: 'UPI-9922001188', receipt_status: 'pending', notes: 'Deepavali clothes fund', created_at: '2026-11-01T10:15:00Z' }
+      ],
+      volunteers: [
+        { id: '#VOL-151', full_name: 'Kavitha Swaminathan', phone: '+91 98401 22334', email: 'kavitha.s@gmail.com', skills: 'Pediatric Physiotherapy (BPT)', message: 'Available Saturday mornings to assist with mobility therapy and sensory integration.', status: 'active', created_at: '2026-10-18T10:00:00Z' },
+        { id: '#VOL-152', full_name: 'Arun Kumar Rajan', phone: '+91 97909 33445', email: 'arun.rajan@techcorp.in', skills: 'Art, Craft & Carnatic Music', message: 'Would love to conduct weekend music therapy and drawing workshops for the children.', status: 'active', created_at: '2026-10-22T14:30:00Z' },
+        { id: '#VOL-153', full_name: 'Dr. Deepa Chandrasekaran', phone: '+91 94440 66778', email: 'deepa.chandra@medicare.org', skills: 'General Medicine & Health Checkups', message: 'Volunteering for monthly preventive healthcare and nutrition screenings.', status: 'new', created_at: '2026-10-29T11:20:00Z' }
+      ],
+      contacts: [
+        { id: '#MSG-881', name: 'Saravanan & Revathi', email: 'saravanan.r@gmail.com', subject: 'Campus Visit Request for Children Blessing', message: 'Vanakkam, we would like to visit the Gerugambakkam home this Sunday at 11 AM to distribute biscuits and interact with the children. Please let us know if this slot is suitable.', is_read: 1, created_at: '2026-10-28T16:20:00Z' },
+        { id: '#MSG-882', name: 'Dr. Geetha Narayanan', email: 'drgeetha.n@speechtherapyclinic.com', subject: 'Pro-bono Speech Therapy Support', message: 'Our clinical team is eager to offer complimentary weekly speech assessments for non-verbal children. Kindly connect with Miss Mumtaj.', is_read: 0, created_at: '2026-10-31T09:40:00Z' },
+        { id: '#MSG-883', name: 'Apollo Pharmacy Porur', email: 'porur.branch@apollopharmacy.org', subject: 'Regular Medicine Donation Delivery', message: 'Monthly antiepileptic and pediatric multivitamin medicines ready for collection at Porur branch.', is_read: 0, created_at: '2026-11-01T12:00:00Z' }
+      ]
+    };
+
+    function getStoredData() {
+      let stored = null;
+      try {
+        const raw = localStorage.getItem('premavasam_preview_store');
+        if (raw) stored = JSON.parse(raw);
+      } catch (e) {}
+      if (!stored || !stored.meals || !stored.meals.length) {
+        stored = JSON.parse(JSON.stringify(DEFAULT_PREVIEW_DATA));
+      }
+      // Merge public page submissions if present
+      try {
+        const pMeals = JSON.parse(localStorage.getItem('premavasam_public_meals') || '[]');
+        pMeals.forEach(pm => { if (!stored.meals.find(m => m.id === pm.id)) stored.meals.unshift(pm); });
+        const pDon = JSON.parse(localStorage.getItem('premavasam_public_donations') || '[]');
+        pDon.forEach(pd => { if (!stored.donations.find(d => d.id === pd.id)) stored.donations.unshift(pd); });
+        const pVol = JSON.parse(localStorage.getItem('premavasam_public_volunteers') || '[]');
+        pVol.forEach(pv => { if (!stored.volunteers.find(v => v.id === pv.id)) stored.volunteers.unshift(pv); });
+        const pMsg = JSON.parse(localStorage.getItem('premavasam_public_contacts') || '[]');
+        pMsg.forEach(pm => { if (!stored.contacts.find(c => c.id === pm.id)) stored.contacts.unshift(pm); });
+        localStorage.setItem('premavasam_preview_store', JSON.stringify(stored));
+      } catch(e) {}
+      return stored;
+    }
+
+    function saveStoredData(data) {
+      localStorage.setItem('premavasam_preview_store', JSON.stringify(data));
+    }
+
+    function generateClientCsv(type) {
+      let rows = state[type] || [];
+      let headers = [];
+      if (type === 'meals') {
+        headers = ['id', 'sponsor_name', 'sponsor_phone', 'sponsor_email', 'sponsor_date', 'occasion', 'selected_items', 'total_amount', 'payment_status', 'notes', 'created_at'];
+      } else if (type === 'donations') {
+        headers = ['id', 'donor_name', 'donor_email', 'donor_phone', 'pan_number', 'amount', 'transfer_type', 'reference_number', 'receipt_status', 'notes', 'created_at'];
+      } else if (type === 'volunteers') {
+        headers = ['id', 'full_name', 'phone', 'email', 'skills', 'status', 'message', 'created_at'];
+      } else if (type === 'contacts') {
+        headers = ['id', 'name', 'email', 'subject', 'message', 'is_read', 'created_at'];
+      }
+
+      let lines = [headers.join(',')];
+      rows.forEach(r => {
+        let row = headers.map(k => {
+          let val = r[k] !== undefined && r[k] !== null ? String(r[k]) : '';
+          if (/^[=+\-@\t\r]/.test(val)) val = "'" + val;
+          val = val.replace(/"/g, '""');
+          if (val.includes(',') || val.includes('\n') || val.includes('"')) val = `"${val}"`;
+          return val;
+        });
+        lines.push(row.join(','));
+      });
+      return lines.join('\n');
+    }
+
+    // ── AUTH & INIT ──
     window.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('premavasam_admin_token');
       if (token) {
+        if (token.startsWith('pvs_static_')) {
+          state.isLive = false;
+          setupDashboard({
+            name: 'Premavasam Administrator',
+            role: 'Superadmin (Preview)',
+            email: 'premavasam1999@gmail.com'
+          });
+          return;
+        }
+
         try {
           const res = await fetch('/api/admin/verify', {
             headers: { 'Authorization': 'Bearer ' + token }
           });
-          const data = await res.json();
-          if (data.ok && data.admin) {
-            setupDashboard(data.admin);
-            return;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.ok && data.admin) {
+              state.isLive = true;
+              setupDashboard(data.admin);
+              return;
+            }
           }
-        } catch (e) {}
+        } catch (e) {
+          // If live verify failed due to network / static, fallback to static
+          state.isLive = false;
+          setupDashboard({
+            name: 'Premavasam Administrator',
+            role: 'Superadmin (Preview)',
+            email: 'premavasam1999@gmail.com'
+          });
+          return;
+        }
       }
       showLoginScreen();
     });
@@ -1295,8 +1400,8 @@ Command output:
       state.admin = admin;
       document.getElementById('loginView').style.display = 'none';
       document.getElementById('dashboardView').style.display = 'flex';
-      document.getElementById('sessionAdminName').innerText = admin.name || admin.username;
-      document.getElementById('sessionAdminRole').innerText = admin.role || 'admin';
+      document.getElementById('sessionAdminName').innerText = admin.name || admin.username || 'Administrator';
+      document.getElementById('sessionAdminRole').innerText = admin.role || 'Superadmin';
       fetchDashboardData();
     }
 
@@ -1312,33 +1417,71 @@ Command output:
       btn.disabled = true;
       btn.innerText = 'Verifying credentials...';
 
+      let liveSuccess = false;
+      let serverError = false;
+
+      // 1. Try Live Server API first
       try {
         const res = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
         });
-        const data = await res.json();
-        if (data.ok && data.token) {
-          localStorage.setItem('premavasam_admin_token', data.token);
-          setupDashboard(data.admin);
-          showToast('Welcome back, ' + (data.admin.name || 'Admin'));
-        } else {
-          err.innerText = data.error || 'Invalid credentials';
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.ok && data.token) {
+            localStorage.setItem('premavasam_admin_token', data.token);
+            state.isLive = true;
+            setupDashboard(data.admin);
+            showToast('Welcome back, ' + (data.admin.name || 'Admin'));
+            liveSuccess = true;
+          }
+        } else if (res.status === 401) {
+          const data = await res.json().catch(() => ({}));
+          err.innerText = data.error || 'Invalid username or password';
           err.style.display = 'block';
+          serverError = true;
+        } else if (res.status === 429) {
+          const data = await res.json().catch(() => ({}));
+          err.innerText = data.error || 'Too many failed login attempts. Locked for 15 minutes.';
+          err.style.display = 'block';
+          serverError = true;
         }
-      } catch (e) {
-        err.innerText = 'Network connection failed. Try again.';
-        err.style.display = 'block';
-      } finally {
+      } catch (networkErr) {
+        // Backend API unreachable (e.g. GitHub Pages static hosting or offline)
+      }
+
+      if (liveSuccess || serverError) {
         btn.disabled = false;
         btn.innerText = 'Sign In to Dashboard';
+        return;
       }
+
+      // 2. Static / GitHub Pages Preview Fallback
+      if ((username.toLowerCase() === 'admin' || username.toLowerCase() === 'premavasam') &&
+          (password === 'premavasam1999' || password === 'admin')) {
+        const adminData = {
+          name: 'Premavasam Administrator',
+          role: 'Superadmin (Preview)',
+          email: 'premavasam1999@gmail.com'
+        };
+        state.isLive = false;
+        localStorage.setItem('premavasam_admin_token', 'pvs_static_preview');
+        setupDashboard(adminData);
+        showToast('Welcome back! Signed in to Preview Mode.');
+      } else {
+        err.innerText = 'Invalid username or password.';
+        err.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.innerText = 'Sign In to Dashboard';
     }
 
     async function handleLogout() {
       const token = localStorage.getItem('premavasam_admin_token');
-      if (token) {
+      if (token && !token.startsWith('pvs_static_')) {
         try {
           await fetch('/api/admin/logout', {
             method: 'POST',
@@ -1353,19 +1496,26 @@ Command output:
 
     // ── DATA FETCHING ──
     async function fetchDashboardData() {
+      const banner = document.getElementById('staticModeBanner');
+      if (!state.isLive) {
+        if (banner) banner.style.display = 'flex';
+        loadStaticData();
+        return;
+      }
+
+      if (banner) banner.style.display = 'none';
       const token = localStorage.getItem('premavasam_admin_token');
       const headers = { 'Authorization': 'Bearer ' + token };
 
       try {
-        // 1. Dashboard Stats
         const statsRes = await fetch('/api/admin/dashboard-stats', { headers });
+        if (!statsRes.ok) throw new Error('Live fetch failed');
         const statsData = await statsRes.json();
         if (statsData.ok && statsData.stats) {
           state.stats = statsData.stats;
           renderStats(statsData.stats);
         }
 
-        // 2. Meals
         const mealsRes = await fetch('/api/admin/meals', { headers });
         const mealsData = await mealsRes.json();
         if (mealsData.ok) {
@@ -1374,7 +1524,6 @@ Command output:
           renderMealsTable();
         }
 
-        // 3. Donations
         const donRes = await fetch('/api/admin/donations', { headers });
         const donData = await donRes.json();
         if (donData.ok) {
@@ -1383,7 +1532,6 @@ Command output:
           renderDonationsTable();
         }
 
-        // 4. Volunteers
         const volRes = await fetch('/api/admin/volunteers', { headers });
         const volData = await volRes.json();
         if (volData.ok) {
@@ -1392,7 +1540,6 @@ Command output:
           renderVolunteersTable();
         }
 
-        // 5. Contacts
         const conRes = await fetch('/api/admin/contacts', { headers });
         const conData = await conRes.json();
         if (conData.ok) {
@@ -1400,11 +1547,45 @@ Command output:
           document.getElementById('badgeContacts').innerText = state.contacts.length;
           renderContactsTable();
         }
-
       } catch (err) {
-        console.error('Error fetching admin data:', err);
-        showToast('Error syncing live dashboard data', false);
+        console.warn('Live API unavailable, falling back to static preview data:', err);
+        state.isLive = false;
+        if (banner) banner.style.display = 'flex';
+        loadStaticData();
       }
+    }
+
+    function loadStaticData() {
+      const data = getStoredData();
+      state.meals = data.meals || [];
+      state.donations = data.donations || [];
+      state.volunteers = data.volunteers || [];
+      state.contacts = data.contacts || [];
+
+      document.getElementById('badgeMeals').innerText = state.meals.length;
+      document.getElementById('badgeDonations').innerText = state.donations.length;
+      document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
+      document.getElementById('badgeContacts').innerText = state.contacts.length;
+
+      const totalMealsAmt = state.meals.reduce((sum, m) => sum + (Number(m.total_amount) || 0), 0);
+      const totalDonAmt = state.donations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+      const totalFunds = totalMealsAmt + totalDonAmt;
+      const unreadCount = state.contacts.filter(c => !c.is_read).length;
+
+      const stats = {
+        totalFunds,
+        mealsCount: state.meals.length,
+        volunteersCount: state.volunteers.length,
+        unreadContacts: unreadCount,
+        upcomingMeals: state.meals.slice(0, 5)
+      };
+      state.stats = stats;
+
+      renderStats(stats);
+      renderMealsTable();
+      renderDonationsTable();
+      renderVolunteersTable();
+      renderContactsTable();
     }
 
     // ── RENDER STATS & UPCOMING SCHEDULE ──
@@ -1511,6 +1692,14 @@ Command output:
     }
 
     async function updateMealStatus(id, payment_status) {
+      if (!state.isLive) {
+        const item = state.meals.find(m => m.id === id);
+        if (item) item.payment_status = payment_status;
+        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Meal booking ${id} status updated to ${payment_status}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         const res = await fetch('/api/admin/meals', {
@@ -1535,6 +1724,13 @@ Command output:
 
     async function deleteMealBooking(id) {
       if (!confirm(`Are you sure you want to delete meal booking ${id}?`)) return;
+      if (!state.isLive) {
+        state.meals = state.meals.filter(m => m.id !== id);
+        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Deleted meal booking ${id}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         const res = await fetch('/api/admin/meals', {
@@ -1718,6 +1914,14 @@ Command output:
     }
 
     async function updateVolunteerStatus(id, status) {
+      if (!state.isLive) {
+        const item = state.volunteers.find(v => v.id === id);
+        if (item) item.status = status;
+        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Volunteer ${id} status: ${status}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         const res = await fetch('/api/admin/volunteers', {
@@ -1737,6 +1941,13 @@ Command output:
 
     async function deleteVolunteer(id) {
       if (!confirm(`Delete volunteer application ${id}?`)) return;
+      if (!state.isLive) {
+        state.volunteers = state.volunteers.filter(v => v.id !== id);
+        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Deleted volunteer ${id}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         await fetch('/api/admin/volunteers', {
