@@ -385,7 +385,7 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/meals/book
   if (req.method === 'POST' && pathname === '/api/meals/book') {
-    const rateCheck = checkRateLimit(clientIp, 'meals-book', 10, 10 * 60 * 1000);
+    const rateCheck = checkRateLimit(clientIp, 'meals-book', 30, 10 * 60 * 1000);
     if (!rateCheck.allowed) {
       return sendJson(res, 429, {
         ok: false,
@@ -445,7 +445,7 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/donations/record
   if (req.method === 'POST' && pathname === '/api/donations/record') {
-    const rateCheck = checkRateLimit(clientIp, 'donations-record', 10, 10 * 60 * 1000);
+    const rateCheck = checkRateLimit(clientIp, 'donations-record', 30, 10 * 60 * 1000);
     if (!rateCheck.allowed) {
       return sendJson(res, 429, {
         ok: false,
@@ -506,7 +506,7 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/volunteers/apply
   if (req.method === 'POST' && pathname === '/api/volunteers/apply') {
-    const rateCheck = checkRateLimit(clientIp, 'volunteers-apply', 10, 10 * 60 * 1000);
+    const rateCheck = checkRateLimit(clientIp, 'volunteers-apply', 30, 10 * 60 * 1000);
     if (!rateCheck.allowed) {
       return sendJson(res, 429, {
         ok: false,
@@ -557,7 +557,7 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/contacts/send
   if (req.method === 'POST' && pathname === '/api/contacts/send') {
-    const rateCheck = checkRateLimit(clientIp, 'contacts-send', 10, 10 * 60 * 1000);
+    const rateCheck = checkRateLimit(clientIp, 'contacts-send', 30, 10 * 60 * 1000);
     if (!rateCheck.allowed) {
       return sendJson(res, 429, {
         ok: false,
