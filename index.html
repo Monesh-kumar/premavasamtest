@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=2.3">
+  <link rel="stylesheet" href="css/styles.css?v=2.4">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -243,7 +243,7 @@
 
         <!-- Category Filter Bar -->
         <div class="meal-filter-bar">
-          <button type="button" class="meal-filter-btn active" onclick="filterHomeMeals('all', this)">All Menus (10)</button>
+          <button type="button" class="meal-filter-btn active" onclick="filterHomeMeals('all', this)">🍽️ All Menus (10)</button>
           <button type="button" class="meal-filter-btn" onclick="filterHomeMeals('breakfast', this)">🌅 Breakfast</button>
           <button type="button" class="meal-filter-btn" onclick="filterHomeMeals('lunch', this)">☀️ Lunch</button>
           <button type="button" class="meal-filter-btn" onclick="filterHomeMeals('dinner', this)">🌙 Dinner</button>
@@ -762,7 +762,7 @@
       btn.classList.add('active');
       document.querySelectorAll('#homeMealsGrid .tier-card').forEach(card => {
         if (category === 'all' || card.getAttribute('data-category') === category) {
-          card.style.display = 'block';
+          card.style.display = '';
         } else {
           card.style.display = 'none';
         }
