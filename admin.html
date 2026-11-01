@@ -833,8 +833,8 @@
         <button class="btn-action" onclick="fetchDashboardData()" title="Reload All Data">
           <span>↻</span> <span>Refresh</span>
         </button>
-        <button class="btn-csv" onclick="downloadCsv('meals')" title="Download Kitchen & Accounts Schedule">
-          <span>📥</span> <span>Export Meals CSV</span>
+        <button class="btn-csv" onclick="downloadCsv('donations')" title="Download 80G Donations & Receipts Report">
+          <span>📥</span> <span>Export Donations CSV</span>
         </button>
         <div class="admin-pill">
           <strong id="sessionAdminName">Administrator</strong>
@@ -855,17 +855,17 @@
           <div>
             <div class="kpi-label">Total Funds Raised</div>
             <div class="kpi-val" id="kpiTotalFunds" style="color:#9A5E10;">₹ 0</div>
-            <div class="kpi-sub">80G Donations + Confirmed Meals</div>
+            <div class="kpi-sub">Verified 80G Tax-Exempt Donations</div>
           </div>
         </div>
 
-        <!-- 2. Meals Booked -->
+        <!-- 2. Donations Recorded -->
         <div class="kpi-card">
-          <div class="kpi-icon-box" style="background:var(--amber-light); color:#B45309;">🍲</div>
+          <div class="kpi-icon-box" style="background:var(--amber-light); color:#B45309;">💳</div>
           <div>
-            <div class="kpi-label">Meals Booked</div>
-            <div class="kpi-val" id="kpiMealsCount">0</div>
-            <div class="kpi-sub">Total Meal Reservations</div>
+            <div class="kpi-label">Donations Recorded</div>
+            <div class="kpi-val" id="kpiDonationsCount">0</div>
+            <div class="kpi-sub">Total 80G Tax Receipts</div>
           </div>
         </div>
 
@@ -895,10 +895,6 @@
         <button class="tab-btn active" onclick="showTab('overview', this)">
           <span>📊 Dashboard Overview</span>
         </button>
-        <button class="tab-btn" onclick="showTab('meals', this)">
-          <span>🍲 Meal Sponsorships</span>
-          <span class="tab-badge" id="badgeMeals">0</span>
-        </button>
         <button class="tab-btn" onclick="showTab('donations', this)">
           <span>💳 Donations &amp; 80G Receipts</span>
           <span class="tab-badge" id="badgeDonations">0</span>
@@ -914,20 +910,20 @@
       </nav>
 
       <!-- ════════════════════════════════════════════════════════
-           TAB 1: DASHBOARD OVERVIEW & UPCOMING SCHEDULE
+           TAB 1: DASHBOARD OVERVIEW & RECENT DONATIONS
       ════════════════════════════════════════════════════════ -->
       <div id="tab-overview" class="tab-panel active">
-        <!-- Upcoming Schedule Table -->
+        <!-- Recent Donations Overview Table -->
         <div class="table-panel">
           <div class="panel-header">
             <h3 class="panel-title">
-              <span>📅</span>
-              <span>Upcoming Meal Sponsorship Schedule</span>
+              <span>💳</span>
+              <span>Recent 80G Donations &amp; Contributions</span>
             </h3>
             <div class="panel-actions">
-              <span style="font-size:0.85rem; color:var(--text-muted);" id="upcomingSummaryText">Next upcoming meals</span>
-              <button class="btn-csv" onclick="downloadCsv('meals')">
-                <span>📥</span> <span>Download Schedule</span>
+              <span style="font-size:0.85rem; color:var(--text-muted);">Latest verified donations</span>
+              <button class="btn-csv" onclick="downloadCsv('donations')">
+                <span>📥</span> <span>Export Donations</span>
               </button>
             </div>
           </div>
@@ -936,17 +932,17 @@
             <table class="admin-table">
               <thead>
                 <tr>
+                  <th>Donation ID</th>
+                  <th>Donor Details</th>
+                  <th>Amount (₹)</th>
+                  <th>Payment Mode &amp; Ref</th>
+                  <th>PAN / Tax Status</th>
+                  <th>Receipt Status</th>
                   <th>Date</th>
-                  <th>Sponsor Name</th>
-                  <th>Occasion</th>
-                  <th>Selected Menu Items</th>
-                  <th>Total Amount</th>
-                  <th>Status</th>
-                  <th>Quick Action</th>
                 </tr>
               </thead>
-              <tbody id="upcomingTableBody">
-                <tr><td colspan="7" class="empty-row">Loading upcoming meals schedule...</td></tr>
+              <tbody id="recentDonationsTableBody">
+                <tr><td colspan="7" class="empty-row">Loading recent donations...</td></tr>
               </tbody>
             </table>
           </div>
@@ -968,55 +964,7 @@
       </div>
 
       <!-- ════════════════════════════════════════════════════════
-           TAB 2: MEAL SPONSORSHIPS TABLE
-      ════════════════════════════════════════════════════════ -->
-      <div id="tab-meals" class="tab-panel">
-        <div class="table-panel">
-          <div class="panel-header">
-            <h3 class="panel-title">
-              <span>🍲</span>
-              <span>Meal Sponsorship Reservations (`meals_bookings`)</span>
-            </h3>
-            <div class="panel-actions">
-              <input type="text" id="mealsSearchInput" class="search-box" placeholder="Search sponsor, phone, occasion..." oninput="renderMealsTable()">
-              <select id="mealsStatusFilter" class="filter-select" onchange="renderMealsTable()">
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-              <button class="btn-csv" onclick="downloadCsv('meals')">
-                <span>📥</span> <span>Export CSV</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="table-scroll">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Sponsor Details</th>
-                  <th>Scheduled Date</th>
-                  <th>Occasion</th>
-                  <th>Selected Items</th>
-                  <th>Amount (₹)</th>
-                  <th>Live Status</th>
-                  <th>Notes</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="mealsTableBody">
-                <tr><td colspan="9" class="empty-row">Loading meal bookings...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ════════════════════════════════════════════════════════
-           TAB 3: DONATIONS & 80G RECEIPTS TABLE
+           TAB 2: DONATIONS & 80G RECEIPTS TABLE
       ════════════════════════════════════════════════════════ -->
       <div id="tab-donations" class="tab-panel">
         <div class="table-panel">
@@ -1063,7 +1011,7 @@
       </div>
 
       <!-- ════════════════════════════════════════════════════════
-           TAB 4: VOLUNTEER ROSTER TABLE
+           TAB 3: VOLUNTEER ROSTER TABLE
       ════════════════════════════════════════════════════════ -->
       <div id="tab-volunteers" class="tab-panel">
         <div class="table-panel">
@@ -1190,7 +1138,6 @@
     let state = {
       admin: null,
       stats: {},
-      meals: [],
       donations: [],
       volunteers: [],
       contacts: []
@@ -1265,13 +1212,6 @@
 
     // ── DEFAULT STATIC PREVIEW DATA (FOR GITHUB PAGES & OFFLINE BROWSING) ──
     const DEFAULT_PREVIEW_DATA = {
-      meals: [
-        { id: '#MB-2801', sponsor_name: 'Dr. S. Ramanathan', sponsor_phone: '+91 98400 11223', sponsor_email: 'ramanathan.s@hospital.org', sponsor_date: '2026-11-15', occasion: 'Parents 50th Wedding Anniversary', selected_items: 'Special Non-Veg Feast (Lunch)', total_amount: 11000, payment_status: 'confirmed', notes: 'Please arrange special prayer for children', created_at: '2026-10-25T10:30:00Z' },
-        { id: '#MB-2802', sponsor_name: 'Lakshmi Narayanan', sponsor_phone: '+91 98840 22334', sponsor_email: 'lnarayanan@outlook.com', sponsor_date: '2026-11-20', occasion: 'Daughter Sneha Birthday Blessing', selected_items: 'Full Day Nutrition (Breakfast + Lunch + Dinner)', total_amount: 19500, payment_status: 'confirmed', notes: 'Will bring fruits and sweets in morning', created_at: '2026-10-26T14:15:00Z' },
-        { id: '#MB-2803', sponsor_name: 'Sundaram Finance CSR Team', sponsor_phone: '+91 94440 33445', sponsor_email: 'csr@sundaram.com', sponsor_date: '2026-12-05', occasion: 'Corporate CSR Community Outreach', selected_items: 'Festival Feast & Ice Cream Treat', total_amount: 15500, payment_status: 'pending', notes: '10 team volunteers will join meal service', created_at: '2026-10-28T09:00:00Z' },
-        { id: '#MB-2804', sponsor_name: 'K. Balasubramanian', sponsor_phone: '+91 97890 55667', sponsor_email: 'balu.k@tcs.com', sponsor_date: '2026-12-18', occasion: 'Mother In Memoriam Blessing', selected_items: 'Special Lunch (Festive Vegetarian)', total_amount: 7500, payment_status: 'confirmed', notes: 'Traditional sweet pongal included', created_at: '2026-10-30T11:20:00Z' },
-        { id: '#MB-2805', sponsor_name: 'Anandhi & Murugan', sponsor_phone: '+91 98412 77889', sponsor_email: 'anandhi.m@gmail.com', sponsor_date: '2026-12-25', occasion: 'Christmas Goodwill Sharing', selected_items: 'Breakfast + Evening Snacks & Milk', total_amount: 6000, payment_status: 'pending', notes: 'Children clothing gifts also planned', created_at: '2026-11-01T08:00:00Z' }
-      ],
       donations: [
         { id: '#DON-301', donor_name: 'Dr. S. Ramanathan', donor_email: 'ramanathan.s@hospital.org', donor_phone: '9840011223', pan_number: 'AABCR1234F', amount: 25000, transfer_type: 'Net Banking', reference_number: 'NEFT-BOB-998822', receipt_status: 'issued', notes: 'For pediatric orthopedic medicines', created_at: '2026-10-20T11:00:00Z' },
         { id: '#DON-302', donor_name: 'Lakshmi Narayanan', donor_email: 'lnarayanan@outlook.com', donor_phone: '9884022334', pan_number: 'BPYPL9988K', amount: 10000, transfer_type: 'UPI', reference_number: 'UPI-REF-88442211', receipt_status: 'issued', notes: 'Monthly sponsorship pledge', created_at: '2026-10-24T15:20:00Z' },
@@ -1297,13 +1237,11 @@
         const raw = localStorage.getItem('premavasam_preview_store');
         if (raw) stored = JSON.parse(raw);
       } catch (e) {}
-      if (!stored || !stored.meals || !stored.meals.length) {
+      if (!stored || !stored.donations || !stored.donations.length) {
         stored = JSON.parse(JSON.stringify(DEFAULT_PREVIEW_DATA));
       }
       // Merge public page submissions if present
       try {
-        const pMeals = JSON.parse(localStorage.getItem('premavasam_public_meals') || '[]');
-        pMeals.forEach(pm => { if (!stored.meals.find(m => m.id === pm.id)) stored.meals.unshift(pm); });
         const pDon = JSON.parse(localStorage.getItem('premavasam_public_donations') || '[]');
         pDon.forEach(pd => { if (!stored.donations.find(d => d.id === pd.id)) stored.donations.unshift(pd); });
         const pVol = JSON.parse(localStorage.getItem('premavasam_public_volunteers') || '[]');
@@ -1322,9 +1260,7 @@
     function generateClientCsv(type) {
       let rows = state[type] || [];
       let headers = [];
-      if (type === 'meals') {
-        headers = ['id', 'sponsor_name', 'sponsor_phone', 'sponsor_email', 'sponsor_date', 'occasion', 'selected_items', 'total_amount', 'payment_status', 'notes', 'created_at'];
-      } else if (type === 'donations') {
+      if (type === 'donations') {
         headers = ['id', 'donor_name', 'donor_email', 'donor_phone', 'pan_number', 'amount', 'transfer_type', 'reference_number', 'receipt_status', 'notes', 'created_at'];
       } else if (type === 'volunteers') {
         headers = ['id', 'full_name', 'phone', 'email', 'skills', 'status', 'message', 'created_at'];
@@ -1513,14 +1449,6 @@
           renderStats(statsData.stats);
         }
 
-        const mealsRes = await fetch('/api/admin/meals', { headers });
-        const mealsData = await mealsRes.json();
-        if (mealsData.ok) {
-          state.meals = mealsData.meals || [];
-          document.getElementById('badgeMeals').innerText = state.meals.length;
-          renderMealsTable();
-        }
-
         const donRes = await fetch('/api/admin/donations', { headers });
         const donData = await donRes.json();
         if (donData.ok) {
@@ -1554,198 +1482,76 @@
 
     function loadStaticData() {
       const data = getStoredData();
-      state.meals = data.meals || [];
       state.donations = data.donations || [];
       state.volunteers = data.volunteers || [];
       state.contacts = data.contacts || [];
 
-      document.getElementById('badgeMeals').innerText = state.meals.length;
       document.getElementById('badgeDonations').innerText = state.donations.length;
       document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
       document.getElementById('badgeContacts').innerText = state.contacts.length;
 
-      const totalMealsAmt = state.meals.reduce((sum, m) => sum + (Number(m.total_amount) || 0), 0);
-      const totalDonAmt = state.donations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
-      const totalFunds = totalMealsAmt + totalDonAmt;
+      const totalFunds = state.donations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
       const unreadCount = state.contacts.filter(c => !c.is_read).length;
 
       const stats = {
         totalFunds,
-        mealsCount: state.meals.length,
+        donationsCount: state.donations.length,
         volunteersCount: state.volunteers.length,
         unreadContacts: unreadCount,
-        upcomingMeals: state.meals.slice(0, 5)
+        recentDonations: state.donations.slice(0, 5)
       };
       state.stats = stats;
 
       renderStats(stats);
-      renderMealsTable();
       renderDonationsTable();
       renderVolunteersTable();
       renderContactsTable();
     }
 
-    // ── RENDER STATS & UPCOMING SCHEDULE ──
+    // ── RENDER STATS & RECENT DONATIONS ──
     function renderStats(stats) {
       document.getElementById('kpiTotalFunds').innerText = formatInr(stats.totalFunds || 0);
-      document.getElementById('kpiMealsCount').innerText = stats.mealsCount || 0;
-      document.getElementById('kpiVolunteersCount').innerText = stats.volunteersCount || 0;
-      document.getElementById('kpiUnreadContacts').innerText = stats.unreadContacts || 0;
+      document.getElementById('kpiDonationsCount').innerText = stats.donationsCount !== undefined ? stats.donationsCount : (stats.contributionsReceived || (state.donations ? state.donations.length : 0));
+      document.getElementById('kpiVolunteersCount').innerText = stats.volunteersCount || (state.volunteers ? state.volunteers.length : 0);
+      document.getElementById('kpiUnreadContacts').innerText = stats.unreadContacts !== undefined ? stats.unreadContacts : (state.contacts ? state.contacts.filter(c => !c.is_read).length : 0);
 
       // Monthly Goal Tracker
       const target = 500000;
-      const pct = Math.min(100, Math.round(((stats.totalFunds || 0) / target) * 100));
+      const funds = stats.totalFunds || (state.donations ? state.donations.reduce((s, d) => s + (Number(d.amount) || 0), 0) : 0);
+      const pct = Math.min(100, Math.round((funds / target) * 100));
       document.getElementById('targetPercentDisplay').innerText = `${pct}% Achieved`;
       document.getElementById('targetProgressBar').style.width = `${pct}%`;
 
-      // Upcoming Meals Schedule
-      const upcoming = stats.upcomingMeals || [];
-      const tbody = document.getElementById('upcomingTableBody');
-      if (upcoming.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No upcoming meal dates scheduled.</td></tr>';
+      // Recent 80G Donations Overview
+      const recent = stats.recentDonations || (state.donations ? state.donations.slice(0, 5) : []);
+      const tbody = document.getElementById('recentDonationsTableBody');
+      if (!tbody) return;
+      if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No donations recorded yet.</td></tr>';
         return;
       }
 
-      tbody.innerHTML = upcoming.map(m => {
-        const phone = cleanPhone(m.sponsor_phone);
-        const waMsg = encodeURIComponent(`Vanakkam ${m.sponsor_name}, greetings from Prema Vasam. We are confirming your sponsored meal on ${m.sponsor_date} for ${m.occasion || 'the special occasion'}. Thank you!`);
+      tbody.innerHTML = recent.map(d => {
         return `
           <tr>
-            <td><strong>${escapeHtml(m.sponsor_date)}</strong></td>
+            <td><code>${escapeHtml(d.id)}</code></td>
             <td>
-              <div style="font-weight:700;">${escapeHtml(m.sponsor_name)}</div>
-              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(m.sponsor_phone)}</div>
+              <div style="font-weight:700;">${escapeHtml(d.donor_name)}</div>
+              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(d.donor_phone || d.donor_email || '-')}</div>
             </td>
-            <td>${escapeHtml(m.occasion || 'General Blessing')}</td>
-            <td><span style="font-size:0.82rem; color:var(--brand); font-weight:600;">${escapeHtml(m.selected_items)}</span></td>
-            <td><strong>${formatInr(m.total_amount)}</strong></td>
-            <td><span class="badge badge-${m.payment_status || 'pending'}">${m.payment_status || 'pending'}</span></td>
+            <td><strong style="color:#047857;">${formatInr(d.amount)}</strong></td>
             <td>
-              ${phone ? `<a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="btn-wa"><span>💬</span> WhatsApp</a>` : '-'}
+              <div style="font-size:0.85rem; font-weight:600;">${escapeHtml(d.transfer_type || 'Bank Transfer')}</div>
+              <div style="font-size:0.75rem; color:var(--text-light); font-family:monospace;">${escapeHtml(d.reference_number || 'No Ref')}</div>
             </td>
+            <td>
+              ${d.pan_number ? `<code style="background:var(--brand-light); color:#9A5E10; padding:2px 6px; border-radius:4px; font-weight:700;">${escapeHtml(d.pan_number)}</code>` : '<span style="color:var(--text-light); font-size:0.8rem;">Not provided</span>'}
+            </td>
+            <td><span class="badge badge-${d.receipt_status === 'issued' || d.receipt_status === 'sent' ? 'confirmed' : 'pending'}">${escapeHtml(d.receipt_status || 'pending')}</span></td>
+            <td><span style="font-size:0.8rem;">${formatDate(d.created_at)}</span></td>
           </tr>
         `;
       }).join('');
-    }
-
-    // ── RENDER MEALS TABLE ──
-    function renderMealsTable() {
-      const q = (document.getElementById('mealsSearchInput').value || '').toLowerCase().trim();
-      const statusFilter = document.getElementById('mealsStatusFilter').value;
-      const tbody = document.getElementById('mealsTableBody');
-
-      const filtered = state.meals.filter(m => {
-        const matchQ = !q || 
-          (m.id && m.id.toLowerCase().includes(q)) ||
-          (m.sponsor_name && m.sponsor_name.toLowerCase().includes(q)) ||
-          (m.sponsor_phone && m.sponsor_phone.toLowerCase().includes(q)) ||
-          (m.sponsor_email && m.sponsor_email.toLowerCase().includes(q)) ||
-          (m.occasion && m.occasion.toLowerCase().includes(q)) ||
-          (m.notes && m.notes.toLowerCase().includes(q));
-        const matchStatus = statusFilter === 'all' || (m.payment_status || 'pending') === statusFilter;
-        return matchQ && matchStatus;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-row">No meal bookings match your criteria.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(m => {
-        const phone = cleanPhone(m.sponsor_phone);
-        const waMsg = encodeURIComponent(`Vanakkam ${m.sponsor_name}, greetings from Prema Vasam. Thank you for your meal reservation (#${m.id}) on ${m.sponsor_date}. We appreciate your kind generosity for our 200+ children!`);
-        return `
-          <tr>
-            <td><code>${escapeHtml(m.id)}</code></td>
-            <td>
-              <div style="font-weight:700;">${escapeHtml(m.sponsor_name)}</div>
-              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(m.sponsor_phone)}</div>
-              ${m.sponsor_email ? `<div style="font-size:0.75rem; color:var(--text-light);"><a href="mailto:${escapeHtml(m.sponsor_email)}" style="color:inherit;">${escapeHtml(m.sponsor_email)}</a></div>` : ''}
-            </td>
-            <td><strong>${escapeHtml(m.sponsor_date)}</strong></td>
-            <td>${escapeHtml(m.occasion || '-')}</td>
-            <td><div style="font-size:0.82rem; max-width:200px; color:var(--brand); font-weight:600;">${escapeHtml(m.selected_items)}</div></td>
-            <td><strong>${formatInr(m.total_amount)}</strong></td>
-            <td>
-              <select class="status-select" onchange="updateMealStatus('${m.id}', this.value)">
-                <option value="pending" ${m.payment_status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
-                <option value="confirmed" ${m.payment_status === 'confirmed' ? 'selected' : ''}>✅ Confirmed</option>
-                <option value="completed" ${m.payment_status === 'completed' ? 'selected' : ''}>🎉 Completed</option>
-                <option value="cancelled" ${m.payment_status === 'cancelled' ? 'selected' : ''}>❌ Cancelled</option>
-              </select>
-            </td>
-            <td>
-              ${m.notes ? `<button class="btn-row-action" onclick="viewNotes('${escapeHtml(m.sponsor_name)} Notes', '${escapeHtml(m.notes)}')">👁️ View</button>` : '<span style="color:var(--text-light);">-</span>'}
-            </td>
-            <td>
-              <div style="display:flex; align-items:center; gap:6px;">
-                ${phone ? `<a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="btn-wa" title="WhatsApp Message"><span>💬</span></a>` : ''}
-                <button class="btn-row-action btn-delete" onclick="deleteMealBooking('${m.id}')" title="Delete Booking">🗑️</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    async function updateMealStatus(id, payment_status) {
-      if (!state.isLive) {
-        const item = state.meals.find(m => m.id === id);
-        if (item) item.payment_status = payment_status;
-        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
-        showToast(`Meal booking ${id} status updated to ${payment_status}`);
-        loadStaticData();
-        return;
-      }
-      const token = localStorage.getItem('premavasam_admin_token');
-      try {
-        const res = await fetch('/api/admin/meals', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({ id, payment_status })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          showToast(`Meal booking ${id} status updated to ${payment_status}`);
-          fetchDashboardData();
-        } else {
-          showToast(data.error || 'Failed to update meal status', false);
-        }
-      } catch (e) {
-        showToast('Error updating status', false);
-      }
-    }
-
-    async function deleteMealBooking(id) {
-      if (!confirm(`Are you sure you want to delete meal booking ${id}?`)) return;
-      if (!state.isLive) {
-        state.meals = state.meals.filter(m => m.id !== id);
-        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
-        showToast(`Deleted meal booking ${id}`);
-        loadStaticData();
-        return;
-      }
-      const token = localStorage.getItem('premavasam_admin_token');
-      try {
-        const res = await fetch('/api/admin/meals', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({ id })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          showToast(`Deleted meal booking ${id}`);
-          fetchDashboardData();
-        }
-      } catch (e) {
-        showToast('Delete failed', false);
-      }
     }
 
     // ── RENDER DONATIONS TABLE ──
@@ -1808,6 +1614,14 @@
     }
 
     async function updateDonationStatus(id, receipt_status) {
+      if (!state.isLive) {
+        const item = state.donations.find(d => d.id === id);
+        if (item) item.receipt_status = receipt_status;
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Donation ${id} receipt status: ${receipt_status}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         const res = await fetch('/api/admin/donations', {
@@ -1830,6 +1644,13 @@
 
     async function deleteDonation(id) {
       if (!confirm(`Delete donation record ${id}?`)) return;
+      if (!state.isLive) {
+        state.donations = state.donations.filter(d => d.id !== id);
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast(`Deleted donation ${id}`);
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         await fetch('/api/admin/donations', {
@@ -1914,7 +1735,7 @@
       if (!state.isLive) {
         const item = state.volunteers.find(v => v.id === id);
         if (item) item.status = status;
-        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
         showToast(`Volunteer ${id} status: ${status}`);
         loadStaticData();
         return;
@@ -1940,7 +1761,7 @@
       if (!confirm(`Delete volunteer application ${id}?`)) return;
       if (!state.isLive) {
         state.volunteers = state.volunteers.filter(v => v.id !== id);
-        saveStoredData({ meals: state.meals, donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
         showToast(`Deleted volunteer ${id}`);
         loadStaticData();
         return;
@@ -2044,6 +1865,13 @@
     }
 
     async function toggleContactRead(id, is_read) {
+      if (!state.isLive) {
+        const item = state.contacts.find(c => c.id === id);
+        if (item) item.is_read = is_read ? 1 : 0;
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         await fetch('/api/admin/contacts', {
@@ -2059,6 +1887,13 @@
 
     async function deleteContact(id) {
       if (!confirm('Permanently delete this inquiry?')) return;
+      if (!state.isLive) {
+        state.contacts = state.contacts.filter(c => c.id !== id);
+        saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
+        showToast('Message deleted');
+        loadStaticData();
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         await fetch('/api/admin/contacts', {
@@ -2075,6 +1910,24 @@
 
     // ── 1-CLICK CSV EXPORT ──
     async function downloadCsv(type) {
+      if (!state.isLive) {
+        try {
+          const csvContent = generateClientCsv(type);
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `premavasam_${type}_preview_${new Date().toISOString().slice(0, 10)}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+          showToast(`${type.toUpperCase()} exported successfully!`);
+        } catch(e) {
+          showToast('CSV export failed.', false);
+        }
+        return;
+      }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
         showToast(`Preparing ${type} CSV export...`);

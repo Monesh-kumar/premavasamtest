@@ -280,6 +280,7 @@ function getStats() {
     contribTotalAmount: donTotal,
     mealPledgesReceived: mealStats.count,
     contributionsReceived: donStats.count,
+    donationsCount: donStats.count,
     contactMessagesReceived: conStats.count,
     volunteersCount: volStats.count,
     totalFunds: mealTotal + donTotal,
