@@ -1,0 +1,1895 @@
+Command exited with code 0.
+
+Command output:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#C17F24">
+  <meta name="apple-mobile-web-app-title" content="Prema Vasam Admin">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <title>Admin Portal | Prema Vasam</title>
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: #C17F24;
+      --brand-hover: #A76B1C;
+      --brand-light: #FFF4DF;
+      --brand-dark: #2C1810;
+      --bg: #FDF9F2;
+      --surface: #FFFFFF;
+      --border: #E8DCCF;
+      --text-main: #2C1810;
+      --text-muted: #7D6752;
+      --text-light: #9E8873;
+      --green: #10B981;
+      --green-light: #ECFDF5;
+      --amber: #F59E0B;
+      --amber-light: #FFFBEB;
+      --blue: #3B82F6;
+      --blue-light: #EFF6FF;
+      --purple: #8B5CF6;
+      --purple-light: #F5F3FF;
+      --red: #EF4444;
+      --red-light: #FEF2F2;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 2px 6px rgba(44, 24, 16, 0.05);
+      --shadow-md: 0 8px 24px rgba(44, 24, 16, 0.08);
+      --shadow-lg: 0 16px 36px rgba(44, 24, 16, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* ── AUTH SCREEN ── */
+    #loginView {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background: radial-gradient(circle at 50% 25%, #FFF7E8 0%, #FDF9F2 80%);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(193, 127, 36, 0.2);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #C17F24, #E67E22, #F59E0B);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-logo {
+      height: 64px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 6px 16px rgba(193, 127, 36, 0.2);
+    }
+
+    .login-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .login-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #FAF6F0;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--brand);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(193, 127, 36, 0.18);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: var(--radius-sm);
+      background: var(--brand);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(193, 127, 36, 0.35);
+      margin-top: 8px;
+    }
+
+    .login-btn:hover {
+      background: var(--brand-hover);
+      transform: translateY(-1px);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-error {
+      display: none;
+      padding: 10px 14px;
+      background: var(--red-light);
+      border: 1px solid #FCA5A5;
+      border-radius: var(--radius-sm);
+      color: #B91C1C;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-home:hover { color: var(--brand); }
+
+    /* ── DASHBOARD VIEW ── */
+    #dashboardView {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .dash-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .dash-brand img {
+      height: 40px;
+      border-radius: var(--radius-sm);
+    }
+
+    .dash-brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--brand-dark);
+      letter-spacing: -0.01em;
+    }
+
+    .dash-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--brand-light);
+      color: #9A5E10;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #EAD4B4;
+    }
+
+    .dash-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-main);
+    }
+
+    .btn-action:hover {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .btn-logout {
+      background: var(--red-light);
+      border-color: #FECACA;
+      color: #DC2626;
+    }
+
+    .btn-logout:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+    }
+
+    .admin-pill {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .admin-pill strong {
+      display: block;
+      color: var(--text-main);
+    }
+
+    /* ── MAIN DASHBOARD CONTAINER ── */
+    .dash-container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+      flex: 1;
+    }
+
+    /* ── KPI STATS CARDS ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .kpi-card-hero {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FFF8EC 100%);
+      border-color: #FCD34D;
+      box-shadow: 0 4px 18px rgba(193, 127, 36, 0.1);
+    }
+
+    .kpi-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .kpi-val {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--brand-dark);
+      line-height: 1.1;
+      margin-top: 2px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    /* ── TABS BAR ── */
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-btn {
+      padding: 12px 20px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--brand);
+    }
+
+    .tab-btn.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .tab-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--brand-light);
+      color: #9A5E10;
+      border: 1px solid #FCD34D;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TABLE PANELS ── */
+    .table-panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .panel-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: #FCFAF6;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      font-size: 0.85rem;
+      font-family: inherit;
+      color: var(--text-main);
+      width: 240px;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(193, 127, 36, 0.15);
+    }
+
+    .filter-select {
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      font-size: 0.85rem;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-csv {
+      background: var(--brand-light);
+      border: 1.5px solid #FCD34D;
+      color: #9A5E10;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-csv:hover {
+      background: #FDE68A;
+      color: #78350F;
+    }
+
+    /* ── DATA TABLES ── */
+    .table-scroll {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      background: #FAF5EC;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #F2E8DC;
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover {
+      background: #FFFDF9;
+    }
+
+    /* ── STATUS BADGES & CONTROLS ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-pending { background: var(--amber-light); color: #B45309; border: 1px solid #FDE68A; }
+    .badge-confirmed { background: var(--green-light); color: #047857; border: 1px solid #A7F3D0; }
+    .badge-completed { background: var(--blue-light); color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .badge-cancelled { background: var(--red-light); color: #B91C1C; border: 1px solid #FECACA; }
+    .badge-issued { background: var(--purple-light); color: #6D28D9; border: 1px solid #DDD6FE; }
+    .badge-sent { background: var(--green-light); color: #047857; border: 1px solid #A7F3D0; }
+    .badge-new { background: var(--blue-light); color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .badge-active { background: var(--green-light); color: #047857; border: 1px solid #A7F3D0; }
+    .badge-contacted { background: var(--purple-light); color: #6D28D9; border: 1px solid #DDD6FE; }
+    .badge-archived { background: #F3F4F6; color: #4B5563; border: 1px solid #E5E7EB; }
+
+    .status-select {
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .status-select:focus {
+      border-color: var(--brand);
+    }
+
+    /* ── ACTION BUTTONS IN TABLE ── */
+    .btn-wa {
+      background: #25D366;
+      color: #FFFFFF;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.2s;
+    }
+
+    .btn-wa:hover {
+      background: #1EBE5D;
+    }
+
+    .btn-row-action {
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .btn-row-action:hover {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .btn-delete {
+      color: #DC2626;
+      border-color: #FECACA;
+    }
+
+    .btn-delete:hover {
+      background: #DC2626;
+      color: #FFFFFF;
+      border-color: #DC2626;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(44, 24, 16, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-width: 520px;
+      width: 100%;
+      overflow: hidden;
+      animation: modalPop 0.2s ease-out;
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-head {
+      padding: 16px 20px;
+      background: #FAF6F0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-head h3 {
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 20px;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      max-height: 70vh;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    .modal-foot {
+      padding: 12px 20px;
+      background: #FAF6F0;
+      border-top: 1px solid var(--border);
+      text-align: right;
+    }
+
+    /* ── TOAST NOTIFICATIONS ── */
+    #toastContainer {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: var(--brand-dark);
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.25s ease-out;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .empty-row {
+      text-align: center;
+      padding: 32px !important;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dash-nav {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .dash-nav-actions {
+        justify-content: space-between;
+      }
+      .dash-container {
+        padding: 16px 12px 40px;
+      }
+      .panel-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .panel-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-box {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════
+       1. AUTHENTICATION SCREEN (Empty fields, no hints)
+  ════════════════════════════════════════════════════════ -->
+  <div id="loginView">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="/images/logo.png" alt="Prema Vasam Logo" class="login-logo">
+        <h1>PREMA VASAM</h1>
+        <p>Admin Management Portal · Est. 1999</p>
+      </div>
+
+      <div class="login-error" id="loginError"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="usernameInput">Username</label>
+          <input type="text" id="usernameInput" class="form-input" placeholder="Username" required autofocus autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input type="password" id="passwordInput" class="form-input" placeholder="Password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="login-btn">
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <a href="/" class="back-home">&larr; Return to Prema Vasam Website</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       2. AUTHENTICATED DASHBOARD VIEW
+  ════════════════════════════════════════════════════════ -->
+  <div id="dashboardView">
+    <!-- Navigation Bar -->
+    <header class="dash-nav">
+      <a href="/admin.html" class="dash-brand">
+        <img src="/images/logo.png" alt="Logo">
+        <div>
+          <span class="dash-brand-title">PREMA VASAM</span>
+          <span class="dash-badge">Admin Suite</span>
+        </div>
+      </a>
+
+      <div class="dash-nav-actions">
+        <button class="btn-action" onclick="fetchDashboardData()" title="Reload All Data">
+          <span>↻</span> <span>Refresh</span>
+        </button>
+        <button class="btn-csv" onclick="downloadCsv('meals')" title="Download Kitchen & Accounts Schedule">
+          <span>📥</span> <span>Export Meals CSV</span>
+        </button>
+        <div class="admin-pill">
+          <strong id="sessionAdminName">Administrator</strong>
+          <span id="sessionAdminRole">admin</span>
+        </div>
+        <button class="btn-action btn-logout" onclick="handleLogout()">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="dash-container">
+      
+      <!-- ── EXECUTIVE KPI ROW ── -->
+      <div class="kpi-grid">
+        <!-- 1. Total Funds Raised -->
+        <div class="kpi-card kpi-card-hero">
+          <div class="kpi-icon-box" style="background:#FAF0DC; color:#9A5E10;">💰</div>
+          <div>
+            <div class="kpi-label">Total Funds Raised</div>
+            <div class="kpi-val" id="kpiTotalFunds" style="color:#9A5E10;">₹ 0</div>
+            <div class="kpi-sub">80G Donations + Confirmed Meals</div>
+          </div>
+        </div>
+
+        <!-- 2. Meals Booked -->
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:var(--amber-light); color:#B45309;">🍲</div>
+          <div>
+            <div class="kpi-label">Meals Booked</div>
+            <div class="kpi-val" id="kpiMealsCount">0</div>
+            <div class="kpi-sub">Total Meal Reservations</div>
+          </div>
+        </div>
+
+        <!-- 3. Active Volunteers -->
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:var(--green-light); color:#047857;">🤝</div>
+          <div>
+            <div class="kpi-label">Active Volunteers</div>
+            <div class="kpi-val" id="kpiVolunteersCount">0</div>
+            <div class="kpi-sub">Therapists, Teachers & Specialists</div>
+          </div>
+        </div>
+
+        <!-- 4. Unread Inquiries -->
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:var(--blue-light); color:#1D4ED8;">✉️</div>
+          <div>
+            <div class="kpi-label">Unread Messages</div>
+            <div class="kpi-val" id="kpiUnreadContacts" style="color:#1D4ED8;">0</div>
+            <div class="kpi-sub">Pending Inbox Inquiries</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TABS NAVIGATION ── -->
+      <nav class="tabs-bar" aria-label="Portal Navigation">
+        <button class="tab-btn active" onclick="showTab('overview', this)">
+          <span>📊 Dashboard Overview</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('meals', this)">
+          <span>🍲 Meal Sponsorships</span>
+          <span class="tab-badge" id="badgeMeals">0</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('donations', this)">
+          <span>💳 Donations &amp; 80G Receipts</span>
+          <span class="tab-badge" id="badgeDonations">0</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('volunteers', this)">
+          <span>🤝 Volunteer Roster</span>
+          <span class="tab-badge" id="badgeVolunteers">0</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('contacts', this)">
+          <span>✉️ Inquiries Inbox</span>
+          <span class="tab-badge" id="badgeContacts">0</span>
+        </button>
+      </nav>
+
+      <!-- ════════════════════════════════════════════════════════
+           TAB 1: DASHBOARD OVERVIEW & UPCOMING SCHEDULE
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-overview" class="tab-panel active">
+        <!-- Upcoming Schedule Table -->
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>📅</span>
+              <span>Upcoming Meal Sponsorship Schedule</span>
+            </h3>
+            <div class="panel-actions">
+              <span style="font-size:0.85rem; color:var(--text-muted);" id="upcomingSummaryText">Next upcoming meals</span>
+              <button class="btn-csv" onclick="downloadCsv('meals')">
+                <span>📥</span> <span>Download Schedule</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Sponsor Name</th>
+                  <th>Occasion</th>
+                  <th>Selected Menu Items</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="upcomingTableBody">
+                <tr><td colspan="7" class="empty-row">Loading upcoming meals schedule...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Monthly Target Progress Card -->
+        <div class="table-panel" style="padding:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h4 style="font-size:1.1rem; color:var(--brand-dark);">Monthly Children Care &amp; Nutrition Target</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted);">Target: ₹ 5,00,000 / month for 200+ children</p>
+            </div>
+            <div style="font-size:1.3rem; font-weight:800; color:var(--brand);" id="targetPercentDisplay">0% Achieved</div>
+          </div>
+          <div style="height:12px; border-radius:999px; background:#F0E7DB; overflow:hidden;">
+            <div id="targetProgressBar" style="height:100%; width:0%; background:linear-gradient(90deg, #C17F24, #10B981); transition:width 0.5s ease;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════
+           TAB 2: MEAL SPONSORSHIPS TABLE
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-meals" class="tab-panel">
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>🍲</span>
+              <span>Meal Sponsorship Reservations (`meals_bookings`)</span>
+            </h3>
+            <div class="panel-actions">
+              <input type="text" id="mealsSearchInput" class="search-box" placeholder="Search sponsor, phone, occasion..." oninput="renderMealsTable()">
+              <select id="mealsStatusFilter" class="filter-select" onchange="renderMealsTable()">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <button class="btn-csv" onclick="downloadCsv('meals')">
+                <span>📥</span> <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Sponsor Details</th>
+                  <th>Scheduled Date</th>
+                  <th>Occasion</th>
+                  <th>Selected Items</th>
+                  <th>Amount (₹)</th>
+                  <th>Live Status</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="mealsTableBody">
+                <tr><td colspan="9" class="empty-row">Loading meal bookings...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════
+           TAB 3: DONATIONS & 80G RECEIPTS TABLE
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-donations" class="tab-panel">
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>💳</span>
+              <span>Donations &amp; 80G Tax Receipts (`donations`)</span>
+            </h3>
+            <div class="panel-actions">
+              <input type="text" id="donationsSearchInput" class="search-box" placeholder="Search donor, PAN, ref..." oninput="renderDonationsTable()">
+              <select id="donationsStatusFilter" class="filter-select" onchange="renderDonationsTable()">
+                <option value="all">All 80G Statuses</option>
+                <option value="pending">Receipt Pending</option>
+                <option value="issued">Receipt Issued</option>
+                <option value="sent">Receipt Sent</option>
+              </select>
+              <button class="btn-csv" onclick="downloadCsv('donations')">
+                <span>📥</span> <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Donation ID</th>
+                  <th>Donor Details</th>
+                  <th>PAN Number</th>
+                  <th>Amount (₹)</th>
+                  <th>Transfer Mode &amp; UTR</th>
+                  <th>80G Status</th>
+                  <th>Date</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="donationsTableBody">
+                <tr><td colspan="9" class="empty-row">Loading donations...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════
+           TAB 4: VOLUNTEER ROSTER TABLE
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-volunteers" class="tab-panel">
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>🤝</span>
+              <span>Volunteer Applications &amp; Roster (`volunteer_applications`)</span>
+            </h3>
+            <div class="panel-actions">
+              <input type="text" id="volunteersSearchInput" class="search-box" placeholder="Search name, phone, skill..." oninput="renderVolunteersTable()">
+              <!-- Specialist Skills Filter -->
+              <select id="volunteersSkillFilter" class="filter-select" onchange="renderVolunteersTable()">
+                <option value="all">All Specialist Skills</option>
+                <option value="Physiotherapy">Physiotherapy</option>
+                <option value="Occupational Therapy">Occupational Therapy</option>
+                <option value="Special Education">Special Education</option>
+                <option value="Speech">Speech &amp; Communication</option>
+                <option value="Teaching">Teaching / Academics</option>
+                <option value="Nursing">Nursing / Medical</option>
+                <option value="Arts">Art &amp; Music Therapy</option>
+              </select>
+              <select id="volunteersStatusFilter" class="filter-select" onchange="renderVolunteersTable()">
+                <option value="all">All Statuses</option>
+                <option value="new">New</option>
+                <option value="active">Active</option>
+                <option value="contacted">Contacted</option>
+                <option value="archived">Archived</option>
+              </select>
+              <button class="btn-csv" onclick="downloadCsv('volunteers')">
+                <span>📥</span> <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Volunteer ID</th>
+                  <th>Full Name</th>
+                  <th>Contact Info</th>
+                  <th>Specialist Skills</th>
+                  <th>Message / Background</th>
+                  <th>Status</th>
+                  <th>Applied On</th>
+                  <th>Direct Contact</th>
+                </tr>
+              </thead>
+              <tbody id="volunteersTableBody">
+                <tr><td colspan="8" class="empty-row">Loading volunteers...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════
+           TAB 5: INQUIRIES INBOX
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-contacts" class="tab-panel">
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>✉️</span>
+              <span>Contact Messages &amp; Inquiries Inbox (`contact_messages`)</span>
+            </h3>
+            <div class="panel-actions">
+              <input type="text" id="contactsSearchInput" class="search-box" placeholder="Search sender, subject..." oninput="renderContactsTable()">
+              <select id="contactsReadFilter" class="filter-select" onchange="renderContactsTable()">
+                <option value="all">All Messages</option>
+                <option value="unread">Unread Only</option>
+                <option value="read">Read Only</option>
+              </select>
+              <button class="btn-csv" onclick="downloadCsv('contacts')">
+                <span>📥</span> <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Sender</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contactsTableBody">
+                <tr><td colspan="7" class="empty-row">Loading messages...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ── MODAL DIALOG ── -->
+  <div id="adminModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle">Details</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalContent"></div>
+      <div class="modal-foot">
+        <button class="btn-action" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST NOTIFICATIONS ── -->
+  <div id="toastContainer"></div>
+
+  <!-- ── SCRIPT CONTROLLER ── -->
+  <script>
+    // State Store
+    let state = {
+      admin: null,
+      stats: {},
+      meals: [],
+      donations: [],
+      volunteers: [],
+      contacts: []
+    };
+
+    // Helper: Toast
+    function showToast(msg, isSuccess = true) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.style.borderLeft = isSuccess ? '4px solid #10B981' : '4px solid #EF4444';
+      toast.innerHTML = `<span>${isSuccess ? '✅' : '⚠️'}</span> <span>${escapeHtml(msg)}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatInr(val) {
+      const num = Number(val) || 0;
+      return '₹ ' + num.toLocaleString('en-IN');
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '-';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function cleanPhone(phone) {
+      if (!phone) return '';
+      return phone.replace(/[^0-9]/g, '');
+    }
+
+    // Modal controls
+    function openModal(title, html) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalContent').innerHTML = html;
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function closeModalOnOverlay(e) {
+      if (e.target.id === 'adminModal') closeModal();
+    }
+
+    // Tab switcher
+    function showTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const panel = document.getElementById('tab-' + tabId);
+      if (panel) panel.classList.add('active');
+    }
+
+    // Auth & Init
+    window.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('premavasam_admin_token');
+      if (token) {
+        try {
+          const res = await fetch('/api/admin/verify', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          const data = await res.json();
+          if (data.ok && data.admin) {
+            setupDashboard(data.admin);
+            return;
+          }
+        } catch (e) {}
+      }
+      showLoginScreen();
+    });
+
+    function showLoginScreen() {
+      document.getElementById('loginView').style.display = 'flex';
+      document.getElementById('dashboardView').style.display = 'none';
+      document.getElementById('usernameInput').value = '';
+      document.getElementById('passwordInput').value = '';
+    }
+
+    function setupDashboard(admin) {
+      state.admin = admin;
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('dashboardView').style.display = 'flex';
+      document.getElementById('sessionAdminName').innerText = admin.name || admin.username;
+      document.getElementById('sessionAdminRole').innerText = admin.role || 'admin';
+      fetchDashboardData();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const err = document.getElementById('loginError');
+      const btn = document.getElementById('loginSubmitBtn');
+      err.style.display = 'none';
+
+      const username = document.getElementById('usernameInput').value.trim();
+      const password = document.getElementById('passwordInput').value;
+
+      btn.disabled = true;
+      btn.innerText = 'Verifying credentials...';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (data.ok && data.token) {
+          localStorage.setItem('premavasam_admin_token', data.token);
+          setupDashboard(data.admin);
+          showToast('Welcome back, ' + (data.admin.name || 'Admin'));
+        } else {
+          err.innerText = data.error || 'Invalid credentials';
+          err.style.display = 'block';
+        }
+      } catch (e) {
+        err.innerText = 'Network connection failed. Try again.';
+        err.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Sign In to Dashboard';
+      }
+    }
+
+    async function handleLogout() {
+      const token = localStorage.getItem('premavasam_admin_token');
+      if (token) {
+        try {
+          await fetch('/api/admin/logout', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+        } catch (e) {}
+      }
+      localStorage.removeItem('premavasam_admin_token');
+      showToast('Logged out successfully');
+      showLoginScreen();
+    }
+
+    // ── DATA FETCHING ──
+    async function fetchDashboardData() {
+      const token = localStorage.getItem('premavasam_admin_token');
+      const headers = { 'Authorization': 'Bearer ' + token };
+
+      try {
+        // 1. Dashboard Stats
+        const statsRes = await fetch('/api/admin/dashboard-stats', { headers });
+        const statsData = await statsRes.json();
+        if (statsData.ok && statsData.stats) {
+          state.stats = statsData.stats;
+          renderStats(statsData.stats);
+        }
+
+        // 2. Meals
+        const mealsRes = await fetch('/api/admin/meals', { headers });
+        const mealsData = await mealsRes.json();
+        if (mealsData.ok) {
+          state.meals = mealsData.meals || [];
+          document.getElementById('badgeMeals').innerText = state.meals.length;
+          renderMealsTable();
+        }
+
+        // 3. Donations
+        const donRes = await fetch('/api/admin/donations', { headers });
+        const donData = await donRes.json();
+        if (donData.ok) {
+          state.donations = donData.donations || [];
+          document.getElementById('badgeDonations').innerText = state.donations.length;
+          renderDonationsTable();
+        }
+
+        // 4. Volunteers
+        const volRes = await fetch('/api/admin/volunteers', { headers });
+        const volData = await volRes.json();
+        if (volData.ok) {
+          state.volunteers = volData.volunteers || [];
+          document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
+          renderVolunteersTable();
+        }
+
+        // 5. Contacts
+        const conRes = await fetch('/api/admin/contacts', { headers });
+        const conData = await conRes.json();
+        if (conData.ok) {
+          state.contacts = conData.contacts || [];
+          document.getElementById('badgeContacts').innerText = state.contacts.length;
+          renderContactsTable();
+        }
+
+      } catch (err) {
+        console.error('Error fetching admin data:', err);
+        showToast('Error syncing live dashboard data', false);
+      }
+    }
+
+    // ── RENDER STATS & UPCOMING SCHEDULE ──
+    function renderStats(stats) {
+      document.getElementById('kpiTotalFunds').innerText = formatInr(stats.totalFunds || 0);
+      document.getElementById('kpiMealsCount').innerText = stats.mealsCount || 0;
+      document.getElementById('kpiVolunteersCount').innerText = stats.volunteersCount || 0;
+      document.getElementById('kpiUnreadContacts').innerText = stats.unreadContacts || 0;
+
+      // Monthly Goal Tracker
+      const target = 500000;
+      const pct = Math.min(100, Math.round(((stats.totalFunds || 0) / target) * 100));
+      document.getElementById('targetPercentDisplay').innerText = `${pct}% Achieved`;
+      document.getElementById('targetProgressBar').style.width = `${pct}%`;
+
+      // Upcoming Meals Schedule
+      const upcoming = stats.upcomingMeals || [];
+      const tbody = document.getElementById('upcomingTableBody');
+      if (upcoming.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No upcoming meal dates scheduled.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = upcoming.map(m => {
+        const phone = cleanPhone(m.sponsor_phone);
+        const waMsg = encodeURIComponent(`Vanakkam ${m.sponsor_name}, greetings from Prema Vasam. We are confirming your sponsored meal on ${m.sponsor_date} for ${m.occasion || 'the special occasion'}. Thank you!`);
+        return `
+          <tr>
+            <td><strong>${escapeHtml(m.sponsor_date)}</strong></td>
+            <td>
+              <div style="font-weight:700;">${escapeHtml(m.sponsor_name)}</div>
+              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(m.sponsor_phone)}</div>
+            </td>
+            <td>${escapeHtml(m.occasion || 'General Blessing')}</td>
+            <td><span style="font-size:0.82rem; color:var(--brand); font-weight:600;">${escapeHtml(m.selected_items)}</span></td>
+            <td><strong>${formatInr(m.total_amount)}</strong></td>
+            <td><span class="badge badge-${m.payment_status || 'pending'}">${m.payment_status || 'pending'}</span></td>
+            <td>
+              ${phone ? `<a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="btn-wa"><span>💬</span> WhatsApp</a>` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ── RENDER MEALS TABLE ──
+    function renderMealsTable() {
+      const q = (document.getElementById('mealsSearchInput').value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('mealsStatusFilter').value;
+      const tbody = document.getElementById('mealsTableBody');
+
+      const filtered = state.meals.filter(m => {
+        const matchQ = !q || 
+          (m.id && m.id.toLowerCase().includes(q)) ||
+          (m.sponsor_name && m.sponsor_name.toLowerCase().includes(q)) ||
+          (m.sponsor_phone && m.sponsor_phone.toLowerCase().includes(q)) ||
+          (m.sponsor_email && m.sponsor_email.toLowerCase().includes(q)) ||
+          (m.occasion && m.occasion.toLowerCase().includes(q)) ||
+          (m.notes && m.notes.toLowerCase().includes(q));
+        const matchStatus = statusFilter === 'all' || (m.payment_status || 'pending') === statusFilter;
+        return matchQ && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-row">No meal bookings match your criteria.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(m => {
+        const phone = cleanPhone(m.sponsor_phone);
+        const waMsg = encodeURIComponent(`Vanakkam ${m.sponsor_name}, greetings from Prema Vasam. Thank you for your meal reservation (#${m.id}) on ${m.sponsor_date}. We appreciate your kind generosity for our 200+ children!`);
+        return `
+          <tr>
+            <td><code>${escapeHtml(m.id)}</code></td>
+            <td>
+              <div style="font-weight:700;">${escapeHtml(m.sponsor_name)}</div>
+              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(m.sponsor_phone)}</div>
+              ${m.sponsor_email ? `<div style="font-size:0.75rem; color:var(--text-light);"><a href="mailto:${escapeHtml(m.sponsor_email)}" style="color:inherit;">${escapeHtml(m.sponsor_email)}</a></div>` : ''}
+            </td>
+            <td><strong>${escapeHtml(m.sponsor_date)}</strong></td>
+            <td>${escapeHtml(m.occasion || '-')}</td>
+            <td><div style="font-size:0.82rem; max-width:200px; color:var(--brand); font-weight:600;">${escapeHtml(m.selected_items)}</div></td>
+            <td><strong>${formatInr(m.total_amount)}</strong></td>
+            <td>
+              <select class="status-select" onchange="updateMealStatus('${m.id}', this.value)">
+                <option value="pending" ${m.payment_status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                <option value="confirmed" ${m.payment_status === 'confirmed' ? 'selected' : ''}>✅ Confirmed</option>
+                <option value="completed" ${m.payment_status === 'completed' ? 'selected' : ''}>🎉 Completed</option>
+                <option value="cancelled" ${m.payment_status === 'cancelled' ? 'selected' : ''}>❌ Cancelled</option>
+              </select>
+            </td>
+            <td>
+              ${m.notes ? `<button class="btn-row-action" onclick="viewNotes('${escapeHtml(m.sponsor_name)} Notes', '${escapeHtml(m.notes)}')">👁️ View</button>` : '<span style="color:var(--text-light);">-</span>'}
+            </td>
+            <td>
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${phone ? `<a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="btn-wa" title="WhatsApp Message"><span>💬</span></a>` : ''}
+                <button class="btn-row-action btn-delete" onclick="deleteMealBooking('${m.id}')" title="Delete Booking">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function updateMealStatus(id, payment_status) {
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/meals', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ id, payment_status })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showToast(`Meal booking ${id} status updated to ${payment_status}`);
+          fetchDashboardData();
+        } else {
+          showToast(data.error || 'Failed to update meal status', false);
+        }
+      } catch (e) {
+        showToast('Error updating status', false);
+      }
+    }
+
+    async function deleteMealBooking(id) {
+      if (!confirm(`Are you sure you want to delete meal booking ${id}?`)) return;
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/meals', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ id })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showToast(`Deleted meal booking ${id}`);
+          fetchDashboardData();
+        }
+      } catch (e) {
+        showToast('Delete failed', false);
+      }
+    }
+
+    // ── RENDER DONATIONS TABLE ──
+    function renderDonationsTable() {
+      const q = (document.getElementById('donationsSearchInput').value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('donationsStatusFilter').value;
+      const tbody = document.getElementById('donationsTableBody');
+
+      const filtered = state.donations.filter(d => {
+        const matchQ = !q ||
+          (d.id && d.id.toLowerCase().includes(q)) ||
+          (d.donor_name && d.donor_name.toLowerCase().includes(q)) ||
+          (d.donor_email && d.donor_email.toLowerCase().includes(q)) ||
+          (d.donor_phone && d.donor_phone.toLowerCase().includes(q)) ||
+          (d.pan_number && d.pan_number.toLowerCase().includes(q)) ||
+          (d.reference_number && d.reference_number.toLowerCase().includes(q));
+        const matchStatus = statusFilter === 'all' || (d.receipt_status || 'pending') === statusFilter;
+        return matchQ && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-row">No donations found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(d => {
+        return `
+          <tr>
+            <td><code>${escapeHtml(d.id)}</code></td>
+            <td>
+              <div style="font-weight:700;">${escapeHtml(d.donor_name)}</div>
+              <div style="font-size:0.78rem; color:var(--text-light);">${escapeHtml(d.donor_phone || '-')}</div>
+              ${d.donor_email ? `<div style="font-size:0.75rem; color:var(--text-light);"><a href="mailto:${escapeHtml(d.donor_email)}" style="color:inherit;">${escapeHtml(d.donor_email)}</a></div>` : ''}
+            </td>
+            <td>
+              ${d.pan_number ? `<code style="background:var(--brand-light); color:#9A5E10; padding:2px 6px; border-radius:4px; font-weight:700;">${escapeHtml(d.pan_number)}</code>` : '<span style="color:var(--text-light); font-size:0.8rem;">Not provided</span>'}
+            </td>
+            <td><strong style="color:#047857;">${formatInr(d.amount)}</strong></td>
+            <td>
+              <div style="font-size:0.85rem; font-weight:600;">${escapeHtml(d.transfer_type || 'Bank Transfer')}</div>
+              <div style="font-size:0.75rem; color:var(--text-light); font-family:monospace;">${escapeHtml(d.reference_number || 'No Ref')}</div>
+            </td>
+            <td>
+              <select class="status-select" onchange="updateDonationStatus('${d.id}', this.value)">
+                <option value="pending" ${d.receipt_status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                <option value="issued" ${d.receipt_status === 'issued' ? 'selected' : ''}>📄 Issued</option>
+                <option value="sent" ${d.receipt_status === 'sent' ? 'selected' : ''}>✉️ Sent</option>
+              </select>
+            </td>
+            <td><span style="font-size:0.8rem;">${formatDate(d.created_at)}</span></td>
+            <td>
+              ${d.notes ? `<button class="btn-row-action" onclick="viewNotes('${escapeHtml(d.donor_name)} Notes', '${escapeHtml(d.notes)}')">👁️ View</button>` : '<span style="color:var(--text-light);">-</span>'}
+            </td>
+            <td>
+              <button class="btn-row-action btn-delete" onclick="deleteDonation('${d.id}')" title="Delete Record">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function updateDonationStatus(id, receipt_status) {
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/donations', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ id, receipt_status })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showToast(`Donation ${id} receipt status: ${receipt_status}`);
+          fetchDashboardData();
+        }
+      } catch (e) {
+        showToast('Error updating donation', false);
+      }
+    }
+
+    async function deleteDonation(id) {
+      if (!confirm(`Delete donation record ${id}?`)) return;
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        await fetch('/api/admin/donations', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ id })
+        });
+        showToast(`Deleted donation ${id}`);
+        fetchDashboardData();
+      } catch (e) {
+        showToast('Delete failed', false);
+      }
+    }
+
+    // ── RENDER VOLUNTEER ROSTER TABLE ──
+    function renderVolunteersTable() {
+      const q = (document.getElementById('volunteersSearchInput').value || '').toLowerCase().trim();
+      const skillFilter = document.getElementById('volunteersSkillFilter').value;
+      const statusFilter = document.getElementById('volunteersStatusFilter').value;
+      const tbody = document.getElementById('volunteersTableBody');
+
+      const filtered = state.volunteers.filter(v => {
+        const matchQ = !q ||
+          (v.id && v.id.toLowerCase().includes(q)) ||
+          (v.full_name && v.full_name.toLowerCase().includes(q)) ||
+          (v.phone && v.phone.toLowerCase().includes(q)) ||
+          (v.email && v.email.toLowerCase().includes(q)) ||
+          (v.skills && v.skills.toLowerCase().includes(q)) ||
+          (v.message && v.message.toLowerCase().includes(q));
+        const matchSkill = skillFilter === 'all' || (v.skills && v.skills.toLowerCase().includes(skillFilter.toLowerCase()));
+        const matchStatus = statusFilter === 'all' || (v.status || 'new') === statusFilter;
+        return matchQ && matchSkill && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No volunteer specialists found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(v => {
+        const phone = cleanPhone(v.phone);
+        const email = v.email;
+        const waMsg = encodeURIComponent(`Vanakkam ${v.full_name}, thank you for applying to volunteer at Prema Vasam for our special children! When would you be free for an orientation call?`);
+        return `
+          <tr>
+            <td><code>${escapeHtml(v.id)}</code></td>
+            <td><strong style="color:var(--brand-dark);">${escapeHtml(v.full_name)}</strong></td>
+            <td>
+              <div><a href="tel:${escapeHtml(v.phone)}" style="color:inherit; font-size:0.85rem;">${escapeHtml(v.phone)}</a></div>
+              <div style="font-size:0.75rem; color:var(--text-light);"><a href="mailto:${escapeHtml(v.email)}" style="color:inherit;">${escapeHtml(v.email)}</a></div>
+            </td>
+            <td>
+              <span class="badge" style="background:#FAF0DC; color:#9A5E10; border:1px solid #FCD34D;">
+                ${escapeHtml(v.skills || 'General Support')}
+              </span>
+            </td>
+            <td>
+              ${v.message ? `<button class="btn-row-action" onclick="viewNotes('Volunteer Statement · ${escapeHtml(v.full_name)}', '${escapeHtml(v.message)}')">👁️ Read Application</button>` : '<span style="color:var(--text-light);">-</span>'}
+            </td>
+            <td>
+              <select class="status-select" onchange="updateVolunteerStatus('${v.id}', this.value)">
+                <option value="new" ${v.status === 'new' ? 'selected' : ''}>🆕 New</option>
+                <option value="active" ${v.status === 'active' ? 'selected' : ''}>🌟 Active</option>
+                <option value="contacted" ${v.status === 'contacted' ? 'selected' : ''}>📞 Contacted</option>
+                <option value="archived" ${v.status === 'archived' ? 'selected' : ''}>📁 Archived</option>
+              </select>
+            </td>
+            <td><span style="font-size:0.8rem;">${formatDate(v.created_at)}</span></td>
+            <td>
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${phone ? `<a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="btn-wa" title="WhatsApp Message">💬</a>` : ''}
+                <a href="mailto:${escapeHtml(email)}?subject=Volunteer%20Application%20at%20Prema%20Vasam" class="btn-row-action" title="Send Email">✉️</a>
+                <button class="btn-row-action btn-delete" onclick="deleteVolunteer('${v.id}')" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function updateVolunteerStatus(id, status) {
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/volunteers', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ id, status })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showToast(`Volunteer ${id} status: ${status}`);
+          fetchDashboardData();
+        }
+      } catch (e) {
+        showToast('Error updating status', false);
+      }
+    }
+
+    async function deleteVolunteer(id) {
+      if (!confirm(`Delete volunteer application ${id}?`)) return;
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        await fetch('/api/admin/volunteers', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ id })
+        });
+        showToast(`Deleted volunteer ${id}`);
+        fetchDashboardData();
+      } catch (e) {
+        showToast('Delete failed', false);
+      }
+    }
+
+    // ── RENDER CONTACT MESSAGES INBOX ──
+    function renderContactsTable() {
+      const q = (document.getElementById('contactsSearchInput').value || '').toLowerCase().trim();
+      const readFilter = document.getElementById('contactsReadFilter').value;
+      const tbody = document.getElementById('contactsTableBody');
+
+      const filtered = state.contacts.filter(c => {
+        const matchQ = !q ||
+          (c.name && c.name.toLowerCase().includes(q)) ||
+          (c.email && c.email.toLowerCase().includes(q)) ||
+          (c.subject && c.subject.toLowerCase().includes(q)) ||
+          (c.message && c.message.toLowerCase().includes(q));
+        const matchRead = readFilter === 'all' ||
+          (readFilter === 'unread' && !c.is_read) ||
+          (readFilter === 'read' && c.is_read);
+        return matchQ && matchRead;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No messages in inbox.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => {
+        const isRead = Boolean(c.is_read);
+        const replySubject = encodeURIComponent(`Re: ${c.subject || 'Inquiry regarding Prema Vasam'}`);
+        const replyBody = encodeURIComponent(`Dear ${c.name},\n\nThank you for contacting Prema Vasam.\n\nWarm regards,\nMiss Mumtaj / Selvyn Roy\nPrema Vasam, Chennai\nPhone: +91 9677238998`);
+        return `
+          <tr style="${!isRead ? 'background:#FFFDF7; font-weight:600;' : ''}">
+            <td>
+              <span class="badge ${isRead ? 'badge-archived' : 'badge-new'}">
+                ${isRead ? '✓ Read' : '⭐ Unread'}
+              </span>
+            </td>
+            <td><strong>${escapeHtml(c.name)}</strong></td>
+            <td><a href="mailto:${escapeHtml(c.email)}" style="color:inherit; font-size:0.85rem;">${escapeHtml(c.email)}</a></td>
+            <td><span style="color:var(--brand);">${escapeHtml(c.subject || 'General Inquiry')}</span></td>
+            <td>
+              <div style="font-size:0.82rem; max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                ${escapeHtml(c.message)}
+              </div>
+            </td>
+            <td><span style="font-size:0.8rem;">${formatDate(c.created_at)}</span></td>
+            <td>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <button class="btn-row-action" onclick="viewMessage('${escapeHtml(c.name)}', '${escapeHtml(c.email)}', '${escapeHtml(c.subject)}', '${escapeHtml(c.message)}', '${c.id}', ${isRead})">👁️ Read</button>
+                <a href="mailto:${escapeHtml(c.email)}?subject=${replySubject}&body=${replyBody}" class="btn-row-action" title="Reply via Email">✉️ Reply</a>
+                <button class="btn-row-action" onclick="toggleContactRead('${c.id}', ${!isRead})">${isRead ? 'Mark Unread' : 'Mark Read'}</button>
+                <button class="btn-row-action btn-delete" onclick="deleteContact('${c.id}')" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function viewMessage(name, email, subject, message, id, isRead) {
+      if (!isRead) {
+        toggleContactRead(id, true);
+      }
+      const replySubject = encodeURIComponent(`Re: ${subject || 'Inquiry regarding Prema Vasam'}`);
+      const replyBody = encodeURIComponent(`Dear ${name},\n\nThank you for reaching out to Prema Vasam.\n\nWarm regards,\nPrema Vasam Team`);
+      openModal(`Inquiry from ${name}`, `
+        <div style="margin-bottom:12px;">
+          <div style="font-size:0.85rem; color:var(--text-muted);">From: <strong>${name}</strong> &lt;${email}&gt;</div>
+          <div style="font-size:0.95rem; font-weight:700; color:var(--brand); margin-top:4px;">Subject: ${subject}</div>
+        </div>
+        <div style="background:#FAF6F0; padding:16px; border-radius:8px; white-space:pre-wrap; border:1px solid var(--border); font-size:0.92rem;">${message}</div>
+        <div style="margin-top:16px; text-align:right;">
+          <a href="mailto:${email}?subject=${replySubject}&body=${replyBody}" class="btn-action" style="background:var(--brand); color:#fff; border-color:var(--brand);">
+            Reply via Email
+          </a>
+        </div>
+      `);
+    }
+
+    function viewNotes(title, notes) {
+      openModal(title, `
+        <div style="background:#FAF6F0; padding:16px; border-radius:8px; white-space:pre-wrap; border:1px solid var(--border); font-size:0.92rem;">
+          ${notes}
+        </div>
+      `);
+    }
+
+    async function toggleContactRead(id, is_read) {
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        await fetch('/api/admin/contacts', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ id, is_read: is_read ? 1 : 0 })
+        });
+        fetchDashboardData();
+      } catch (e) {
+        showToast('Error updating read status', false);
+      }
+    }
+
+    async function deleteContact(id) {
+      if (!confirm('Permanently delete this inquiry?')) return;
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        await fetch('/api/admin/contacts', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ id })
+        });
+        showToast('Message deleted');
+        fetchDashboardData();
+      } catch (e) {
+        showToast('Delete failed', false);
+      }
+    }
+
+    // ── 1-CLICK CSV EXPORT ──
+    async function downloadCsv(type) {
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        showToast(`Preparing ${type} CSV export...`);
+        const res = await fetch(`/api/admin/export-csv?type=${type}`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) {
+          throw new Error('Export unauthorized or failed');
+        }
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `premavasam_${type}_${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        showToast(`${type.toUpperCase()} exported successfully!`);
+      } catch (e) {
+        showToast('CSV export failed. Ensure you are signed in.', false);
+      }
+    }
+  </script>
+</body>
+</html>

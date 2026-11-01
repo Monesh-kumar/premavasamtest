@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# SQLite WAL temporary cache
+database.sqlite-shm
+database.sqlite-wal
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Backups
+images/mumtaj_full.jpg

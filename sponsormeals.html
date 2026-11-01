@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Sponsor Meals Program | Prema Vasam • A Home of Love</title>
+  <meta name="description" content="Sponsor wholesome, delicious meals for 200+ special children at Prema Vasam in Chennai on birthdays, anniversaries, and remembrance days.">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+
+  <!-- Yuna Nature Typography: Fraunces & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <aside class="top-bar">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="tel:+919677238998">
+          <i data-lucide="phone-call" style="width: 14px; height: 14px;"></i> +91 96772 38998 (9 AM – 8 PM)
+        </a>
+        <a href="mailto:premavasam1999@gmail.com">
+          <i data-lucide="mail" style="width: 14px; height: 14px;"></i> premavasam1999@gmail.com
+        </a>
+        <span>📍 Gerugambakkam, Porur, Chennai - 600128</span>
+      </div>
+      <div class="top-socials">
+        <span>"To Serve... Not to be Served" · Est. June 2, 1999</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="/images/logo.png" alt="Prema Vasam Logo" class="brand-emblem">
+        <div class="brand-text">
+          <h1>PREMA VASAM</h1>
+          <span>Home for Special &amp; Abandoned Children</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/sponsormeals" class="active">Sponsor Meals</a></li>
+          <li><a href="/activities">Activities</a></li>
+          <li><a href="/achievements">Achievements</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/volunteers">Volunteers</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/howhelp" class="btn btn-tertiary">❤️ Donate Now</a>
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="section" style="padding: 70px 0 40px; text-align: center;">
+      <div class="container">
+        <span class="section-tag">Nourish with Love</span>
+        <h1 class="section-title">Sponsor Meals for 200+ Children</h1>
+        <p class="section-desc" style="max-width: 780px; margin: 0 auto;">
+          Celebrate your milestone, wedding anniversary, birthday, or honor loved ones by sharing a joyful feast with the special children of Prema Vasam.
+        </p>
+      </div>
+    </section>
+
+    <!-- Meal Tiers & Booking Section -->
+    <section class="section section-alt" style="padding-top: 40px;">
+      <div class="container">
+        
+        <p style="text-align: center; font-size: 0.95rem; color: var(--color-primary-deep); margin-bottom: 24px;">
+          💡 <strong>Select one or multiple meal items below</strong> to customize your sponsorship (e.g. Breakfast + Lunch + Ice-Cream).
+        </p>
+
+        <!-- Category Filter Bar -->
+        <div class="meal-filter-bar">
+          <button type="button" class="meal-filter-btn active" onclick="filterMeals('all', this)">All Menus (10)</button>
+          <button type="button" class="meal-filter-btn" onclick="filterMeals('breakfast', this)">🌅 Breakfast</button>
+          <button type="button" class="meal-filter-btn" onclick="filterMeals('lunch', this)">☀️ Lunch</button>
+          <button type="button" class="meal-filter-btn" onclick="filterMeals('dinner', this)">🌙 Dinner</button>
+          <button type="button" class="meal-filter-btn" onclick="filterMeals('snacks', this)">🍧 Snacks &amp; Ice-Cream</button>
+        </div>
+
+        <div class="meals-container">
+          <div class="meals-tiers-grid" id="mealsTiersGrid">
+            
+            <!-- Breakfast -->
+            <div class="tier-card active selected" data-category="breakfast" data-name="Usual Breakfast" data-price="3500" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">Morning</span>
+              <h4>Usual Breakfast</h4>
+              <div class="tier-price">₹3,500</div>
+              <div class="tier-desc">Idli, Medu Vada, Sambar, Chutney, Pongal &amp; Hot Milk</div>
+            </div>
+
+            <div class="tier-card" data-category="breakfast" data-name="Breakfast with sweet" data-price="4000" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">With Sweet</span>
+              <h4>Breakfast with sweet</h4>
+              <div class="tier-price">₹4,000</div>
+              <div class="tier-desc">Idli, Medu Vada, Sambar, Pongal &amp; Rava Kesari / Sweet</div>
+            </div>
+
+            <!-- Lunch -->
+            <div class="tier-card" data-category="lunch" data-name="Usual Lunch" data-price="5000" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">Standard</span>
+              <h4>Usual Lunch</h4>
+              <div class="tier-price">₹5,000</div>
+              <div class="tier-desc">Steamed Rice, Sambar, Rasam, 2 Vegetable Curries &amp; Appalam</div>
+            </div>
+
+            <div class="tier-card" data-category="lunch" data-name="Lunch with Vadai &amp; Payasam" data-price="6500" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">Festive Feast</span>
+              <h4>Lunch with Vadai &amp; Payasam</h4>
+              <div class="tier-price">₹6,500</div>
+              <div class="tier-desc">Traditional Full Meals, 2 Curries, Crispy Vadai &amp; Sweet Payasam</div>
+            </div>
+
+            <div class="tier-card" data-category="lunch" data-name="Non-Veg Lunch" data-price="9000" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge" style="background: var(--color-tertiary);">Non-Veg</span>
+              <h4>Non-Veg Lunch</h4>
+              <div class="tier-price">₹9,000</div>
+              <div class="tier-desc">Chicken Biryani / Chicken Curry Meals, Boiled Eggs &amp; Raita</div>
+            </div>
+
+            <!-- Dinner -->
+            <div class="tier-card" data-category="dinner" data-name="Usual Dinner" data-price="5000" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">Evening</span>
+              <h4>Usual Dinner</h4>
+              <div class="tier-price">₹5,000</div>
+              <div class="tier-desc">Hot Chapati, Dal, Variety Rice / Tiffin, Chutney &amp; Warm Milk</div>
+            </div>
+
+            <div class="tier-card" data-category="dinner" data-name="Dinner with Vadai &amp; Payasam" data-price="6500" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge">Festive</span>
+              <h4>Dinner with Vadai &amp; Payasam</h4>
+              <div class="tier-price">₹6,500</div>
+              <div class="tier-desc">Dinner Tiffin / Meals with Crispy Vadai &amp; Delicious Payasam</div>
+            </div>
+
+            <div class="tier-card" data-category="dinner" data-name="Non-Veg Dinner" data-price="9000" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge" style="background: var(--color-tertiary);">Non-Veg</span>
+              <h4>Non-Veg Dinner</h4>
+              <div class="tier-price">₹9,000</div>
+              <div class="tier-desc">Grand Non-Veg Dinner Feast / Biryani with Chicken Sides &amp; Gravy</div>
+            </div>
+
+            <!-- Snacks & Ice-Cream -->
+            <div class="tier-card" data-category="snacks" data-name="Evening Snacks" data-price="2500" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge" style="background: var(--color-accent-gold);">Snacks</span>
+              <h4>Evening Snacks</h4>
+              <div class="tier-price">₹2,500</div>
+              <div class="tier-desc">Hot Sundal, Tea / Boost / Horlicks, Biscuits &amp; Evening Snack</div>
+            </div>
+
+            <div class="tier-card" data-category="snacks" data-name="Ice-Cream" data-price="4500" onclick="toggleTier(this)">
+              <div class="tier-check-indicator">✓</div>
+              <span class="tier-badge" style="background: #e11d48;">Special Treat</span>
+              <h4>Ice-Cream</h4>
+              <div class="tier-price">₹4,500</div>
+              <div class="tier-desc">Chilled Ice-Cream Cups &amp; Cones for all 200+ special children</div>
+            </div>
+
+          </div>
+
+          <div class="booking-form-box">
+            <h3>Reserve Your Meal Date Online</h3>
+            <form id="mealForm" onsubmit="handleMealBooking(event)">
+              <input type="hidden" id="tierName" value="Usual Breakfast">
+              <input type="hidden" id="tierPrice" value="3500">
+
+              <!-- Selected Items Pills Box -->
+              <div class="selected-meals-box">
+                <div class="selected-meals-header">
+                  <span>Selected Meals (<span id="selectedCount">1</span>):</span>
+                  <button type="button" onclick="selectAllDayMeals()" style="background: none; border: none; color: var(--color-primary); font-size: 0.85rem; font-weight: 700; cursor: pointer;">
+                    + Select Full Day Special
+                  </button>
+                </div>
+                <div class="selected-meals-pills" id="selectedPillsContainer">
+                  <span class="meal-pill-item">
+                    Usual Breakfast (₹3,500)
+                    <span class="meal-pill-remove" onclick="removeMeal('Usual Breakfast')">&times;</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Sponsorship Date *</label>
+                  <input type="date" id="sDate" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Total Sponsorship Amount</label>
+                  <input type="text" id="sTotal" class="form-input" value="₹3,500" readonly style="font-weight: 700; color: var(--color-tertiary); background: #fdfaf6;">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Sponsor Full Name *</label>
+                  <input type="text" id="sName" class="form-input" placeholder="e.g. Anand &amp; Divya" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Phone Number *</label>
+                  <input type="tel" id="sPhone" class="form-input" placeholder="e.g. 9840123456" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" id="sEmail" class="form-input" placeholder="e.g. anand@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Occasion / Blessing</label>
+                  <select id="sOccasion" class="form-select">
+                    <option value="Birthday">Birthday Celebration</option>
+                    <option value="Wedding Anniversary">Wedding Anniversary</option>
+                    <option value="Remembrance">Memorial / In Loving Memory</option>
+                    <option value="Gratitude">Thanksgiving &amp; Gratitude</option>
+                    <option value="General">General Blessing for Children</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" id="sEmail" class="form-input" placeholder="e.g. anand@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sponsorship Date *</label>
+                  <input type="date" id="sDate" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Occasion / Blessing</label>
+                <select id="sOccasion" class="form-select">
+                  <option value="Birthday">Birthday Celebration</option>
+                  <option value="Wedding Anniversary">Wedding Anniversary</option>
+                  <option value="Remembrance">Memorial / In Loving Memory</option>
+                  <option value="Gratitude">Thanksgiving &amp; Gratitude</option>
+                  <option value="General">General Blessing for Children</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Special Notes &amp; Dedication Details</label>
+                <textarea id="sNotes" class="form-textarea" rows="3" placeholder="Names of family members for children's special prayer, visit plans to serve meals in person, etc."></textarea>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <span style="font-size: 0.88rem; color: var(--color-text-muted);">
+                  💡 Direct Bank of Baroda transfer details will be displayed upon reservation.
+                </span>
+                <button type="submit" id="sSubmitBtn" class="btn btn-primary">
+                  Confirm Meal Reservation →
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meal Photos & Joy -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Joy of Sharing</span>
+          <h2 class="section-title">Wholesome Nutrition &amp; Family Care</h2>
+          <p class="section-desc">Our kitchen prepares freshly cooked, hygienic, dietitian-balanced meals every day with utmost devotion.</p>
+        </div>
+
+        <div class="causes-grid">
+          <article class="cause-card">
+            <div class="cause-media">
+              <img src="/images/gallery/diwali_2.jpg" alt="Traditional Feast">
+            </div>
+            <div class="cause-body">
+              <span class="cause-cat">Clean &amp; Wholesome</span>
+              <h3>Freshly Cooked Daily Meals</h3>
+              <p>Hot, hygienic breakfast, lunch, and dinner prepared under strict nutrition and hygiene standards to support medication and therapy.</p>
+            </div>
+          </article>
+
+          <article class="cause-card">
+            <div class="cause-media">
+              <img src="/images/individual_care1.jpg" alt="Loving Care">
+            </div>
+            <div class="cause-body">
+              <span class="cause-cat">Tender Loving Care</span>
+              <h3>Mothers &amp; Caregivers Feeding</h3>
+              <p>Mothers of special children stay at Premavasam and feed bedridden children with patient, tender affection three times every day.</p>
+            </div>
+          </article>
+
+          <article class="cause-card">
+            <div class="cause-media">
+              <img src="/images/gallery/diwali_3.jpg" alt="Celebrations">
+            </div>
+            <div class="cause-body">
+              <span class="cause-cat">Community Feasts</span>
+              <h3>Special Festival Payasam &amp; Sweets</h3>
+              <p>Special feasts with sweets, savories, and traditional payasam to mark festivals and bring wide smiles to every child's face.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PREMA VASAM</h2>
+          <p>
+            A registered non-profit charitable home under Prem Charitable Trust dedicated to providing loving care, rehabilitation, special education, and lifelong dignity to over 200 children with special needs in Chennai, India.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/sponsormeals">Sponsor Meals</a></li>
+            <li><a href="/activities">Activities</a></li>
+            <li><a href="/achievements">Achievements</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <ul>
+            <li><a href="/howhelp">Donate (Domestic 80G)</a></li>
+            <li><a href="/howhelp">Donate (International FCRA)</a></li>
+            <li><a href="/sponsormeals">Meal Sponsorship</a></li>
+            <li><a href="/volunteers">Volunteer Program</a></li>
+            <li><a href="/contact">Visit Our Home</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Premavasam</h4>
+          <p style="font-size: 0.9rem; line-height: 1.7; color: #b0c2ac;">
+            No. 15, Thiru V.K.A. Road, Gerugambakkam, Porur, Chennai - 600128<br>
+            📞 +91 96772 38998<br>
+            ✉️ premavasam1999@gmail.com
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 1999–2026 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div>Designed with Yuna Nature UI Aesthetic · Built with SQLite WAL &amp; Node.js REST Backend</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="mealModal">
+    <div class="modal-card">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 56px; height: 56px; background: var(--color-primary-soft); color: var(--color-primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 12px;">
+          ✓
+        </div>
+        <h3 style="font-size: 1.8rem; color: var(--color-primary-deep);">Meal Reservation Confirmed!</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem;">Thank you for blessing our 200+ children.</p>
+      </div>
+
+      <div style="background: var(--color-bg); padding: 20px; border-radius: var(--radius-md); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.8;">
+        <div><strong>Booking ID:</strong> <span id="mId" style="color: var(--color-primary); font-weight: 700;"></span></div>
+        <div><strong>Sponsor:</strong> <span id="mName"></span></div>
+        <div><strong>Date:</strong> <span id="mDate"></span></div>
+        <div><strong>Meal Tier:</strong> <span id="mTier"></span></div>
+        <div><strong>Amount:</strong> <span id="mAmount" style="font-weight: 700; color: var(--color-tertiary);"></span></div>
+      </div>
+
+      <div style="margin-bottom: 24px; font-size: 0.88rem; color: var(--color-text-mid); line-height: 1.6;">
+        Please transfer your sponsorship contribution to our <strong>Bank of Baroda</strong> account (A/c: <code>20460100001458</code>, IFSC: <code>BARB0KOVOOR</code>). Our coordinator Miss Mumtaj will reach out to confirm your visit.
+      </div>
+
+      <button onclick="document.getElementById('mealModal').classList.remove('show')" class="btn btn-primary" style="width: 100%;">
+        Close &amp; Return
+      </button>
+    </div>
+  </div>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    // Default Date
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const dateInput = document.getElementById('sDate');
+    if (dateInput) {
+      dateInput.min = tomorrow;
+      dateInput.value = tomorrow;
+    }
+
+    // Multiple Meal Selection Engine
+    let selectedMeals = [
+      { name: 'Usual Breakfast', price: 3500 }
+    ];
+
+    function renderSelectedMeals() {
+      const pillsContainer = document.getElementById('selectedPillsContainer');
+      const countSpan = document.getElementById('selectedCount');
+      const totalInput = document.getElementById('sTotal');
+      const nameInput = document.getElementById('tierName');
+      const priceInput = document.getElementById('tierPrice');
+
+      if (!pillsContainer) return;
+
+      const total = selectedMeals.reduce((sum, item) => sum + item.price, 0);
+      const names = selectedMeals.map(i => i.name).join(' + ');
+
+      if (countSpan) countSpan.innerText = selectedMeals.length;
+      if (totalInput) totalInput.value = '₹' + total.toLocaleString('en-IN');
+      if (nameInput) nameInput.value = names || 'None Selected';
+      if (priceInput) priceInput.value = total;
+
+      if (selectedMeals.length === 0) {
+        pillsContainer.innerHTML = '<span style="font-size: 0.85rem; color: var(--color-text-muted);">Please click on any meal card above to add items to your sponsorship.</span>';
+      } else {
+        pillsContainer.innerHTML = selectedMeals.map(item => `
+          <span class="meal-pill-item">
+            ${item.name} (₹${item.price.toLocaleString('en-IN')})
+            <span class="meal-pill-remove" onclick="removeMeal('${item.name.replace(/'/g, "\\'")}')" title="Remove">&times;</span>
+          </span>
+        `).join('');
+      }
+
+      // Sync active/selected state on all cards
+      document.querySelectorAll('#mealsTiersGrid .tier-card').forEach(card => {
+        const cName = card.getAttribute('data-name');
+        if (selectedMeals.some(m => m.name === cName)) {
+          card.classList.add('active', 'selected');
+        } else {
+          card.classList.remove('active', 'selected');
+        }
+      });
+    }
+
+    function toggleTier(card) {
+      const name = card.getAttribute('data-name');
+      const price = parseInt(card.getAttribute('data-price'), 10);
+      const existingIndex = selectedMeals.findIndex(m => m.name === name);
+
+      if (existingIndex > -1) {
+        selectedMeals.splice(existingIndex, 1);
+      } else {
+        selectedMeals.push({ name, price });
+      }
+
+      renderSelectedMeals();
+    }
+
+    function removeMeal(name) {
+      selectedMeals = selectedMeals.filter(m => m.name !== name);
+      renderSelectedMeals();
+    }
+
+    function selectAllDayMeals() {
+      selectedMeals = [
+        { name: 'Usual Breakfast', price: 3500 },
+        { name: 'Lunch with Vadai & Payasam', price: 6500 },
+        { name: 'Evening Snacks', price: 2500 },
+        { name: 'Usual Dinner', price: 5000 },
+        { name: 'Ice-Cream', price: 4500 }
+      ];
+      renderSelectedMeals();
+    }
+
+    function filterMeals(category, btn) {
+      document.querySelectorAll('.meal-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#mealsTiersGrid .tier-card').forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Call on load
+    renderSelectedMeals();
+
+    async function handleMealBooking(e) {
+      e.preventDefault();
+      const btn = document.getElementById('sSubmitBtn');
+      const oldText = btn.innerText;
+      btn.disabled = true;
+      btn.innerText = 'Reserving Meal...';
+
+      const payload = {
+        sponsor_name: document.getElementById('sName').value.trim(),
+        sponsor_phone: document.getElementById('sPhone').value.trim(),
+        sponsor_email: document.getElementById('sEmail').value.trim(),
+        sponsor_date: document.getElementById('sDate').value,
+        occasion: document.getElementById('sOccasion').value,
+        selected_items: document.getElementById('tierName').value,
+        total_amount: parseFloat(document.getElementById('tierPrice').value),
+        notes: document.getElementById('sNotes').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/meals/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('mId').innerText = data.id;
+          document.getElementById('mName').innerText = payload.sponsor_name;
+          document.getElementById('mDate').innerText = payload.sponsor_date;
+          document.getElementById('mTier').innerText = payload.selected_items;
+          document.getElementById('mAmount').innerText = '₹' + payload.total_amount.toLocaleString('en-IN');
+          document.getElementById('mealModal').classList.add('show');
+          document.getElementById('mealForm').reset();
+        } else {
+          alert(data.error || 'Failed to submit booking');
+        }
+      } catch (err) {
+        alert('Server connection error. Please call +91 96772 38998.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = oldText;
+      }
+    }
+  </script>
+</body>
+</html>

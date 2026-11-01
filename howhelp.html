@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>How Can You Help | Prema Vasam • A Home of Love</title>
+  <meta name="description" content="Bank of Baroda details for domestic donors and SBI FCRA account for NRI international donations. Register your contribution for 80G tax exemption.">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+
+  <!-- Yuna Nature Typography: Fraunces & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Banking Card Enhancements */
+    .bank-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .bank-card {
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .bank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+    .bank-badge-dom {
+      background: var(--color-primary-soft);
+      color: var(--color-primary-deep);
+      border: 1px solid rgba(10, 154, 72, 0.2);
+    }
+    .bank-badge-fcra {
+      background: #eef2fa;
+      color: #1e3a8a;
+      border: 1px solid rgba(30, 58, 138, 0.2);
+    }
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--color-border);
+      font-size: 0.92rem;
+    }
+    .bank-row:last-child {
+      border-bottom: none;
+    }
+    .bank-row .label {
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+    .bank-row .val {
+      font-weight: 700;
+      color: var(--color-primary-deep);
+      font-family: monospace, monospace;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-pill {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-mid);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-pill:hover {
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+    .preset-pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .preset-pill {
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      background: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-mid);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .preset-pill:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    .preset-pill.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <aside class="top-bar">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="tel:+919677238998">
+          <i data-lucide="phone-call" style="width: 14px; height: 14px;"></i> +91 96772 38998 (9 AM – 8 PM)
+        </a>
+        <a href="mailto:premavasam1999@gmail.com">
+          <i data-lucide="mail" style="width: 14px; height: 14px;"></i> premavasam1999@gmail.com
+        </a>
+        <span>📍 Gerugambakkam, Porur, Chennai - 600128</span>
+      </div>
+      <div class="top-socials">
+        <span>"To Serve... Not to be Served" · Est. June 2, 1999</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="/images/logo.png" alt="Prema Vasam Logo" class="brand-emblem">
+        <div class="brand-text">
+          <h1>PREMA VASAM</h1>
+          <span>Home for Special &amp; Abandoned Children</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/sponsormeals">Sponsor Meals</a></li>
+          <li><a href="/activities">Activities</a></li>
+          <li><a href="/achievements">Achievements</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/volunteers">Volunteers</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/howhelp" class="btn btn-tertiary">❤️ Donate Now</a>
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="section" style="padding: 70px 0 40px; text-align: center;">
+      <div class="container">
+        <span class="section-tag">Transparent Giving</span>
+        <h1 class="section-title">How Can You Help &amp; Support Us</h1>
+        <p class="section-desc" style="max-width: 780px; margin: 0 auto;">
+          Every rupee, dollar, or euro directly funds nutritious meals, specialized therapy equipment, emergency pediatric healthcare, and compassionate lifetime care for over 200 special children.
+        </p>
+      </div>
+    </section>
+
+    <!-- Official Bank Accounts (Domestic & FCRA) -->
+    <section class="section section-alt" style="padding-top: 40px;">
+      <div class="container">
+        <div class="bank-grid">
+          
+          <!-- Domestic Banking Card -->
+          <div class="bank-card">
+            <span class="bank-badge bank-badge-dom">
+              <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> 🇮🇳 Domestic Donors (NEFT / RTGS / IMPS / UPI)
+            </span>
+            <h3 style="font-size: 1.55rem; color: var(--color-primary-deep); margin-bottom: 8px;">Bank of Baroda</h3>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 20px;">
+              For all Indian donors. Contributions eligible for 50% tax exemption under Section 80G.
+            </p>
+
+            <div class="bank-row">
+              <span class="label">Account Name</span>
+              <span class="val" style="font-family: inherit;">PREMA VASAM</span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">Account Number</span>
+              <span class="val">
+                20460100001458
+                <button type="button" class="copy-pill" onclick="copyValue('20460100001458')">
+                  <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                </button>
+              </span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">IFSC Code</span>
+              <span class="val">
+                BARB0KOVOOR
+                <button type="button" class="copy-pill" onclick="copyValue('BARB0KOVOOR')">
+                  <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                </button>
+              </span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">Branch</span>
+              <span class="val" style="font-family: inherit;">Kovoor, Chennai</span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">Account Type</span>
+              <span class="val" style="font-family: inherit;">Savings Bank Account</span>
+            </div>
+
+            <div style="margin-top: 24px; padding: 14px; background: var(--color-bg); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-primary-deep);">
+              💡 <em>Note: The 5th character of the IFSC is the number zero (0).</em>
+            </div>
+          </div>
+
+          <!-- FCRA International Card -->
+          <div class="bank-card" id="nri">
+            <span class="bank-badge bank-badge-fcra">
+              <i data-lucide="globe" style="width: 14px; height: 14px;"></i> 🌍 NRI &amp; International Donors (FCRA Approved)
+            </span>
+            <h3 style="font-size: 1.55rem; color: var(--color-primary-deep); margin-bottom: 8px;">State Bank of India</h3>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 20px;">
+              Designated MHA FCRA account for direct foreign remittances from US, UK, Europe, Australia, etc.
+            </p>
+
+            <div class="bank-row">
+              <span class="label">Account Name</span>
+              <span class="val" style="font-family: inherit;">PREM CHARITABLE TRUST</span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">Account Number</span>
+              <span class="val">
+                40172248120
+                <button type="button" class="copy-pill" onclick="copyValue('40172248120')">
+                  <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                </button>
+              </span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">SWIFT Code</span>
+              <span class="val">
+                SBININBB104
+                <button type="button" class="copy-pill" onclick="copyValue('SBININBB104')">
+                  <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                </button>
+              </span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">IFSC Code</span>
+              <span class="val">
+                SBIN0000691
+                <button type="button" class="copy-pill" onclick="copyValue('SBIN0000691')">
+                  <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                </button>
+              </span>
+            </div>
+
+            <div class="bank-row">
+              <span class="label">Bank Branch</span>
+              <span class="val" style="font-family: inherit; font-size: 0.85rem;">New Delhi Main Branch (00691), 11 Sansad Marg</span>
+            </div>
+
+            <div style="margin-top: 24px; padding: 14px; background: #f0f4fc; border-radius: var(--radius-sm); font-size: 0.85rem; color: #1e3a8a;">
+              🏛️ <em>Mandatory designated branch in accordance with MHA FCRA guidelines for foreign inward donations.</em>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contribution Registration Form (posts to /api/donations/record) -->
+    <section class="section" id="register-form">
+      <div class="container">
+        <div class="donate-box" style="padding: 50px;">
+          <div style="text-align: center; margin-bottom: 36px;">
+            <span class="section-tag">80G Tax Exemption &amp; Acknowledgment</span>
+            <h2 style="font-size: 2.2rem; color: var(--color-primary-deep); margin-bottom: 12px;">Register Your Contribution</h2>
+            <p style="color: var(--color-text-mid); max-width: 680px; margin: 0 auto;">
+              Whether you have completed an online bank transfer (UPI, NEFT, IMPS) or an international FCRA remittance, register your details below so our accounts team can issue your official 80G tax receipt and thank-you letter.
+            </p>
+          </div>
+
+          <!-- Quick Amount Presets -->
+          <div style="text-align: center; margin-bottom: 16px;">
+            <span style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">Select Contribution Amount:</span>
+            <div class="preset-pill-row" style="justify-content: center;">
+              <button type="button" class="preset-pill" onclick="selectDonationPreset(1000, this)">₹1,000</button>
+              <button type="button" class="preset-pill" onclick="selectDonationPreset(2500, this)">₹2,500</button>
+              <button type="button" class="preset-pill active" onclick="selectDonationPreset(5000, this)">₹5,000</button>
+              <button type="button" class="preset-pill" onclick="selectDonationPreset(10000, this)">₹10,000</button>
+              <button type="button" class="preset-pill" onclick="selectDonationPreset(25000, this)">₹25,000</button>
+            </div>
+          </div>
+
+          <form id="donationForm" onsubmit="handleDonationSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="dAmount">Contribution Amount (₹) *</label>
+                <input type="number" id="dAmount" class="form-input" value="5000" min="100" step="100" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="dTransferType">Transfer Method *</label>
+                <select id="dTransferType" class="form-select" required>
+                  <option value="UPI (GPay / PhonePe / Paytm)" selected>UPI (GPay / PhonePe / Paytm)</option>
+                  <option value="Bank of Baroda Net Banking (NEFT/IMPS)">Bank of Baroda Net Banking (NEFT/IMPS)</option>
+                  <option value="SBI FCRA International Remittance">SBI FCRA International Remittance</option>
+                  <option value="Cheque / Demand Draft">Cheque / Demand Draft</option>
+                  <option value="Pledge — Will Transfer Soon">Pledge — Will Transfer This Week</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="dName">Donor Full Name *</label>
+                <input type="text" id="dName" class="form-input" placeholder="e.g. Anandha Krishnan" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="dEmail">Email Address (For Tax Receipt) *</label>
+                <input type="email" id="dEmail" class="form-input" placeholder="e.g. anand@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="dPhone">Mobile / WhatsApp Number</label>
+                <input type="tel" id="dPhone" class="form-input" placeholder="e.g. +91 98401 23456">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="dPan">PAN Card Number (Optional for 80G Tax Exemption)</label>
+                <input type="text" id="dPan" class="form-input" placeholder="e.g. ABCDE1234F" style="text-transform: uppercase;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="dRef">Transaction UTR / Reference No. (If already transferred)</label>
+              <input type="text" id="dRef" class="form-input" placeholder="e.g. UTR429810349812 or Bank Ref">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="dNotes">Dedication / Special Occasion / Remarks</label>
+              <textarea id="dNotes" class="form-textarea" rows="2" placeholder="e.g. In memory of my mother, on my child's birthday, or general child nutrition..."></textarea>
+            </div>
+
+            <button type="submit" id="dSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px 32px; font-size: 1.05rem;">
+              <i data-lucide="heart" style="width: 18px; height: 18px;"></i> Register Contribution &amp; Request 80G Receipt
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other Ways to Shoulder Us -->
+    <section class="section section-alt" style="padding-top: 40px;">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+          <span class="section-tag">More Ways to Help</span>
+          <h2 class="section-title">Other Ways You Can Support Our Children</h2>
+        </div>
+
+        <div class="causes-grid">
+          <!-- Meal Sponsorship -->
+          <article class="cause-card" style="padding: 34px; background: #ffffff;">
+            <div style="width: 50px; height: 50px; background: var(--color-primary-soft); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <i data-lucide="utensils" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h3 style="font-size: 1.45rem; color: var(--color-primary-deep); margin-bottom: 12px;">Sponsor Daily Meals</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-mid); line-height: 1.7; margin-bottom: 20px;">
+              Celebrate milestones, birthdays, or remembrance days by providing breakfast (from ₹3,500), lunch (from ₹5,000), dinner (from ₹5,000), or evening snacks and ice-cream for all 200 children.
+            </p>
+            <a href="/sponsormeals" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Book Meal Sponsorship &rarr;
+            </a>
+          </article>
+
+          <!-- Groceries & Provisions -->
+          <article class="cause-card" style="padding: 34px; background: #ffffff;">
+            <div style="width: 50px; height: 50px; background: var(--color-accent-soft); color: var(--color-accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <i data-lucide="gift" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h3 style="font-size: 1.45rem; color: var(--color-primary-deep); margin-bottom: 12px;">Share &amp; Care Provisions</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-mid); line-height: 1.7; margin-bottom: 20px;">
+              Send grocery staples (rice, lentils, sunflower oil, milk powder), medicines, wheelchairs, bedsheets, or adult diapers directly to our Gerugambakkam home.
+            </p>
+            <a href="/contact" class="btn btn-outline" style="width: 100%; justify-content: center;">
+              Inquire Required Items &rarr;
+            </a>
+          </article>
+
+          <!-- Volunteer -->
+          <article class="cause-card" style="padding: 34px; background: #ffffff;">
+            <div style="width: 50px; height: 50px; background: var(--color-tertiary-soft); color: var(--color-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <i data-lucide="hand-heart" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h3 style="font-size: 1.45rem; color: var(--color-primary-deep); margin-bottom: 12px;">Volunteer Your Time</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-mid); line-height: 1.7; margin-bottom: 20px;">
+              Share your skills in special education, physiotherapy, speech therapy, music, dance, art, or simply spend a joyful afternoon playing games with our kids.
+            </p>
+            <a href="/volunteers" class="btn btn-outline" style="width: 100%; justify-content: center;">
+              Join Volunteer Program &rarr;
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PREMA VASAM</h2>
+          <p>
+            A registered non-profit charitable home under Prem Charitable Trust dedicated to providing loving care, rehabilitation, special education, and lifelong dignity to over 200 children with special needs in Chennai, India.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/sponsormeals">Sponsor Meals</a></li>
+            <li><a href="/activities">Activities</a></li>
+            <li><a href="/achievements">Achievements</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <ul>
+            <li><a href="/howhelp">Donate (Domestic 80G)</a></li>
+            <li><a href="/howhelp">Donate (International FCRA)</a></li>
+            <li><a href="/sponsormeals">Meal Sponsorship</a></li>
+            <li><a href="/volunteers">Volunteer Program</a></li>
+            <li><a href="/contact">Visit Our Home</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Premavasam</h4>
+          <p style="font-size: 0.9rem; line-height: 1.7; color: #b0c2ac;">
+            No. 15, Thiru V.K.A. Road, Gerugambakkam, Porur, Chennai - 600128<br>
+            📞 +91 96772 38998<br>
+            ✉️ premavasam1999@gmail.com
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 1999–2026 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div>Designed with Yuna Nature UI Aesthetic · Built with SQLite WAL &amp; Node.js REST Backend</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Donation Confirmation Modal -->
+  <div class="modal-overlay" id="donationModal">
+    <div class="modal-card">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 56px; height: 56px; background: var(--color-primary-soft); color: var(--color-primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 12px;">
+          ✓
+        </div>
+        <h3 style="font-size: 1.8rem; color: var(--color-primary-deep);">Contribution Registered!</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem;">Heartfelt gratitude from all of us at Prema Vasam.</p>
+      </div>
+
+      <div style="background: var(--color-bg); padding: 20px; border-radius: var(--radius-md); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.8;">
+        <div><strong>Receipt ID:</strong> <span id="mDonId" style="color: var(--color-primary); font-weight: 700;"></span></div>
+        <div><strong>Donor Name:</strong> <span id="mDonName"></span></div>
+        <div><strong>Registered Amount:</strong> <span id="mDonAmount" style="font-weight: 700; color: var(--color-tertiary);"></span></div>
+      </div>
+
+      <div style="margin-bottom: 24px; font-size: 0.88rem; color: var(--color-text-mid); line-height: 1.6;">
+        Our accounts coordinator <strong>Miss Mumtaj</strong> will verify your transfer and issue your official Section 80G tax receipt to your email address. For queries, feel free to call <a href="tel:+919677238998" style="color: var(--color-primary); font-weight: 700;">+91 96772 38998</a>.
+      </div>
+
+      <button onclick="document.getElementById('donationModal').classList.remove('show')" class="btn btn-primary" style="width: 100%;">
+        Close &amp; Return
+      </button>
+    </div>
+  </div>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    // Mobile nav toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.getElementById('navMenu');
+    if (mobileBtn && navMenu) {
+      mobileBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('open');
+      });
+    }
+
+    function selectDonationPreset(amount, btn) {
+      document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('dAmount').value = amount;
+    }
+
+    function copyValue(str) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(str).then(() => {
+          alert('Copied to clipboard: ' + str);
+        }).catch(() => {
+          prompt('Copy to clipboard: Ctrl+C, Enter', str);
+        });
+      } else {
+        prompt('Copy to clipboard: Ctrl+C, Enter', str);
+      }
+    }
+
+    async function handleDonationSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('dSubmitBtn');
+      const oldHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Registering Contribution...';
+
+      const payload = {
+        donor_name: document.getElementById('dName').value.trim(),
+        donor_email: document.getElementById('dEmail').value.trim(),
+        donor_phone: document.getElementById('dPhone').value.trim(),
+        amount: parseFloat(document.getElementById('dAmount').value) || 0,
+        transfer_type: document.getElementById('dTransferType').value,
+        pan_number: document.getElementById('dPan').value.trim().toUpperCase(),
+        reference_number: document.getElementById('dRef').value.trim(),
+        notes: document.getElementById('dNotes').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/donations/record', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('mDonId').innerText = data.id;
+          document.getElementById('mDonName').innerText = payload.donor_name;
+          document.getElementById('mDonAmount').innerText = '₹' + payload.amount.toLocaleString('en-IN');
+          document.getElementById('donationModal').classList.add('show');
+          document.getElementById('donationForm').reset();
+        } else {
+          alert(data.error || 'Failed to register donation');
+        }
+      } catch (err) {
+        alert('Server connection error. Please call +91 96772 38998.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+  </script>
+</body>
+</html>

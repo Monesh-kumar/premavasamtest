@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Photo Gallery | Prema Vasam • A Home of Love</title>
+  <meta name="description" content="View authentic photos of classrooms, daily therapies, sports meets, and festive Diwali celebrations at Prema Vasam in Chennai.">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+
+  <!-- Yuna Nature Typography: Fraunces & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <aside class="top-bar">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="tel:+919677238998">
+          <i data-lucide="phone-call" style="width: 14px; height: 14px;"></i> +91 96772 38998 (9 AM – 8 PM)
+        </a>
+        <a href="mailto:premavasam1999@gmail.com">
+          <i data-lucide="mail" style="width: 14px; height: 14px;"></i> premavasam1999@gmail.com
+        </a>
+        <span>📍 Gerugambakkam, Porur, Chennai - 600128</span>
+      </div>
+      <div class="top-socials">
+        <span>"To Serve... Not to be Served" · Est. June 2, 1999</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="/images/logo.png" alt="Prema Vasam Logo" class="brand-emblem">
+        <div class="brand-text">
+          <h1>PREMA VASAM</h1>
+          <span>Home for Special &amp; Abandoned Children</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/sponsormeals">Sponsor Meals</a></li>
+          <li><a href="/activities">Activities</a></li>
+          <li><a href="/achievements">Achievements</a></li>
+          <li><a href="/gallery" class="active">Gallery</a></li>
+          <li><a href="/volunteers">Volunteers</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/howhelp" class="btn btn-tertiary">❤️ Donate Now</a>
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header Banner -->
+    <section class="section" style="padding: 70px 0 40px; text-align: center;">
+      <div class="container">
+        <span class="section-tag">Moments of Light &amp; Joy</span>
+        <h1 class="section-title">Photo Gallery &amp; Albums</h1>
+        <p class="section-desc" style="max-width: 780px; margin: 0 auto;">
+          Glimpses into the daily life, special education, athletic triumphs, and joyful festivals of our 200+ inspiring children.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filterable Gallery Section -->
+    <section class="section section-alt" style="padding-top: 30px;">
+      <div class="container">
+        <div class="gallery-filters">
+          <button class="filter-btn active" onclick="filterGallery('all', this)">All Moments (24)</button>
+          <button class="filter-btn" onclick="filterGallery('education', this)">Classrooms &amp; Learning</button>
+          <button class="filter-btn" onclick="filterGallery('festivals', this)">Diwali &amp; Celebrations</button>
+          <button class="filter-btn" onclick="filterGallery('sports', this)">Sports Meets &amp; Medals</button>
+          <button class="filter-btn" onclick="filterGallery('children', this)">Loving Smiles</button>
+        </div>
+
+        <div class="gallery-grid" id="fullGalleryGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="modal-overlay" id="galleryLightbox" onclick="handleLightboxClick(event)">
+    <div style="position: relative; max-width: 920px; width: 100%; text-align: center;">
+      <img id="lbImage" src="" alt="Gallery Image" style="max-height: 82vh; margin: 0 auto; border-radius: var(--radius-lg); box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <h4 id="lbCaption" style="color: #ffffff; font-family: var(--font-heading); margin-top: 16px; font-size: 1.3rem;"></h4>
+      <button onclick="closeLightboxDirect()" style="position: absolute; top: -45px; right: 0; background: none; border: none; color: #ffffff; font-size: 2.2rem; cursor: pointer;">✕</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PREMA VASAM</h2>
+          <p>
+            A registered non-profit charitable home under Prem Charitable Trust dedicated to providing loving care, rehabilitation, special education, and lifelong dignity to over 200 children with special needs in Chennai, India.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/sponsormeals">Sponsor Meals</a></li>
+            <li><a href="/activities">Activities</a></li>
+            <li><a href="/achievements">Achievements</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <ul>
+            <li><a href="/howhelp">Donate (Domestic 80G)</a></li>
+            <li><a href="/howhelp">Donate (International FCRA)</a></li>
+            <li><a href="/sponsormeals">Meal Sponsorship</a></li>
+            <li><a href="/volunteers">Volunteer Program</a></li>
+            <li><a href="/contact">Visit Our Home</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Premavasam</h4>
+          <p style="font-size: 0.9rem; line-height: 1.7; color: #b0c2ac;">
+            No. 15, Thiru V.K.A. Road, Gerugambakkam, Porur, Chennai - 600128<br>
+            📞 +91 96772 38998<br>
+            ✉️ premavasam1999@gmail.com
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 1999–2026 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div>Designed with Yuna Nature UI Aesthetic · Built with SQLite WAL &amp; Node.js REST Backend</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    const ALL_PHOTOS = [
+      // Education
+      { src: '/images/gallery/school_1.jpg', title: 'Classroom Alphabet & ADL Training', cat: 'education' },
+      { src: '/images/gallery/school_2.jpg', title: 'Creative Art & Clay Modeling', cat: 'education' },
+      { src: '/images/gallery/school_3.jpg', title: 'Sensory Therapy & Special Teaching Aids', cat: 'education' },
+      { src: '/images/gallery/school_4.jpg', title: 'Individual Study & Cognitive Practice', cat: 'education' },
+      { src: '/images/gallery/school_5.jpg', title: 'Writing Guidance & Fine Motor Skills', cat: 'education' },
+      // Festivals
+      { src: '/images/gallery/diwali_1.jpg', title: 'Diwali Sparklers & Celebrations', cat: 'festivals' },
+      { src: '/images/gallery/diwali_2.jpg', title: 'Traditional Pongal Pot Feasts', cat: 'festivals' },
+      { src: '/images/gallery/diwali_3.jpg', title: 'Cultural Music & Dance Recitals', cat: 'festivals' },
+      { src: '/images/gallery/diwali_4.jpg', title: 'Children Lighting Clay Diyas', cat: 'festivals' },
+      { src: '/images/gallery/diwali_5.jpg', title: 'Festive Clothes & Joyful Gatherings', cat: 'festivals' },
+      { src: '/images/gallery/diwali_6.jpg', title: 'Sharing Sweets with Caregivers', cat: 'festivals' },
+      // Sports
+      { src: '/images/gallery/sports_1.jpg', title: 'Running Race on World Disabled Day', cat: 'sports' },
+      { src: '/images/gallery/sports_2.jpg', title: 'Special Olympics Gold & Silver Medals', cat: 'sports' },
+      { src: '/images/gallery/sports_3.jpg', title: 'Wheelchair Assisted Sprint Competitions', cat: 'sports' },
+      { src: '/images/gallery/sports_4.jpg', title: 'Shot Put and Throw Ball Training', cat: 'sports' },
+      { src: '/images/gallery/sports_5.jpg', title: 'Medal Presentation Ceremony', cat: 'sports' },
+      { src: '/images/gallery/sports_6.jpg', title: 'Athletic Team Victory Celebration', cat: 'sports' },
+      // Children
+      { src: '/images/gallery/children_1.jpg', title: 'Loving Morning Greetings', cat: 'children' },
+      { src: '/images/gallery/children_2.jpg', title: 'Group Play & Affection', cat: 'children' },
+      { src: '/images/gallery/children_3.jpg', title: 'Nurtured in Love and Security', cat: 'children' },
+      { src: '/images/gallery/children_4.jpg', title: 'Playful Laughter & Games', cat: 'children' },
+      { src: '/images/gallery/children_5.jpg', title: 'Gentle Care & Endless Smiles', cat: 'children' }
+    ];
+
+    function filterGallery(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPhotos(cat);
+    }
+
+    function renderPhotos(filter = 'all') {
+      const grid = document.getElementById('fullGalleryGrid');
+      const filtered = filter === 'all' ? ALL_PHOTOS : ALL_PHOTOS.filter(p => p.cat === filter);
+      grid.innerHTML = filtered.map(p => `
+        <div class="gallery-card" onclick="openPhotoModal('${p.src}', '${p.title.replace(/'/g, "\\'")}')">
+          <img src="${p.src}" alt="${p.title}" loading="lazy">
+          <div class="gallery-overlay">
+            <h5>${p.title}</h5>
+          </div>
+        </div>
+      `).join('');
+    }
+    renderPhotos();
+
+    function openPhotoModal(src, title) {
+      document.getElementById('lbImage').src = src;
+      document.getElementById('lbCaption').innerText = title;
+      document.getElementById('galleryLightbox').classList.add('show');
+    }
+
+    function closeLightboxDirect() {
+      document.getElementById('galleryLightbox').classList.remove('show');
+    }
+
+    function handleLightboxClick(e) {
+      if (e.target.id === 'galleryLightbox') {
+        closeLightboxDirect();
+      }
+    }
+  </script>
+</body>
+</html>
