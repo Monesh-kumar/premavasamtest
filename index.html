@@ -238,7 +238,7 @@
         </div>
 
         <p style="text-align: center; font-size: 0.95rem; color: var(--color-primary-deep); margin-bottom: 24px;">
-          💡 <strong>Select one or multiple meal items below</strong> to customize your sponsorship (e.g. Breakfast + Lunch + Ice-Cream).
+          🍲 <strong>Daily Nutritious Meal Tariffs:</strong> Browse our freshly cooked menu options below. To book your sponsorship date, please call or WhatsApp our management team directly.
         </p>
 
         <!-- Category Filter Bar -->
@@ -253,16 +253,14 @@
         <div class="meals-container">
           <div class="meals-tiers-grid" id="homeMealsGrid">
             <!-- Breakfast -->
-            <div class="tier-card active selected" data-category="breakfast" data-name="Usual Breakfast" data-price="3500" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="breakfast">
               <span class="tier-badge">Morning</span>
               <h4>Usual Breakfast</h4>
               <div class="tier-price">₹3,500</div>
               <div class="tier-desc">Idli, Medu Vada, Sambar, Chutney, Pongal &amp; Hot Milk</div>
             </div>
 
-            <div class="tier-card" data-category="breakfast" data-name="Breakfast with sweet" data-price="4000" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="breakfast">
               <span class="tier-badge">With Sweet</span>
               <h4>Breakfast with sweet</h4>
               <div class="tier-price">₹4,000</div>
@@ -270,24 +268,21 @@
             </div>
 
             <!-- Lunch -->
-            <div class="tier-card" data-category="lunch" data-name="Usual Lunch" data-price="5000" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="lunch">
               <span class="tier-badge">Standard</span>
               <h4>Usual Lunch</h4>
               <div class="tier-price">₹5,000</div>
               <div class="tier-desc">Steamed Rice, Sambar, Rasam, 2 Vegetable Curries &amp; Appalam</div>
             </div>
 
-            <div class="tier-card" data-category="lunch" data-name="Lunch with Vadai &amp; Payasam" data-price="6500" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="lunch">
               <span class="tier-badge">Festive Feast</span>
               <h4>Lunch with Vadai &amp; Payasam</h4>
               <div class="tier-price">₹6,500</div>
               <div class="tier-desc">Traditional Full Meals, 2 Curries, Crispy Vadai &amp; Sweet Payasam</div>
             </div>
 
-            <div class="tier-card" data-category="lunch" data-name="Non-Veg Lunch" data-price="9000" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="lunch">
               <span class="tier-badge" style="background: var(--color-tertiary);">Non-Veg</span>
               <h4>Non-Veg Lunch</h4>
               <div class="tier-price">₹9,000</div>
@@ -295,24 +290,21 @@
             </div>
 
             <!-- Dinner -->
-            <div class="tier-card" data-category="dinner" data-name="Usual Dinner" data-price="5000" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="dinner">
               <span class="tier-badge">Evening</span>
               <h4>Usual Dinner</h4>
               <div class="tier-price">₹5,000</div>
               <div class="tier-desc">Hot Chapati, Dal, Variety Rice / Tiffin, Chutney &amp; Warm Milk</div>
             </div>
 
-            <div class="tier-card" data-category="dinner" data-name="Dinner with Vadai &amp; Payasam" data-price="6500" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="dinner">
               <span class="tier-badge">Festive</span>
               <h4>Dinner with Vadai &amp; Payasam</h4>
               <div class="tier-price">₹6,500</div>
               <div class="tier-desc">Dinner Tiffin / Meals with Crispy Vadai &amp; Delicious Payasam</div>
             </div>
 
-            <div class="tier-card" data-category="dinner" data-name="Non-Veg Dinner" data-price="9000" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="dinner">
               <span class="tier-badge" style="background: var(--color-tertiary);">Non-Veg</span>
               <h4>Non-Veg Dinner</h4>
               <div class="tier-price">₹9,000</div>
@@ -320,16 +312,14 @@
             </div>
 
             <!-- Snacks & Ice-Cream -->
-            <div class="tier-card" data-category="snacks" data-name="Evening Snacks" data-price="2500" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="snacks">
               <span class="tier-badge" style="background: var(--color-accent-gold);">Snacks</span>
               <h4>Evening Snacks</h4>
               <div class="tier-price">₹2,500</div>
               <div class="tier-desc">Hot Sundal, Tea / Boost / Horlicks, Biscuits &amp; Evening Snack</div>
             </div>
 
-            <div class="tier-card" data-category="snacks" data-name="Ice-Cream" data-price="4500" onclick="toggleHomeMeal(this)">
-              <div class="tier-check-indicator">✓</div>
+            <div class="tier-card" data-category="snacks">
               <span class="tier-badge" style="background: #e11d48;">Special Treat</span>
               <h4>Ice-Cream</h4>
               <div class="tier-price">₹4,500</div>
@@ -337,81 +327,39 @@
             </div>
           </div>
 
-          <div class="booking-form-box">
-            <h3>Reserve Your Sponsorship Date</h3>
-            <form id="mealBookingForm" onsubmit="submitMealBooking(event)">
-              <input type="hidden" id="selectedTierName" value="Usual Breakfast">
-              <input type="hidden" id="selectedTierPrice" value="3500">
+          <!-- Prominent Call to Book Box -->
+          <div class="booking-call-box">
+            <div class="booking-call-badge">
+              <span>📞 Dedicated Date Reservation</span>
+            </div>
+            <h3 class="booking-call-title">Call Us Directly to Book Your Meal Sponsorship</h3>
+            <p class="booking-call-desc">
+              To reserve a specific calendar date (birthday, wedding anniversary, or memorial day), check date availability, and dedicate a special prayer for your family, please contact our coordinators directly by phone or WhatsApp:
+            </p>
 
-              <!-- Selected Items Pills Box -->
-              <div class="selected-meals-box">
-                <div class="selected-meals-header">
-                  <span>Selected Meals (<span id="homeSelectedCount">1</span>):</span>
-                  <button type="button" onclick="selectAllDayHomeMeals()" style="background: none; border: none; color: var(--color-primary); font-size: 0.85rem; font-weight: 700; cursor: pointer;">
-                    + Select Full Day Special
-                  </button>
-                </div>
-                <div class="selected-meals-pills" id="homeSelectedPills">
-                  <span class="meal-pill-item">
-                    Usual Breakfast (₹3,500)
-                    <span class="meal-pill-remove" onclick="removeHomeMeal('Usual Breakfast')">&times;</span>
-                  </span>
-                </div>
-              </div>
+            <div class="booking-call-actions">
+              <a href="tel:+919677238998" class="btn btn-primary">
+                <span>📞</span> Call +91 96772 38998
+              </a>
+              <a href="https://wa.me/919677238998?text=Vanakkam%20Prema%20Vasam,%20I%20would%20like%20to%20book%20a%20meal%20sponsorship%20date%20for%20the%20children." target="_blank" class="btn btn-whatsapp">
+                <span>💬</span> WhatsApp: +91 96772 38998
+              </a>
+              <a href="tel:04423820454" class="btn btn-outline">
+                <span>☎️</span> Landline: 044 2382 0454
+              </a>
+            </div>
 
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Sponsor Full Name *</label>
-                  <input type="text" id="mealSponsorName" class="form-input" placeholder="e.g. Anand &amp; Divya" required>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Contact Phone Number *</label>
-                  <input type="tel" id="mealSponsorPhone" class="form-input" placeholder="e.g. 9840123456" required>
-                </div>
+            <div class="booking-call-meta">
+              <div class="meta-item">
+                <span>⏰ <strong>Coordinators Available:</strong> 9:00 AM – 8:00 PM IST (Mon – Sun)</span>
               </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Email Address</label>
-                  <input type="email" id="mealSponsorEmail" class="form-input" placeholder="e.g. anand@example.com">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Preferred Date *</label>
-                  <input type="date" id="mealSponsorDate" class="form-input" required>
-                </div>
+              <div class="meta-item">
+                <span>📍 <strong>Location:</strong> Gerugambakkam, Porur, Chennai – 600128</span>
               </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Occasion / Blessing</label>
-                  <select id="mealOccasion" class="form-select">
-                    <option value="Birthday">Birthday Celebration</option>
-                    <option value="Wedding Anniversary">Wedding Anniversary</option>
-                    <option value="Remembrance">Memorial / In Loving Memory</option>
-                    <option value="Gratitude">Thanksgiving &amp; Gratitude</option>
-                    <option value="General">General Blessing for Children</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Total Sponsorship Amount</label>
-                  <input type="text" id="mealTotalDisplay" class="form-input" value="₹3,500" readonly style="font-weight: 700; color: var(--color-tertiary); background: #fdfaf6;">
-                </div>
+              <div class="meta-item">
+                <span>💳 <strong>Contribution Modes:</strong> Bank of Baroda direct transfer / UPI / Cheque</span>
               </div>
-
-              <div class="form-group">
-                <label class="form-label">Dedication Notes / Special Instructions</label>
-                <textarea id="mealNotes" class="form-textarea" rows="3" placeholder="Names of family members for children's prayer, visit plans, etc."></textarea>
-              </div>
-
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-                <span style="font-size: 0.88rem; color: var(--color-text-muted);">
-                  💡 Direct Bank Transfer details will be presented upon confirming.
-                </span>
-                <button type="submit" id="mealSubmitBtn" class="btn btn-primary">
-                  Confirm Meal Reservation →
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -808,85 +756,7 @@
       }
     }
 
-    // Multiple Meal Selection Engine (Home)
-    let homeSelectedMeals = [
-      { name: 'Usual Breakfast', price: 3500 }
-    ];
-
-    function renderHomeSelectedMeals() {
-      const pillsContainer = document.getElementById('homeSelectedPills');
-      const countSpan = document.getElementById('homeSelectedCount');
-      const totalInput = document.getElementById('mealTotalDisplay');
-      const nameInput = document.getElementById('selectedTierName');
-      const priceInput = document.getElementById('selectedTierPrice');
-
-      if (!pillsContainer) return;
-
-      const total = homeSelectedMeals.reduce((sum, item) => sum + item.price, 0);
-      const names = homeSelectedMeals.map(i => i.name).join(' + ');
-
-      if (countSpan) countSpan.innerText = homeSelectedMeals.length;
-      if (totalInput) totalInput.value = '₹' + total.toLocaleString('en-IN');
-      if (nameInput) nameInput.value = names || 'None Selected';
-      if (priceInput) priceInput.value = total;
-
-      if (homeSelectedMeals.length === 0) {
-        pillsContainer.innerHTML = '<span style="font-size: 0.85rem; color: var(--color-text-muted);">Please click on any meal card above to add items to your sponsorship.</span>';
-      } else {
-        pillsContainer.innerHTML = homeSelectedMeals.map(item => `
-          <span class="meal-pill-item">
-            ${item.name} (₹${item.price.toLocaleString('en-IN')})
-            <span class="meal-pill-remove" onclick="removeHomeMeal('${item.name.replace(/'/g, "\\'")}')" title="Remove">&times;</span>
-          </span>
-        `).join('');
-      }
-
-      // Sync active/selected state on all cards
-      document.querySelectorAll('#homeMealsGrid .tier-card').forEach(card => {
-        const cName = card.getAttribute('data-name');
-        if (homeSelectedMeals.some(m => m.name === cName)) {
-          card.classList.add('active', 'selected');
-        } else {
-          card.classList.remove('active', 'selected');
-        }
-      });
-    }
-
-    function toggleHomeMeal(card) {
-      const name = card.getAttribute('data-name');
-      const price = parseInt(card.getAttribute('data-price'), 10);
-      const existingIndex = homeSelectedMeals.findIndex(m => m.name === name);
-
-      if (existingIndex > -1) {
-        if (homeSelectedMeals.length === 1) {
-          // Allow toggling off
-          homeSelectedMeals.splice(existingIndex, 1);
-        } else {
-          homeSelectedMeals.splice(existingIndex, 1);
-        }
-      } else {
-        homeSelectedMeals.push({ name, price });
-      }
-
-      renderHomeSelectedMeals();
-    }
-
-    function removeHomeMeal(name) {
-      homeSelectedMeals = homeSelectedMeals.filter(m => m.name !== name);
-      renderHomeSelectedMeals();
-    }
-
-    function selectAllDayHomeMeals() {
-      homeSelectedMeals = [
-        { name: 'Usual Breakfast', price: 3500 },
-        { name: 'Lunch with Vadai & Payasam', price: 6500 },
-        { name: 'Evening Snacks', price: 2500 },
-        { name: 'Usual Dinner', price: 5000 },
-        { name: 'Ice-Cream', price: 4500 }
-      ];
-      renderHomeSelectedMeals();
-    }
-
+    // Meal Filtering by Category
     function filterHomeMeals(category, btn) {
       document.querySelectorAll('.meal-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -898,9 +768,6 @@
         }
       });
     }
-
-    // Call on load
-    renderHomeSelectedMeals();
 
     // Donation Tab Switching
     function switchDonationTab(tab, btn) {

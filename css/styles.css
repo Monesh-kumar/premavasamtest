@@ -698,18 +698,105 @@ img {
   border-radius: var(--radius-lg);
   padding: 24px 20px;
   text-align: center;
-  cursor: pointer;
+  cursor: default;
   transition: var(--transition);
   position: relative;
 }
 
-.tier-card:hover,
-.tier-card.active,
-.tier-card.selected {
+.tier-card:hover {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(10, 154, 72, 0.14);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(10, 154, 72, 0.1);
+}
+
+/* ── CALL TO BOOK MEAL BOX ── */
+.booking-call-box {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary-soft);
+  border-radius: var(--radius-xl);
+  padding: 38px 32px;
+  box-shadow: var(--shadow-md);
+  margin-top: 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-call-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-gold), var(--color-tertiary));
+}
+
+.booking-call-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-deep);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.booking-call-title {
+  font-size: 1.8rem;
+  color: var(--color-primary-deep);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.booking-call-desc {
+  font-size: 1.02rem;
+  color: var(--color-text-mid);
+  max-width: 680px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+.booking-call-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.btn-whatsapp {
+  background: #25D366 !important;
+  color: #ffffff !important;
+  border-color: #25D366 !important;
+}
+
+.btn-whatsapp:hover {
+  background: #1EBE5D !important;
+  border-color: #1EBE5D !important;
+  transform: translateY(-2px);
+}
+
+.booking-call-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.booking-call-meta .meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .tier-check-indicator {
