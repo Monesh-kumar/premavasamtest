@@ -2,7 +2,12 @@
 node_modules/
 package-lock.json
 
-# SQLite WAL temporary cache
+# Environment Secrets
+.env
+.env.*
+!.env.example
+
+# SQLite Database Caches & Local Locks
 database.sqlite-shm
 database.sqlite-wal
 

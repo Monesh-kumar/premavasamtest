@@ -9,30 +9,133 @@
 
 This repository contains the full-stack web application for **Premavasam**, meticulously rebuilt and styled using the **Yuna Nature organic design system** (inspired by Anariel Design's Yuna Nature block theme).
 
-The application is completely self-contained with **zero external npm dependencies**, powered by Node.js and a high-performance **SQLite database running in Write-Ahead Logging (WAL) mode**.
+The application is completely self-contained with **zero external npm dependencies**, powered by Node.js and a high-performance **SQLite database running in Write-Ahead Logging (WAL) mode**, fully hardened for enterprise domain deployment and cyber attack prevention.
 
 ---
 
-## Key Features
+## 🛡️ Cyber Security Hardening & Attack Prevention
 
-- **Yuna Nature Organic Design Language**:
-  - **Typography**: Fraunces display serif (`font-family: 'Fraunces', serif`) paired with Outfit geometric sans (`font-family: 'Outfit', sans-serif`).
-  - **Color Palette**: Nature Green (`#0a9a48`), Deep Forest (`#183a22`), Terracotta (`#db3a0e`), Warm Gold (`#c89344`), and Linen/Cream (`#f8f5ef`).
-  - **Interactive Elements**: 100px pill buttons, subtle hairline cards with 16–32px radii, sticky navbars with active page states.
-- **Multi-Select Meal Sponsorship**:
-  - Interactive tariff cards across 10 menu tiers (Breakfast, Festive Lunch, Non-Veg Feasts, Dinner, Evening Snacks, and Ice-Cream).
-  - Multi-select capability allowing donors to sponsor any custom combination (e.g. Breakfast + Special Lunch + Ice-Cream) with live dynamic total calculation and itemized removal pills.
-- **Transparent Donation Channels**:
-  - 🇮🇳 **Domestic Banking**: Bank of Baroda account with 1-click clipboard copy and Section 80G tax exemption registration form.
-  - 🌍 **International Giving**: Ministry of Home Affairs approved State Bank of India FCRA account with SWIFT and IFSC codes.
-- **Pioneers of Love & Clinical Care**:
-  - Dedicated leadership profiles featuring Founder Mr. Selvyn Roy, Director Indra, and General Coordinator Miss Mumtaj.
-  - Complete showcase of clinical therapies: Physiotherapy, Occupational Therapy, Speech Therapy, Special Education, Dance & Music Therapy, and Vocational Training.
-- **Filterable Media Gallery**:
-  - Tabbed photo gallery with fullscreen modal lightbox.
-- **Zero-Dependency Architecture**:
-  - Built-in SQLite via Node.js `node:sqlite` (`DatabaseSync`).
-  - WAL journal mode for instantaneous read/write concurrency.
+The backend and frontend have been audited and hardened against top cyber threats (OWASP Top 10):
+
+1. **Information Leakage & Sensitive File Protection**:
+   - Direct static file downloads of `database.sqlite`, `database.sqlite-wal`, `server.js`, `package.json`, `.env`, and git metadata (`.git/`) are strictly blocked (`403 Forbidden`).
+   - Strict whitelist for allowed static extensions (`.html`, `.css`, `.js`, `.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`, `.ico`).
+2. **Path Traversal & Directory Traversal Shield**:
+   - Resolves all file paths against root and validates that `resolvedPath.startsWith(PUBLIC_DIR)`.
+   - Blocks dot-segments (`..`, `/.`, hidden files) and encoded directory traversal attempts (`%2e%2e`).
+3. **Advanced HTTP Security Headers**:
+   - `Content-Security-Policy`: Restricts script and resource execution to self and trusted CDNs (`unpkg.com`, `fonts.googleapis.com`, `fonts.gstatic.com`).
+   - `X-Frame-Options: DENY`: Blocks Clickjacking and UI redressing attacks.
+   - `X-Content-Type-Options: nosniff`: Enforces strict MIME typing and blocks MIME-confusion attacks.
+   - `Strict-Transport-Security (HSTS)`: Enforces HTTPS communication (`max-age=31536000; includeSubDomains; preload`).
+   - `Referrer-Policy: strict-origin-when-cross-origin`: Protects referrer information.
+   - `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()`: Disables unwanted browser hardware APIs.
+   - `X-Powered-By`: Suppressed to prevent server fingerprinting.
+4. **Brute-Force & Denial of Service (DoS) Shield**:
+   - Sliding-window in-memory Rate Limiter:
+     - Admin Login: Max 5 failed attempts per 15 minutes before 15-minute lock (`429 Too Many Requests`).
+     - Public Submission Forms: Max 10 requests per 10 minutes per IP.
+     - Payload Size Limit: Strict 500KB cap per request (`413 Payload Too Large`).
+5. **Timing-Attack Resilient Authentication**:
+   - Constant-time string comparison (`crypto.timingSafeEqual`) on SHA-256 digests protects admin credentials from timing side-channel attacks.
+6. **Dynamic Cryptographic Session Management**:
+   - Ephemeral, 32-byte cryptographically secure random session tokens (`pvs_<64-hex>`) with automatic 4-hour expiration (`SESSION_TTL_MS`).
+7. **Input Sanitization & Injection Protection**:
+   - Strips control characters, null bytes, and non-printable characters.
+   - Strict regex validation for phone numbers, emails, dates (YYYY-MM-DD), and Indian PAN card formats.
+   - Prototype pollution shield deletes `__proto__`, `constructor`, and `prototype` keys on parsed JSON.
+   - CSV / Excel Formula Injection mitigation (escapes `=`, `+`, `-`, `@`, `\t`, `\r` prefixes in exports).
+
+---
+
+## 🌐 Custom Domain Hosting & Deployment Guide
+
+Follow these steps to deploy Premavasam to your production domain (e.g., `https://premavasam.org` or `https://www.premavasam.org`):
+
+### 1. Environment Configuration
+
+Copy the example environment template and configure your production values:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+```ini
+NODE_ENV=production
+PORT=3000
+CORS_ORIGIN=https://premavasam.org
+ADMIN_USER=admin
+ADMIN_PASSWORD=SetAStrongRandomPasswordHere!
+ADMIN_EMAIL=premavasam1999@gmail.com
+```
+
+### 2. Deployment Options
+
+#### Option A: Cloud Platforms (Railway / Render / DigitalOcean App Platform)
+1. Link your GitHub repository (`https://github.com/Monesh-kumar/premavasamtest.git`).
+2. Set Build Command: *(Leave blank or `npm test`)*
+3. Set Start Command: `npm start`
+4. In Environment Variables, set `NODE_ENV`, `CORS_ORIGIN`, `ADMIN_USER`, and `ADMIN_PASSWORD`.
+5. Attach your custom domain in the platform's Custom Domain settings.
+
+#### Option B: Linux VPS (Ubuntu / Debian / CentOS with Nginx & PM2)
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/Monesh-kumar/premavasamtest.git /var/www/premavasam
+   cd /var/www/premavasam
+   cp .env.example .env
+   ```
+2. **Start with PM2 process manager**:
+   ```bash
+   npm install -g pm2
+   pm2 start server.js --name "premavasam"
+   pm2 save
+   pm2 startup
+   ```
+3. **Configure Nginx Reverse Proxy with SSL (Certbot Let's Encrypt)**:
+   ```nginx
+   server {
+       server_name premavasam.org www.premavasam.org;
+
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+           proxy_cache_bypass $http_upgrade;
+       }
+   }
+   ```
+4. **Obtain Free SSL Certificate**:
+   ```bash
+   sudo certbot --nginx -d premavasam.org -d www.premavasam.org
+   ```
+
+### 3. DNS Configuration
+Set the following DNS records with your domain registrar:
+- **A Record**: `@` &rarr; `<Your Server IP>`
+- **CNAME Record**: `www` &rarr; `premavasam.org` (or platform alias e.g. `your-app.up.railway.app`)
+
+---
+
+## 🧪 Automated Test & Penetration Suite
+
+Run the full automated test and cybersecurity audit:
+
+```bash
+# Run all tests
+npm test
+
+# Or run the penetration audit directly
+node security_audit_test.js
+```
+
+All 41 penetration assertions (blocked file downloads, security headers, rate limiting, timing attack checks, XSS/injection resistance) must pass before deployment.
 
 ---
 
@@ -50,55 +153,20 @@ premavasam-webpage/
 ├── contact.html          # Directions, campus address, and message inquiry form
 ├── howhelp.html          # Domestic 80G & SBI FCRA accounts with registration
 ├── admin.html            # Internal back-office administration suite (/admin)
-├── server.js             # Pure Node.js HTTP server & REST API endpoints
-├── database.sqlite       # SQLite database (meals, donations, volunteers, contacts)
+├── server.js             # Hardened cyber-secure Node.js server & REST API
+├── database.sqlite       # SQLite WAL mode database (auto-created if missing)
+├── package.json          # Application configuration & npm scripts
+├── .env.example          # Production domain environment template
+├── .gitignore            # Git exclusion rules
+├── test_suite.js         # Functional routing & API verification suite
+├── security_audit_test.js # Penetration test suite (OWASP hardening verifier)
 ├── css/
 │   └── styles.css        # Full Yuna Nature Design System stylesheet
-├── images/               # High-resolution local image assets
-│   ├── gallery/          # Categorized gallery photos
-│   ├── logo.png          # Premavasam official emblem
-│   └── mumtaj.jpg        # Face-centered leadership portrait
-├── package.json          # Application configuration
-└── README.md             # Project documentation
+└── images/               # High-resolution local image assets
+    ├── gallery/          # Categorized gallery photos
+    ├── logo.png          # Premavasam official emblem
+    └── mumtaj.jpg        # Face-centered leadership portrait
 ```
-
----
-
-## REST API Endpoints
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/stats` | Real-time counts of children, pledged funds, and messages |
-| `POST` | `/api/meals/book` | Records meal sponsorship reservation (`#MB-XXXX`) |
-| `POST` | `/api/donations/record` | Registers domestic/FCRA contributions for 80G receipts (`#DON-XXX`) |
-| `POST` | `/api/volunteers/apply` | Records volunteer service applications (`#VOL-XXX`) |
-| `POST` | `/api/contacts/send` | Receives general inquiries and messages (`#MSG-XXX`) |
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js 22.0.0+** (utilizes native `node:sqlite` DatabaseSync)
-
-### Running Locally
-
-1. Clone or download the repository:
-   ```bash
-   git clone <repository-url>
-   cd premavasam-webpage
-   ```
-
-2. Start the local server:
-   ```bash
-   node server.js
-   ```
-
-3. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
 
 ---
 
@@ -108,4 +176,3 @@ premavasam-webpage/
 - **Phone**: +91 96772 38998 (9:00 AM – 8:00 PM IST)
 - **Email**: premavasam1999@gmail.com
 - **Website**: [https://www.premavasam.org](https://www.premavasam.org)
-"# premavasamtest" 
