@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.1">
+  <link rel="stylesheet" href="css/styles.css?v=3.4">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -95,11 +95,44 @@
         <div class="causes-grid">
           <!-- 1. Physiotherapy -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/physio_team.jpg" alt="Physiotherapy Team">
+            <div class="cause-media" id="physioCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/physio_team.jpg?v=3.3" alt="Physiotherapy Team with Children" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/physio_1_stretching.jpg?v=3.3" alt="Therapist Assisted Muscle Stretching and Joint Mobility" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/physio_2_handtherapy.jpg?v=3.3" alt="Gentle Finger Joint Mobilization and Fine Motor Therapy" style="object-position: center 35%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/physio_3_bolster.jpg?v=3.3" alt="Postural Alignment Support with Therapy Bolster Roll" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/physio_4_wedge.jpg?v=3.3" alt="Prone Trunk Elevation on Therapy Wedge" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/physio_5_braces.jpg?v=3.3" alt="Therapist Fitting Orthotic Caliper Leg Braces" style="object-position: center 35%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevPhysioSlide(event)" aria-label="Previous therapy session photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextPhysioSlide(event)" aria-label="Next therapy session photo">›</button>
+
+              <!-- Indicators -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setPhysioSlide(0, event)" aria-label="Photo 1"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPhysioSlide(1, event)" aria-label="Photo 2"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPhysioSlide(2, event)" aria-label="Photo 3"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPhysioSlide(3, event)" aria-label="Photo 4"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPhysioSlide(4, event)" aria-label="Photo 5"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPhysioSlide(5, event)" aria-label="Photo 6"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Daily 9:30 AM – 3:30 PM</span>
+              <span class="cause-cat">Daily 9:30 AM – 3:30 PM • 6 Clinical Sessions</span>
               <h3>Clinical Physiotherapy</h3>
               <p>
                 Led by <strong>Mr. Robinson</strong> and a team of licensed therapists, children with cerebral palsy, muscular dystrophy, and neurological challenges receive electrical stimulation, muscular stimulation, TENS pain therapy, stretching, parallel bar walking, and static cycling.
@@ -107,20 +140,68 @@
               <div class="story-quote-block" style="font-size: 0.95rem; margin: 12px 0;">
                 "Rohit, a bedridden child with severe cerebral palsy, is now able to walk after two years of daily therapy!"
               </div>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="physio-thumb-row" title="Click to view session photo">
+                <img src="images/physio_team.jpg?v=3.3" class="physio-thumb active" onclick="setPhysioSlide(0, event)" alt="Team Overview">
+                <img src="images/physio_1_stretching.jpg?v=3.3" class="physio-thumb" onclick="setPhysioSlide(1, event)" alt="Stretching Therapy">
+                <img src="images/physio_2_handtherapy.jpg?v=3.3" class="physio-thumb" onclick="setPhysioSlide(2, event)" alt="Hand Mobilization">
+                <img src="images/physio_3_bolster.jpg?v=3.3" class="physio-thumb" onclick="setPhysioSlide(3, event)" alt="Bolster Therapy">
+                <img src="images/physio_4_wedge.jpg?v=3.3" class="physio-thumb" onclick="setPhysioSlide(4, event)" alt="Wedge Extension">
+                <img src="images/physio_5_braces.jpg?v=3.3" class="physio-thumb" onclick="setPhysioSlide(5, event)" alt="Caliper Braces">
+              </div>
             </div>
           </article>
 
           <!-- 2. Occupational Therapy -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/occupational.jpg" alt="Occupational Therapy">
+            <div class="cause-media" id="occupationalCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide occupational-slide active">
+                  <img src="images/occupational_1_pegboard.jpg?v=3.4" alt="Sensory Pegboard & Cognitive Coordination" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide occupational-slide">
+                  <img src="images/occupational_2_puzzle.jpg?v=3.4" alt="Tactile Alphabet Puzzle & Fine Motor Skills" style="object-position: center 20%;">
+                </div>
+                <div class="cause-slide occupational-slide">
+                  <img src="images/occupational_3_toddler.jpg?v=3.4" alt="Early Sensory Learning & Shape Sorting" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide occupational-slide">
+                  <img src="images/occupational_4_armtherapy.jpg?v=3.4" alt="Upper Limb Range-of-Motion & Joint Therapy" style="object-position: center 28%;">
+                </div>
+                <div class="cause-slide occupational-slide">
+                  <img src="images/occupational.jpg?v=3.4" alt="ADL Apparatus & Sensory Room Overview" style="object-position: center center;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevOccupationalSlide(event)" aria-label="Previous therapy photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextOccupationalSlide(event)" aria-label="Next therapy photo">›</button>
+
+              <!-- Indicators -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot occupational-dot active" onclick="setOccupationalSlide(0, event)" aria-label="Photo 1"></button>
+                <button type="button" class="cause-slider-dot occupational-dot" onclick="setOccupationalSlide(1, event)" aria-label="Photo 2"></button>
+                <button type="button" class="cause-slider-dot occupational-dot" onclick="setOccupationalSlide(2, event)" aria-label="Photo 3"></button>
+                <button type="button" class="cause-slider-dot occupational-dot" onclick="setOccupationalSlide(3, event)" aria-label="Photo 4"></button>
+                <button type="button" class="cause-slider-dot occupational-dot" onclick="setOccupationalSlide(4, event)" aria-label="Photo 5"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Independence in ADL</span>
+              <span class="cause-cat">Independence in ADL • 5 Specialized Sessions</span>
               <h3>Occupational Therapy &amp; Sensory Care</h3>
               <p>
                 To prevent contractures and isolation, occupational therapists work on muscle tone normalization, finger dexterity, eating, dressing, and sensory integration through specialized play apparatus and therapeutic textures.
               </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="occupational-thumb-row" title="Click to view session photo">
+                <img src="images/occupational_1_pegboard.jpg?v=3.4" class="occupational-thumb active" onclick="setOccupationalSlide(0, event)" alt="Sensory Pegboard">
+                <img src="images/occupational_2_puzzle.jpg?v=3.4" class="occupational-thumb" onclick="setOccupationalSlide(1, event)" alt="Alphabet Board">
+                <img src="images/occupational_3_toddler.jpg?v=3.4" class="occupational-thumb" onclick="setOccupationalSlide(2, event)" alt="Shape Sorting">
+                <img src="images/occupational_4_armtherapy.jpg?v=3.4" class="occupational-thumb" onclick="setOccupationalSlide(3, event)" alt="Arm Therapy">
+                <img src="images/occupational.jpg?v=3.4" class="occupational-thumb" onclick="setOccupationalSlide(4, event)" alt="Sensory Room">
+              </div>
             </div>
           </article>
 
@@ -252,6 +333,104 @@
 
   <script>
     if (window.lucide) lucide.createIcons();
+
+    // ── PHYSIOTHERAPY MULTI-PHOTO SLIDER ──
+    let currentPhysioSlide = 0;
+    let physioAutoTimer = null;
+
+    function setPhysioSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#physioCarousel .cause-slide');
+      const dots = document.querySelectorAll('#physioCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.physio-thumb');
+      if (!slides.length) return;
+
+      currentPhysioSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentPhysioSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentPhysioSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentPhysioSlide));
+    }
+
+    function nextPhysioSlide(e) {
+      if (e) e.stopPropagation();
+      setPhysioSlide(currentPhysioSlide + 1);
+      resetPhysioTimer();
+    }
+
+    function prevPhysioSlide(e) {
+      if (e) e.stopPropagation();
+      setPhysioSlide(currentPhysioSlide - 1);
+      resetPhysioTimer();
+    }
+
+    function startPhysioTimer() {
+      if (physioAutoTimer) clearInterval(physioAutoTimer);
+      physioAutoTimer = setInterval(() => {
+        setPhysioSlide(currentPhysioSlide + 1);
+      }, 4000);
+    }
+
+    function resetPhysioTimer() {
+      startPhysioTimer();
+    }
+
+    startPhysioTimer();
+
+    const physioBox = document.getElementById('physioCarousel');
+    if (physioBox) {
+      physioBox.addEventListener('mouseenter', () => clearInterval(physioAutoTimer));
+      physioBox.addEventListener('mouseleave', () => startPhysioTimer());
+    }
+
+    // ── OCCUPATIONAL THERAPY MULTI-PHOTO SLIDER ──
+    let currentOccupationalSlide = 0;
+    let occupationalAutoTimer = null;
+
+    function setOccupationalSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#occupationalCarousel .cause-slide');
+      const dots = document.querySelectorAll('#occupationalCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.occupational-thumb');
+      if (!slides.length) return;
+
+      currentOccupationalSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentOccupationalSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentOccupationalSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentOccupationalSlide));
+    }
+
+    function nextOccupationalSlide(e) {
+      if (e) e.stopPropagation();
+      setOccupationalSlide(currentOccupationalSlide + 1);
+      resetOccupationalTimer();
+    }
+
+    function prevOccupationalSlide(e) {
+      if (e) e.stopPropagation();
+      setOccupationalSlide(currentOccupationalSlide - 1);
+      resetOccupationalTimer();
+    }
+
+    function startOccupationalTimer() {
+      if (occupationalAutoTimer) clearInterval(occupationalAutoTimer);
+      occupationalAutoTimer = setInterval(() => {
+        setOccupationalSlide(currentOccupationalSlide + 1);
+      }, 4200);
+    }
+
+    function resetOccupationalTimer() {
+      startOccupationalTimer();
+    }
+
+    startOccupationalTimer();
+
+    const occBox = document.getElementById('occupationalCarousel');
+    if (occBox) {
+      occBox.addEventListener('mouseenter', () => clearInterval(occupationalAutoTimer));
+      occBox.addEventListener('mouseleave', () => startOccupationalTimer());
+    }
   </script>
   <script src="js/mobile-nav.js"></script>
 </body>

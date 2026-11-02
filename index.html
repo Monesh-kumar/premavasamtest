@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.1">
+  <link rel="stylesheet" href="css/styles.css?v=3.4">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -100,17 +100,26 @@
           <div class="hero-visual" id="heroVisual">
             <div class="hero-frame" id="heroFrame">
               <div class="hero-slides">
-                <div class="hero-slide active">
-                  <img src="images/img_9729.jpg" alt="Prem's Radiant Smile - Prema Vasam">
+                <div class="hero-slide hero-slide-1 active">
+                  <img src="images/hero_slide_1.jpg?v=3.2" alt="Children of Prema Vasam Sanctuary smiling together by waterfall">
                 </div>
-                <div class="hero-slide">
-                  <img src="images/splgroup.jpg" alt="Children of Prema Vasam Sanctuary">
+                <div class="hero-slide hero-slide-2">
+                  <img src="images/hero_slide_2.jpg?v=3.2" alt="Therapy and nurturing care hall at Prema Vasam">
                 </div>
-                <div class="hero-slide">
-                  <img src="images/swathidiwali.png" alt="Festival Celebration at Prema Vasam">
+                <div class="hero-slide hero-slide-3">
+                  <img src="images/hero_slide_3.jpg?v=3.2" alt="Loving care and radiant smile of a child at Prema Vasam">
                 </div>
-                <div class="hero-slide">
-                  <img src="images/img_1163.jpg" alt="Joyful Moments with Children at Prema Vasam">
+                <div class="hero-slide hero-slide-4">
+                  <img src="images/hero_slide_4.jpg?v=3.2" alt="Playful joyful moment at Prema Vasam home">
+                </div>
+                <div class="hero-slide hero-slide-5">
+                  <img src="images/hero_slide_5.jpg?v=3.2" alt="Happy child standing and smiling with caregiver at Prema Vasam">
+                </div>
+                <div class="hero-slide hero-slide-6">
+                  <img src="images/hero_slide_6.jpg?v=3.2" alt="Toddler learning and playing with wooden puzzle board at Prema Vasam">
+                </div>
+                <div class="hero-slide hero-slide-7">
+                  <img src="images/hero_slide_7.jpg?v=3.2" alt="Smiling young girl with friends in activity classroom at Prema Vasam">
                 </div>
               </div>
 
@@ -124,11 +133,10 @@
                 <button type="button" class="hero-dot" onclick="setHeroSlide(1)" aria-label="Slide 2"></button>
                 <button type="button" class="hero-dot" onclick="setHeroSlide(2)" aria-label="Slide 3"></button>
                 <button type="button" class="hero-dot" onclick="setHeroSlide(3)" aria-label="Slide 4"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(4)" aria-label="Slide 5"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(5)" aria-label="Slide 6"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(6)" aria-label="Slide 7"></button>
               </div>
-            </div>
-            <div class="hero-float-card">
-              <h4 id="heroFloatTitle">Prem's Radiant Smile</h4>
-              <p id="heroFloatDesc">Rescued from the streets in 1999, Prem's joyful spirit gave our sanctuary its enduring name: <em>Prema Vasam</em> ("Abode of Love").</p>
             </div>
           </div>
         </div>
@@ -731,33 +739,12 @@
     if (window.lucide) lucide.createIcons();
 
     // ── HERO IMAGE CAROUSEL ──
-    const heroSlidesData = [
-      {
-        title: "Prem's Radiant Smile",
-        desc: "Rescued from the streets in 1999, Prem's joyful spirit gave our sanctuary its enduring name: <em>Prema Vasam</em> (\"Abode of Love\")."
-      },
-      {
-        title: "A Loving Family of 200+",
-        desc: "Providing therapeutic care, round-the-clock nursing, and lifelong protection to 132+ children with severe challenges."
-      },
-      {
-        title: "Joyous Celebrations",
-        desc: "Every festival, birthday, and milestone is celebrated as one united family with heartfelt prayer and warmth."
-      },
-      {
-        title: "Dignity & Happiness",
-        desc: "Nurturing what each child can uniquely contribute so they can serve, not just be served."
-      }
-    ];
-
     let currentHeroSlide = 0;
     let heroAutoTimer = null;
 
     function setHeroSlide(index) {
       const slides = document.querySelectorAll('.hero-slide');
       const dots = document.querySelectorAll('.hero-dot');
-      const titleEl = document.getElementById('heroFloatTitle');
-      const descEl = document.getElementById('heroFloatDesc');
 
       if (!slides.length) return;
 
@@ -770,11 +757,6 @@
       dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === currentHeroSlide);
       });
-
-      if (titleEl && descEl && heroSlidesData[currentHeroSlide]) {
-        titleEl.textContent = heroSlidesData[currentHeroSlide].title;
-        descEl.innerHTML = heroSlidesData[currentHeroSlide].desc;
-      }
     }
 
     function nextHeroSlide() {

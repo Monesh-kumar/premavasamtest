@@ -460,8 +460,35 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
   display: block;
+}
+
+.hero-slide.hero-slide-1 img {
+  object-position: center 60%;
+}
+
+.hero-slide.hero-slide-2 img {
+  object-position: center 42%;
+}
+
+.hero-slide.hero-slide-3 img {
+  object-position: center 30%;
+}
+
+.hero-slide.hero-slide-4 img {
+  object-position: 45% 38%;
+}
+
+.hero-slide.hero-slide-5 img {
+  object-position: center 25%;
+}
+
+.hero-slide.hero-slide-6 img {
+  object-position: center 30%;
+}
+
+.hero-slide.hero-slide-7 img {
+  object-position: 40% 30%;
 }
 
 /* Hero Carousel Controls */
@@ -688,8 +715,166 @@ img {
   transition: transform 0.6s ease;
 }
 
-.cause-card:hover .cause-media img {
+.cause-card:hover .cause-media img:not(.cause-slide img) {
   transform: scale(1.06);
+}
+
+/* Cause Multi-Photo Carousel Slider (Clinical Physiotherapy) */
+.cause-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cause-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease-in-out, visibility 0.45s ease-in-out;
+  z-index: 1;
+}
+
+.cause-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.cause-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cause-slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary-deep);
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  opacity: 0;
+  user-select: none;
+}
+
+.cause-media:hover .cause-slider-btn {
+  opacity: 0.95;
+}
+
+.cause-slider-btn:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.cause-slider-btn.prev {
+  left: 10px;
+}
+
+.cause-slider-btn.next {
+  right: 10px;
+}
+
+.cause-slider-dots {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.cause-slider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cause-slider-dot.active {
+  background: #ffffff;
+  width: 16px;
+  border-radius: var(--radius-pill);
+}
+
+/* Thumbnail preview row inside card body */
+.physio-thumb-row,
+.occupational-thumb-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.physio-thumb,
+.occupational-thumb {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.65;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.physio-thumb:hover,
+.occupational-thumb:hover {
+  opacity: 0.95;
+  transform: scale(1.06);
+}
+
+.physio-thumb.active,
+.occupational-thumb.active {
+  border-color: var(--color-primary);
+  opacity: 1;
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Precision face positioning for Occupational Therapy images */
+.cause-slide img[src*="occupational_1_pegboard"] {
+  object-position: center 30%;
+}
+
+.cause-slide img[src*="occupational_2_puzzle"] {
+  object-position: center 20%;
+}
+
+.cause-slide img[src*="occupational_3_toddler"] {
+  object-position: center 30%;
+}
+
+.cause-slide img[src*="occupational_4_armtherapy"] {
+  object-position: center 28%;
 }
 
 .cause-body {
@@ -761,6 +946,41 @@ img {
   aspect-ratio: 1;
 }
 
+.story-img-main img,
+.story-img-sub img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Precision face alignments for Story & Leadership imagery across Home and About pages */
+.story-img-main img {
+  object-position: center 30%;
+}
+
+.story-img-sub img[src*="indra"],
+.cause-media img[src*="indra"] {
+  object-position: 80% 25%;
+}
+
+.story-img-sub img[src*="selvyn_roy"],
+.cause-media img[src*="selvyn_roy"] {
+  object-position: 45% 20%;
+}
+
+.cause-media img[src*="mumtaj"] {
+  object-position: center 25%;
+}
+
+.story-img-sub img[src*="splgroup"] {
+  object-position: center 30%;
+}
+
+.story-img-sub img[src*="achieve_building"] {
+  object-position: center 35%;
+}
+
 .story-narrative h3 {
   font-size: 2.3rem;
   font-weight: 800;
@@ -810,6 +1030,22 @@ img {
 }
 
 /* ── 8. MEALS SPONSORSHIP SECTION (Yuna Nature Product Card Style) ── */
+.meal-hero-visual {
+  max-width: 860px;
+  margin: 32px auto 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09);
+  border: 4px solid #ffffff;
+}
+
+.meal-hero-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 .meals-container {
   background: var(--color-surface);
   border-radius: var(--radius-xl);
@@ -1701,11 +1937,8 @@ img {
     overflow: hidden;
   }
 
-  .hero-slide img {
-    object-position: center 15%;
-  }
-
-  .hero-carousel-btn {
+  .hero-carousel-btn,
+  .cause-slider-btn {
     opacity: 0.85;
     width: 34px;
     height: 34px;
@@ -1794,6 +2027,12 @@ img {
   }
 
   /* Centered Responsive Meal Tabs on Mobile */
+  .meal-hero-visual {
+    margin: 22px auto 0;
+    border-radius: var(--radius-md);
+    border-width: 3px;
+  }
+
   .meal-filter-bar {
     display: flex;
     flex-wrap: wrap;
