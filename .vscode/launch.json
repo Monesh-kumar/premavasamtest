@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "🚀 Start Server (F5)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/server.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Prema Vasam Full-Stack Server active on port ([0-9]+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "⚡ Start Server in Watch Mode (Auto-Reload)",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--watch"],
+      "program": "${workspaceFolder}/server.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Prema Vasam Full-Stack Server active on port ([0-9]+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "🧪 Run All Security & Route Tests",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/test_suite.js",
+      "console": "integratedTerminal"
+    }
+  ]
+}

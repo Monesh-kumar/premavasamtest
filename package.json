@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test_suite.js && node security_audit_test.js"
+    "dev": "node --watch server.js",
+    "test": "node test_runner.js"
   },
   "engines": {
     "node": ">=22.0.0"

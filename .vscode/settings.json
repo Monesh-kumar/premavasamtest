@@ -1,0 +1,11 @@
+{
+  "files.exclude": {
+    "**/.git": false,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.sqlite-shm": true,
+    "**/*.sqlite-wal": true
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "npm.enableScriptExplorer": true
+}
