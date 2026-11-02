@@ -160,9 +160,19 @@ img {
 }
 
 .brand-emblem {
-  height: 52px;
+  height: 54px;
   width: auto;
-  border-radius: 12px;
+  background-color: var(--color-primary-deep);
+  padding: 5px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 58, 47, 0.2);
+  object-fit: contain;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brand:hover .brand-emblem {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(30, 58, 47, 0.3);
 }
 
 .brand-text h1 {
@@ -1422,10 +1432,13 @@ img {
   }
 
   .brand-emblem {
-    height: 32px;
+    height: 42px;
     width: auto;
     flex-shrink: 0;
-    border-radius: 6px;
+    background-color: var(--color-primary-deep);
+    padding: 3px 4px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(30, 58, 47, 0.15);
   }
 
   .brand-text {
