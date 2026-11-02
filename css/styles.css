@@ -164,12 +164,13 @@ img {
 }
 
 .brand-emblem {
-  height: 50px;
+  height: 56px;
   width: auto;
-  background-color: var(--color-primary-deep);
-  padding: 4px 5px;
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgba(30, 58, 47, 0.2);
+  background-color: #ffffff;
+  padding: 4px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   object-fit: contain;
   flex-shrink: 0;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -177,7 +178,7 @@ img {
 
 .brand:hover .brand-emblem {
   transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(30, 58, 47, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .brand-text {
@@ -1486,13 +1487,14 @@ img {
   }
 
   .brand-emblem {
-    height: 44px;
+    height: 48px;
     width: auto;
     flex-shrink: 0;
-    background-color: var(--color-primary-deep);
-    padding: 3px 4px;
+    background-color: #ffffff;
+    padding: 3px 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(30, 58, 47, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .brand-text {
