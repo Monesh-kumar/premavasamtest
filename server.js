@@ -954,10 +954,13 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
+const isSocket = isNaN(Number(PORT));
+const listenArgs = isSocket ? [PORT] : [Number(PORT), '0.0.0.0'];
+
+server.listen(...listenArgs, () => {
   console.log(`══════════════════════════════════════════════════════════════`);
-  console.log(` [SECURE] Prema Vasam Full-Stack Server active on port ${PORT}`);
-  console.log(` Environment: ${APP_ENV} | Host: 0.0.0.0`);
+  console.log(` [SECURE] Prema Vasam Full-Stack Server active on ${isSocket ? `socket ${PORT}` : `port ${PORT}`}`);
+  console.log(` Environment: ${APP_ENV} | Host: ${isSocket ? 'Unix Socket (Passenger/cPanel)' : '0.0.0.0'}`);
   console.log(` SQLite Database: Connected (WAL Mode Enabled)`);
   console.log(` Security: Path-traversal blocked, CSP active, Rate-limiting active`);
   if (APP_ENV === 'production' && ADMIN_PASSWORD === 'premavasam1999') {

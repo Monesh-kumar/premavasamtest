@@ -1,0 +1,64 @@
+# ══════════════════════════════════════════════════════════════════════
+# PREMA VASAM • Apache / GoDaddy cPanel Web Server Configuration
+# Security Hardening • Forced HTTPS • Asset Compression • Database Protection
+# ══════════════════════════════════════════════════════════════════════
+
+# 1. PREVENT DIRECTORY BROWSING
+Options -Indexes
+
+# 2. BLOCK SENSITIVE BACKEND & DATABASE FILES
+# Prevents direct download of database, server code, and environment secrets
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|env|json|lock|md|log|yml|yaml|dockerignore)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "^(server\.js|test_runner\.js|test_suite\.js|Dockerfile|docker-compose\.yml)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block hidden dotfiles (.git, .env, etc.)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 3. FORCE HTTPS REDIRECT (SSL ENFORCEMENT)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 4. GZIP COMPRESSION (PERFORMANCE OPTIMIZATION)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# 5. BROWSER CACHING HEADERS
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 day"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
