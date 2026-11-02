@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=2.4">
+  <link rel="stylesheet" href="css/styles.css?v=2.5">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -88,13 +88,38 @@
             </div>
           </div>
 
-          <div class="hero-visual">
-            <div class="hero-frame">
-              <img src="images/img_9729.jpg" alt="Children of Prema Vasam">
+          <div class="hero-visual" id="heroVisual">
+            <div class="hero-frame" id="heroFrame">
+              <div class="hero-slides">
+                <div class="hero-slide active">
+                  <img src="images/img_9729.jpg" alt="Prem's Radiant Smile - Prema Vasam">
+                </div>
+                <div class="hero-slide">
+                  <img src="images/splgroup.jpg" alt="Children of Prema Vasam Sanctuary">
+                </div>
+                <div class="hero-slide">
+                  <img src="images/swathidiwali.png" alt="Festival Celebration at Prema Vasam">
+                </div>
+                <div class="hero-slide">
+                  <img src="images/img_1163.jpg" alt="Joyful Moments with Children at Prema Vasam">
+                </div>
+              </div>
+
+              <!-- Carousel Navigation Chevrons -->
+              <button type="button" class="hero-carousel-btn hero-prev" onclick="prevHeroSlide()" aria-label="Previous image">‹</button>
+              <button type="button" class="hero-carousel-btn hero-next" onclick="nextHeroSlide()" aria-label="Next image">›</button>
+
+              <!-- Carousel Dots Indicator -->
+              <div class="hero-carousel-nav" role="tablist" aria-label="Hero Image Carousel">
+                <button type="button" class="hero-dot active" onclick="setHeroSlide(0)" aria-label="Slide 1"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(1)" aria-label="Slide 2"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(2)" aria-label="Slide 3"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(3)" aria-label="Slide 4"></button>
+              </div>
             </div>
             <div class="hero-float-card">
-              <h4>Prem's Radiant Smile</h4>
-              <p>Rescued from the streets in 1999, Prem's joyful spirit gave our sanctuary its enduring name: <em>Prema Vasam</em> ("Abode of Love").</p>
+              <h4 id="heroFloatTitle">Prem's Radiant Smile</h4>
+              <p id="heroFloatDesc">Rescued from the streets in 1999, Prem's joyful spirit gave our sanctuary its enduring name: <em>Prema Vasam</em> ("Abode of Love").</p>
             </div>
           </div>
         </div>
@@ -695,6 +720,101 @@
   <script>
     // Lucide Icons
     if (window.lucide) lucide.createIcons();
+
+    // ── HERO IMAGE CAROUSEL ──
+    const heroSlidesData = [
+      {
+        title: "Prem's Radiant Smile",
+        desc: "Rescued from the streets in 1999, Prem's joyful spirit gave our sanctuary its enduring name: <em>Prema Vasam</em> (\"Abode of Love\")."
+      },
+      {
+        title: "A Loving Family of 200+",
+        desc: "Providing therapeutic care, round-the-clock nursing, and lifelong protection to 132+ children with severe challenges."
+      },
+      {
+        title: "Joyous Celebrations",
+        desc: "Every festival, birthday, and milestone is celebrated as one united family with heartfelt prayer and warmth."
+      },
+      {
+        title: "Dignity & Happiness",
+        desc: "Nurturing what each child can uniquely contribute so they can serve, not just be served."
+      }
+    ];
+
+    let currentHeroSlide = 0;
+    let heroAutoTimer = null;
+
+    function setHeroSlide(index) {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.hero-dot');
+      const titleEl = document.getElementById('heroFloatTitle');
+      const descEl = document.getElementById('heroFloatDesc');
+
+      if (!slides.length) return;
+
+      currentHeroSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentHeroSlide);
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentHeroSlide);
+      });
+
+      if (titleEl && descEl && heroSlidesData[currentHeroSlide]) {
+        titleEl.textContent = heroSlidesData[currentHeroSlide].title;
+        descEl.innerHTML = heroSlidesData[currentHeroSlide].desc;
+      }
+    }
+
+    function nextHeroSlide() {
+      setHeroSlide(currentHeroSlide + 1);
+      resetHeroAutoTimer();
+    }
+
+    function prevHeroSlide() {
+      setHeroSlide(currentHeroSlide - 1);
+      resetHeroAutoTimer();
+    }
+
+    function startHeroAutoTimer() {
+      if (heroAutoTimer) clearInterval(heroAutoTimer);
+      heroAutoTimer = setInterval(() => {
+        setHeroSlide(currentHeroSlide + 1);
+      }, 4500);
+    }
+
+    function resetHeroAutoTimer() {
+      startHeroAutoTimer();
+    }
+
+    // Touch Swipe Support for Mobile
+    const heroFrameEl = document.getElementById('heroFrame');
+    if (heroFrameEl) {
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      heroFrameEl.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(heroAutoTimer);
+      }, { passive: true });
+
+      heroFrameEl.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 45) {
+          nextHeroSlide();
+        } else if (touchEndX - touchStartX > 45) {
+          prevHeroSlide();
+        }
+        startHeroAutoTimer();
+      }, { passive: true });
+
+      heroFrameEl.addEventListener('mouseenter', () => clearInterval(heroAutoTimer));
+      heroFrameEl.addEventListener('mouseleave', () => startHeroAutoTimer());
+    }
+
+    startHeroAutoTimer();
 
     // Default Date (tomorrow)
     const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];

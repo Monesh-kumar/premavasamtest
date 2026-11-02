@@ -364,12 +364,110 @@ img {
   box-shadow: var(--shadow-lg);
   aspect-ratio: 4 / 4.6;
   border: 6px solid #ffffff;
+  background: #f0ebe1;
 }
 
-.hero-frame img {
+.hero-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.75s ease-in-out, visibility 0.75s ease-in-out;
+  z-index: 1;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.hero-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+/* Hero Carousel Controls */
+.hero-carousel-nav {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-dot.active {
+  background: #ffffff;
+  width: 22px;
+  border-radius: var(--radius-pill);
+}
+
+.hero-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-primary-deep);
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.25s ease;
+  opacity: 0;
+  user-select: none;
+}
+
+.hero-visual:hover .hero-carousel-btn {
+  opacity: 0.95;
+}
+
+.hero-carousel-btn:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.hero-prev {
+  left: 12px;
+}
+
+.hero-next {
+  right: 12px;
 }
 
 .hero-float-card {
@@ -1445,6 +1543,13 @@ img {
   .hero-frame {
     border-radius: var(--radius-lg);
     overflow: hidden;
+  }
+
+  .hero-carousel-btn {
+    opacity: 0.85;
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
   }
 
   .hero-float-card {
