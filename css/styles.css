@@ -1800,35 +1800,45 @@ img {
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
   }
 
-  .nav-actions .btn {
-    padding: 5px 8px;
-    font-size: 0.68rem;
+  .nav-actions .btn,
+  .nav-actions .btn-tertiary {
+    height: 34px;
+    min-height: 34px;
+    padding: 0 11px;
+    font-size: 0.66rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     border-radius: var(--radius-pill);
     box-shadow: none;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
+    line-height: 1;
+    box-sizing: border-box;
+    border: none;
   }
 
   .mobile-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     background: rgba(43, 84, 53, 0.08);
     color: var(--color-primary-deep);
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     border: 1px solid rgba(43, 84, 53, 0.15);
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s ease, transform 0.2s ease;
+    box-sizing: border-box;
   }
 
   .mobile-toggle.active {
@@ -1917,17 +1927,22 @@ img {
   }
 
   .hero-actions {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
+    margin-top: 18px;
   }
 
   .hero-actions .btn {
     width: 100%;
     justify-content: center;
-    padding: 14px 20px;
-    font-size: 0.9rem;
+    padding: 11px 18px;
+    font-size: 0.84rem;
+    min-height: 44px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.03em;
   }
 
   .hero-frame {
@@ -2198,14 +2213,17 @@ img {
   .brand-text span {
     font-size: 0.48rem;
   }
-  .nav-actions .btn {
-    padding: 4px 6px;
-    font-size: 0.62rem;
+  .nav-actions .btn,
+  .nav-actions .btn-tertiary {
+    padding: 0 7px;
+    font-size: 0.60rem;
+    height: 30px;
+    min-height: 30px;
   }
   .mobile-toggle {
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
+    width: 30px;
+    height: 30px;
+    font-size: 1.05rem;
   }
   .meal-filter-bar {
     gap: 6px 6px;
