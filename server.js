@@ -936,9 +936,10 @@ const server = http.createServer(async (req, res) => {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     applySecurityHeaders(res);
 
-    // Cache headers for static assets
+    // Cache headers: no-cache in development mode so browser edits reflect instantly
+    const isDev = APP_ENV === 'development';
     const isAsset = ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp' || ext === '.css' || ext === '.js' || ext === '.woff2';
-    const cacheHeader = isAsset ? 'public, max-age=86400' : 'no-cache';
+    const cacheHeader = (!isDev && isAsset) ? 'public, max-age=86400' : 'no-cache, no-store, must-revalidate';
 
     res.writeHead(200, {
       'Content-Type': contentType,

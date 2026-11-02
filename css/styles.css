@@ -193,7 +193,7 @@ img {
   font-weight: 800;
   color: var(--color-primary-deep);
   line-height: 1.1;
-  white-space: nowrap;
+  white-space: nowrap !important;
   letter-spacing: 0.02em;
   margin: 0;
 }
@@ -204,7 +204,7 @@ img {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  white-space: nowrap;
+  white-space: nowrap !important;
   display: block;
   margin-top: 2px;
 }
@@ -240,7 +240,7 @@ img {
   color: var(--color-text-mid);
   padding: 6px 4px;
   position: relative;
-  white-space: nowrap;
+  white-space: nowrap !important;
   transition: color 0.2s ease;
 }
 
@@ -1464,7 +1464,46 @@ img {
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) and (min-width: 861px) {
+  .navbar .container {
+    padding: 0 14px;
+    gap: 8px;
+    height: 80px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .brand-emblem {
+    height: 48px;
+    padding: 3px 5px;
+  }
+  .brand-text h1 {
+    font-size: 1.25rem;
+    white-space: nowrap !important;
+  }
+  .brand-text span {
+    font-size: 0.60rem;
+    white-space: nowrap !important;
+  }
+  .nav-menu {
+    gap: clamp(5px, 0.9vw, 14px);
+  }
+  .nav-menu a {
+    font-size: 0.82rem;
+    padding: 6px 3px;
+    white-space: nowrap !important;
+  }
+  .nav-actions {
+    gap: 8px;
+  }
+  .nav-actions .btn-tertiary {
+    padding: 7px 12px;
+    font-size: 0.80rem;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 860px) {
   .top-bar { display: none; }
   
   /* Mobile Sticky Navbar */
