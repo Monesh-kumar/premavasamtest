@@ -151,22 +151,27 @@ img {
   justify-content: space-between;
   align-items: center;
   height: 88px;
+  max-width: 1320px;
+  gap: 12px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-emblem {
-  height: 54px;
+  height: 50px;
   width: auto;
   background-color: var(--color-primary-deep);
-  padding: 5px 6px;
-  border-radius: 10px;
+  padding: 4px 5px;
+  border-radius: 9px;
   box-shadow: 0 2px 8px rgba(30, 58, 47, 0.2);
   object-fit: contain;
+  flex-shrink: 0;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -175,36 +180,67 @@ img {
   box-shadow: 0 4px 12px rgba(30, 58, 47, 0.3);
 }
 
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .brand-text h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.40rem;
+  font-weight: 800;
   color: var(--color-primary-deep);
-  line-height: 1;
+  line-height: 1.1;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  margin: 0;
 }
 
 .brand-text span {
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   color: var(--color-text-muted);
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
   display: block;
-  margin-top: 3px;
+  margin-top: 2px;
+}
+
+.navbar nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 6px;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 28px;
+  justify-content: center;
+  gap: clamp(8px, 1.4vw, 22px);
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .nav-menu a {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--color-text-mid);
-  padding: 8px 0;
+  padding: 6px 4px;
   position: relative;
+  white-space: nowrap;
+  transition: color 0.2s ease;
 }
 
 .nav-menu a::after {
@@ -221,6 +257,24 @@ img {
 .nav-menu a:hover,
 .nav-menu a.active {
   color: var(--color-primary);
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-actions .btn-tertiary {
+  white-space: nowrap;
+  padding: 9px 18px;
+  font-size: 0.88rem;
 }
 
 .nav-menu a:hover::after,
@@ -1409,14 +1463,14 @@ img {
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .top-bar { display: none; }
   
   /* Mobile Sticky Navbar */
   .navbar .container {
-    height: 60px;
-    padding: 0 12px;
-    gap: 6px;
+    height: 64px;
+    padding: 0 16px;
+    gap: 8px;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -1424,7 +1478,7 @@ img {
   }
 
   .brand {
-    gap: 6px;
+    gap: 8px;
     min-width: 0;
     flex: 0 1 auto;
     display: flex;
@@ -1432,7 +1486,7 @@ img {
   }
 
   .brand-emblem {
-    height: 42px;
+    height: 44px;
     width: auto;
     flex-shrink: 0;
     background-color: var(--color-primary-deep);
@@ -1443,10 +1497,11 @@ img {
 
   .brand-text {
     min-width: 0;
+    white-space: nowrap;
   }
 
   .brand-text h1 {
-    font-size: 0.95rem;
+    font-size: 1.10rem;
     font-weight: 800;
     line-height: 1.1;
     margin: 0;
@@ -1457,7 +1512,7 @@ img {
 
   .brand-text span {
     display: block;
-    font-size: 0.54rem;
+    font-size: 0.58rem;
     font-weight: 600;
     color: var(--color-text-muted);
     line-height: 1.15;
