@@ -1249,6 +1249,31 @@ img {
   font-weight: 700;
 }
 
+/* ── 10.5 CONTACT & DIRECT INQUIRY ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.inquiry-box {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  padding: 44px;
+}
+
+.contact-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 34px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
 /* ── 11. FOOTER (Yuna Nature Deep Forest Green) ── */
 .footer {
   background-color: var(--color-primary-deep);
@@ -1607,6 +1632,9 @@ img {
   .stats-grid { grid-template-columns: 1fr; }
   .stat-item { border-right: none !important; border-bottom: 1px solid var(--color-border); }
   .causes-grid, .gallery-grid, .meals-tiers-grid { grid-template-columns: 1fr; gap: 16px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+  .inquiry-box { padding: 26px 18px; border-radius: var(--radius-lg); }
+  .contact-card { padding: 22px 18px; border-radius: var(--radius-lg); margin-bottom: 20px; }
 
   /* Horizontal Scrolling Filter Bar for Gallery */
   .filter-bar {
@@ -1770,6 +1798,14 @@ img {
   .modal-card {
     padding: 24px 18px;
     border-radius: var(--radius-lg);
+  }
+  .inquiry-box {
+    padding: 20px 14px;
+    border-radius: var(--radius-md);
+  }
+  .contact-card {
+    padding: 18px 14px;
+    border-radius: var(--radius-md);
   }
 }
 
