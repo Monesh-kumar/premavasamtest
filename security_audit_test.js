@@ -1,4 +1,16 @@
 const http = require('http');
+const path = require('path');
+const fs = require('fs');
+
+// Native .env loader for Node.js >= 20.6.0
+if (typeof process.loadEnvFile === 'function') {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    try {
+      process.loadEnvFile(envPath);
+    } catch (e) {}
+  }
+}
 
 function request(path, options = {}) {
   return new Promise((resolve, reject) => {
