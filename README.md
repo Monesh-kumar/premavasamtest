@@ -116,6 +116,17 @@ ADMIN_EMAIL=premavasam1999@gmail.com
    sudo certbot --nginx -d premavasam.org -d www.premavasam.org
    ```
 
+#### Option C: Docker & Docker Compose
+1. **Run with Docker Compose**:
+   ```bash
+   docker compose up -d
+   ```
+2. **Or build and run manually**:
+   ```bash
+   docker build -t premavasam-web .
+   docker run -d -p 3000:3000 --name premavasam -v sqlite_data:/app premavasam-web
+   ```
+
 ### 3. DNS Configuration
 Set the following DNS records with your domain registrar:
 - **A Record**: `@` &rarr; `<Your Server IP>`

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: premavasam-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - CORS_ORIGIN=https://premavasam.org
+      - ADMIN_USER=admin
+      - ADMIN_PASSWORD=ChangeThisPassphrase2026!
+      - ADMIN_NAME="Premavasam Administrator"
+      - ADMIN_EMAIL="premavasam1999@gmail.com"
+    volumes:
+      - sqlite_data:/app
+
+volumes:
+  sqlite_data:

@@ -11,6 +11,18 @@ const path = require('path');
 const crypto = require('crypto');
 const { DatabaseSync } = require('node:sqlite');
 
+// Native .env file loader for Node.js >= 20.6.0
+if (typeof process.loadEnvFile === 'function') {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    try {
+      process.loadEnvFile(envPath);
+    } catch (e) {
+      console.warn('[ENV] Note loading .env:', e.message);
+    }
+  }
+}
+
 // ── CONFIGURATION & ENVIRONMENT ──
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
@@ -260,6 +272,25 @@ function parseJsonBody(req, maxBytes = 100 * 1024) {
   });
 }
 
+// ── 6.5 UNIQUE ID GENERATOR (Collision-Safe) ──
+function generateId(table, prefix, baseOffset) {
+  const rows = db.prepare(`SELECT id FROM ${table}`).all();
+  let maxNum = baseOffset;
+  for (const r of rows) {
+    if (r.id && r.id.startsWith(prefix + '-')) {
+      const n = parseInt(r.id.slice(prefix.length + 1), 10);
+      if (!isNaN(n) && n > maxNum) maxNum = n;
+    }
+  }
+  let candidate = `${prefix}-${maxNum + 1}`;
+  let attempt = maxNum + 1;
+  while (db.prepare(`SELECT 1 FROM ${table} WHERE id = ?`).get(candidate)) {
+    attempt++;
+    candidate = `${prefix}-${attempt}`;
+  }
+  return candidate;
+}
+
 // ── 7. STATS COMPUTATION ──
 function getStats() {
   const mealStats = db.prepare('SELECT COUNT(*) as count, COALESCE(SUM(total_amount), 0) as total FROM meals').get();
@@ -321,9 +352,12 @@ const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
@@ -339,6 +373,7 @@ const BLOCKED_EXTENSIONS = new Set([
 
 const BLOCKED_FILES = new Set([
   'server.js', 'package.json', 'package-lock.json', 'test_suite.js',
+  'security_audit_test.js', 'test_runner.js',
   'database.sqlite', 'database.sqlite-shm', 'database.sqlite-wal'
 ]);
 
@@ -423,8 +458,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { ok: false, error: 'Invalid sponsorship amount' });
       }
 
-      const count = db.prepare('SELECT COUNT(*) as count FROM meals').get().count;
-      const id = `#MB-${2800 + count + 1}`;
+      const id = generateId('meals', '#MB', 2800);
       const now = new Date().toISOString();
 
       const stmt = db.prepare(`
@@ -483,8 +517,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { ok: false, error: 'Valid positive donation amount is required' });
       }
 
-      const count = db.prepare('SELECT COUNT(*) as count FROM donations').get().count;
-      const id = `#DON-${300 + count + 1}`;
+      const id = generateId('donations', '#DON', 300);
       const now = new Date().toISOString();
 
       const stmt = db.prepare(`
@@ -535,8 +568,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { ok: false, error: 'Valid email address is required' });
       }
 
-      const count = db.prepare('SELECT COUNT(*) as count FROM volunteers').get().count;
-      const id = `#VOL-${150 + count + 1}`;
+      const id = generateId('volunteers', '#VOL', 150);
       const now = new Date().toISOString();
 
       const stmt = db.prepare(`
@@ -585,8 +617,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { ok: false, error: 'Message must be at least 5 characters' });
       }
 
-      const count = db.prepare('SELECT COUNT(*) as count FROM contacts').get().count;
-      const id = `#MSG-${880 + count + 1}`;
+      const id = generateId('contacts', '#MSG', 880);
       const now = new Date().toISOString();
 
       const stmt = db.prepare(`
@@ -890,6 +921,14 @@ const server = http.createServer(async (req, res) => {
         }
       }
 
+      // Branded 404 page for user-friendly navigation
+      const notFoundPath = path.join(PUBLIC_DIR, '404.html');
+      if (fs.existsSync(notFoundPath)) {
+        applySecurityHeaders(res);
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        return fs.createReadStream(notFoundPath).pipe(res);
+      }
+
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       return res.end('404 Not Found');
     }
@@ -898,7 +937,7 @@ const server = http.createServer(async (req, res) => {
     applySecurityHeaders(res);
 
     // Cache headers for static assets
-    const isAsset = ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.css' || ext === '.js' || ext === '.woff2';
+    const isAsset = ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp' || ext === '.css' || ext === '.js' || ext === '.woff2';
     const cacheHeader = isAsset ? 'public, max-age=86400' : 'no-cache';
 
     res.writeHead(200, {
@@ -921,5 +960,30 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(` Environment: ${APP_ENV} | Host: 0.0.0.0`);
   console.log(` SQLite Database: Connected (WAL Mode Enabled)`);
   console.log(` Security: Path-traversal blocked, CSP active, Rate-limiting active`);
+  if (APP_ENV === 'production' && ADMIN_PASSWORD === 'premavasam1999') {
+    console.warn(` [SECURITY WARNING] Default ADMIN_PASSWORD in use. Set ADMIN_PASSWORD in production!`);
+  }
   console.log(`══════════════════════════════════════════════════════════════`);
 });
+
+// ── 11. PRODUCTION RELIABILITY: GRACEFUL SHUTDOWN ──
+function gracefulShutdown(signal) {
+  console.log(`\n[SHUTDOWN] Received ${signal}. Closing server and SQLite database cleanly...`);
+  server.close(() => {
+    try {
+      db.exec('PRAGMA wal_checkpoint(TRUNCATE);');
+      db.close();
+      console.log('[SHUTDOWN] SQLite database checkpointed and closed cleanly. Goodbye.');
+    } catch (err) {
+      console.error('[SHUTDOWN] Error closing database:', err.message);
+    }
+    process.exit(0);
+  });
+  setTimeout(() => {
+    console.error('[SHUTDOWN] Forced shutdown after timeout.');
+    process.exit(1);
+  }, 10000).unref();
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
