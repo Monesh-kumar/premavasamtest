@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.9">
+  <link rel="stylesheet" href="css/styles.css?v=4.0">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -121,6 +121,12 @@
                 <div class="hero-slide hero-slide-7">
                   <img src="images/hero_slide_7.jpg?v=3.2" alt="Smiling young girl with friends in activity classroom at Prema Vasam">
                 </div>
+                <div class="hero-slide hero-slide-8">
+                  <img src="images/home_children_1.jpg" alt="Three smiling girls learning together at Prema Vasam" style="object-position: center 30%;">
+                </div>
+                <div class="hero-slide hero-slide-9">
+                  <img src="images/home_children_2.jpg" alt="Joyful child playing with colourful puzzle at Prema Vasam" style="object-position: center 25%;">
+                </div>
               </div>
 
               <!-- Carousel Navigation Chevrons -->
@@ -136,6 +142,8 @@
                 <button type="button" class="hero-dot" onclick="setHeroSlide(4)" aria-label="Slide 5"></button>
                 <button type="button" class="hero-dot" onclick="setHeroSlide(5)" aria-label="Slide 6"></button>
                 <button type="button" class="hero-dot" onclick="setHeroSlide(6)" aria-label="Slide 7"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(7)" aria-label="Slide 8"></button>
+                <button type="button" class="hero-dot" onclick="setHeroSlide(8)" aria-label="Slide 9"></button>
               </div>
             </div>
           </div>
@@ -818,6 +826,8 @@
 
     // Gallery Data
     const PHOTOS = [
+      { src: 'images/home_children_1.jpg', title: 'Smiles of Sisterhood & Alphabet Learning', cat: 'education' },
+      { src: 'images/home_children_2.jpg', title: 'Joyful Discovery with Sensory Puzzles', cat: 'education' },
       { src: 'images/gallery/school_1.jpg', title: 'Classroom Learning & Alphabet ADL', cat: 'education' },
       { src: 'images/gallery/school_2.jpg', title: 'Creative Art & Clay Modeling', cat: 'education' },
       { src: 'images/gallery/school_3.jpg', title: 'Sensory Therapy & Special Aids', cat: 'education' },

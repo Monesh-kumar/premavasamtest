@@ -825,25 +825,10 @@ img {
 
 /* Thumbnail preview row inside card body */
 .physio-thumb-row,
-
-
+.occupational-thumb-row,
+.specialEd-thumb-row,
+.specEd-thumb-row,
 .playTherapy-thumb-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border);
-  overflow-x: auto;
-}
-.specEd-thumb-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border);
-  overflow-x: auto;
-}
-.occupational-thumb-row {
   display: flex;
   gap: 6px;
   margin-top: 14px;
@@ -854,6 +839,7 @@ img {
 
 .physio-thumb,
 .occupational-thumb,
+.specialEd-thumb,
 .specEd-thumb,
 .playTherapy-thumb {
   width: 46px;
@@ -869,6 +855,7 @@ img {
 
 .physio-thumb:hover,
 .occupational-thumb:hover,
+.specialEd-thumb:hover,
 .specEd-thumb:hover,
 .playTherapy-thumb:hover {
   opacity: 0.95;
@@ -877,6 +864,7 @@ img {
 
 .physio-thumb.active,
 .occupational-thumb.active,
+.specialEd-thumb.active,
 .specEd-thumb.active,
 .playTherapy-thumb.active {
   border-color: var(--color-primary);
