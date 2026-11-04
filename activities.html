@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.6">
+  <link rel="stylesheet" href="css/styles.css?v=3.7">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -202,8 +202,56 @@
 
           <!-- 3. Special Education -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/special_ed.jpg" alt="Special Education Classroom">
+            <div class="cause-media" id="specialEdCarousel"
+                 onmouseenter="pauseSpecEdTimer()" onmouseleave="startSpecEdTimer()">
+              <div class="cause-slider">
+            <div class="cause-slide active">
+              <img src="images/special_ed_1.jpg" alt="Special Education - Learning Activity" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_2.jpg" alt="Special Education - Classroom Session" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_3.jpg" alt="Special Education - Cognitive Development" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_4.jpg" alt="Special Education - Speech Training" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_5.jpg" alt="Special Education - Group Learning" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_6.jpg" alt="Special Education - Skill Building" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_7.jpg" alt="Special Education - Child Development" style="object-position: center top;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_8.jpg" alt="Special Education - Therapy Session" style="object-position: center top;">
+            </div>
+              </div>
+              <button class="cause-slider-btn prev" onclick="prevSpecEdSlide()" aria-label="Previous">&#8249;</button>
+              <button class="cause-slider-btn next" onclick="nextSpecEdSlide()" aria-label="Next">&#8250;</button>
+              <div class="cause-slider-dots">
+              <button class="specEdDot cause-slider-dot active" onclick="setSpecEdSlide(0)" aria-label="Slide 1"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(1)" aria-label="Slide 2"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(2)" aria-label="Slide 3"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(3)" aria-label="Slide 4"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(4)" aria-label="Slide 5"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(5)" aria-label="Slide 6"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(6)" aria-label="Slide 7"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(7)" aria-label="Slide 8"></button>
+              </div>
+            </div>
+            <div class="specEd-thumb-row">
+              <img src="images/special_ed_1.jpg" class="specEd-thumb active" onclick="setSpecEdSlide(0)" alt="Thumb 1" style="object-position: center top;">
+              <img src="images/special_ed_2.jpg" class="specEd-thumb" onclick="setSpecEdSlide(1)" alt="Thumb 2" style="object-position: center top;">
+              <img src="images/special_ed_3.jpg" class="specEd-thumb" onclick="setSpecEdSlide(2)" alt="Thumb 3" style="object-position: center top;">
+              <img src="images/special_ed_4.jpg" class="specEd-thumb" onclick="setSpecEdSlide(3)" alt="Thumb 4" style="object-position: center top;">
+              <img src="images/special_ed_5.jpg" class="specEd-thumb" onclick="setSpecEdSlide(4)" alt="Thumb 5" style="object-position: center top;">
+              <img src="images/special_ed_6.jpg" class="specEd-thumb" onclick="setSpecEdSlide(5)" alt="Thumb 6" style="object-position: center top;">
+              <img src="images/special_ed_7.jpg" class="specEd-thumb" onclick="setSpecEdSlide(6)" alt="Thumb 7" style="object-position: center top;">
+              <img src="images/special_ed_8.jpg" class="specEd-thumb" onclick="setSpecEdSlide(7)" alt="Thumb 8" style="object-position: center top;">
             </div>
             <div class="cause-body">
               <span class="cause-cat">Customized Curriculum</span>
@@ -427,6 +475,30 @@
       occBox.addEventListener('mouseleave', () => startOccupationalTimer());
     }
   </script>
-  <script src="js/mobile-nav.js"></script>
+  <script src="js/mobile-nav.js">
+    // === Special Education Slider ===
+    let specEdIdx = 0;
+    let specEdTimer = null;
+    const SPEC_ED_COUNT = 8;
+    function setSpecEdSlide(n) {
+      const slides = document.querySelectorAll('#specialEdCarousel .cause-slide');
+      const dots = document.querySelectorAll('.specEdDot');
+      const thumbs = document.querySelectorAll('.specEd-thumb');
+      slides.forEach((s, i) => s.classList.toggle('active', i === n));
+      dots.forEach((d, i) => d.classList.toggle('active', i === n));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === n));
+      specEdIdx = n;
+    }
+    function nextSpecEdSlide() { setSpecEdSlide((specEdIdx + 1) % SPEC_ED_COUNT); }
+    function prevSpecEdSlide() { setSpecEdSlide((specEdIdx - 1 + SPEC_ED_COUNT) % SPEC_ED_COUNT); }
+    function startSpecEdTimer() {
+      clearInterval(specEdTimer);
+      specEdTimer = setInterval(nextSpecEdSlide, 3500);
+    }
+    function pauseSpecEdTimer() { clearInterval(specEdTimer); }
+    startSpecEdTimer();
+
+  </script>
+
 </body>
 </html>
