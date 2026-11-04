@@ -1589,6 +1589,12 @@ img {
   width: 100%;
 }
 
+.contact-cards-grid {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  max-width: 980px;
+  margin: 0 auto;
+}
+
 /* ── 11. FOOTER (Yuna Nature Deep Forest Green) ── */
 .footer {
   background-color: var(--color-primary-deep);
