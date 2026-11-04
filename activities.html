@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.7">
+  <link rel="stylesheet" href="css/styles.css?v=3.8">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -264,8 +264,31 @@
 
           <!-- 4. Play & Sensory Therapy -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/play_therapy.jpg" alt="Play Therapy">
+            <div class="cause-media" id="playTherapyCarousel"
+                 onmouseenter="pausePlayTherapyTimer()" onmouseleave="startPlayTherapyTimer()">
+              <div class="cause-slider">
+            <div class="cause-slide active">
+              <img src="images/play_therapy.jpg" alt="Play Therapy - Indoor Play Zone" style="object-position: center center;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/play_therapy_1.jpg" alt="Play Therapy - Basketball Game" style="object-position: center center;">
+            </div>
+            <div class="cause-slide">
+              <img src="images/play_therapy_2.jpg" alt="Play Therapy - Dancing & Social Play" style="object-position: center center;">
+            </div>
+              </div>
+              <button class="cause-slider-btn prev" onclick="prevPlayTherapySlide()" aria-label="Previous">&#8249;</button>
+              <button class="cause-slider-btn next" onclick="nextPlayTherapySlide()" aria-label="Next">&#8250;</button>
+              <div class="cause-slider-dots">
+              <button class="playTherapyDot cause-slider-dot active" onclick="setPlayTherapySlide(0)" aria-label="Slide 1"></button>
+              <button class="playTherapyDot cause-slider-dot" onclick="setPlayTherapySlide(1)" aria-label="Slide 2"></button>
+              <button class="playTherapyDot cause-slider-dot" onclick="setPlayTherapySlide(2)" aria-label="Slide 3"></button>
+              </div>
+            </div>
+            <div class="playTherapy-thumb-row">
+              <img src="images/play_therapy.jpg" class="playTherapy-thumb active" onclick="setPlayTherapySlide(0)" alt="Thumb 1">
+              <img src="images/play_therapy_1.jpg" class="playTherapy-thumb" onclick="setPlayTherapySlide(1)" alt="Thumb 2">
+              <img src="images/play_therapy_2.jpg" class="playTherapy-thumb" onclick="setPlayTherapySlide(2)" alt="Thumb 3">
             </div>
             <div class="cause-body">
               <span class="cause-cat">Emotional Well-being</span>
@@ -498,7 +521,31 @@
     function pauseSpecEdTimer() { clearInterval(specEdTimer); }
     startSpecEdTimer();
 
+  
+    // === Play Therapy Slider ===
+    let playTherapyIdx = 0;
+    let playTherapyTimer = null;
+    const PLAY_THERAPY_COUNT = 3;
+    function setPlayTherapySlide(n) {
+      const slides = document.querySelectorAll('#playTherapyCarousel .cause-slide');
+      const dots = document.querySelectorAll('.playTherapyDot');
+      const thumbs = document.querySelectorAll('.playTherapy-thumb');
+      slides.forEach((s, i) => s.classList.toggle('active', i === n));
+      dots.forEach((d, i) => d.classList.toggle('active', i === n));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === n));
+      playTherapyIdx = n;
+    }
+    function nextPlayTherapySlide() { setPlayTherapySlide((playTherapyIdx + 1) % PLAY_THERAPY_COUNT); }
+    function prevPlayTherapySlide() { setPlayTherapySlide((playTherapyIdx - 1 + PLAY_THERAPY_COUNT) % PLAY_THERAPY_COUNT); }
+    function startPlayTherapyTimer() {
+      clearInterval(playTherapyTimer);
+      playTherapyTimer = setInterval(nextPlayTherapySlide, 3500);
+    }
+    function pausePlayTherapyTimer() { clearInterval(playTherapyTimer); }
+    startPlayTherapyTimer();
+
   </script>
+
 
 </body>
 </html>
