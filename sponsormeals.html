@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=4.3">
+  <link rel="stylesheet" href="css/styles.css?v=4.4">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -284,13 +284,66 @@
           </article>
 
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/individual_care1.jpg" alt="Loving Care">
+            <div class="cause-media" id="caregiversFeedingCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/individual_care1.jpg" alt="Mother lovingly feeding special child with patience" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_1.jpg" alt="Caregiver assisting child during mealtime" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_2.jpg" alt="Tender feeding and personal nourishment" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_3.jpg" alt="Dedicated caregiver feeding bedridden child with affection" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_4.jpg" alt="Loving mother sharing meal with child at Prema Vasam" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_5.jpg" alt="Special one-on-one nutrition support" style="object-position: center 20%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_6.jpg" alt="Gentle caregiver spoon-feeding child with care" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/caregivers_feeding_7.jpg" alt="Nurturing family dining care at sanctuary" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevCaregiversSlide(event)" aria-label="Previous feeding photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextCaregiversSlide(event)" aria-label="Next feeding photo">›</button>
+
+              <!-- Indicators -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setCaregiversSlide(0, event)" aria-label="Photo 1"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(1, event)" aria-label="Photo 2"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(2, event)" aria-label="Photo 3"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(3, event)" aria-label="Photo 4"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(4, event)" aria-label="Photo 5"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(5, event)" aria-label="Photo 6"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(6, event)" aria-label="Photo 7"></button>
+                <button type="button" class="cause-slider-dot" onclick="setCaregiversSlide(7, event)" aria-label="Photo 8"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Tender Loving Care</span>
+              <span class="cause-cat">Tender Loving Care • 8 Care Sessions</span>
               <h3>Mothers &amp; Caregivers Feeding</h3>
               <p>Mothers of special children stay at Premavasam and feed bedridden children with patient, tender affection three times every day.</p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="physio-thumb-row caregivers-thumb-row" title="Click to view feeding photo">
+                <img src="images/individual_care1.jpg" class="physio-thumb caregivers-thumb active" onclick="setCaregiversSlide(0, event)" alt="Tender Feeding">
+                <img src="images/caregivers_feeding_1.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(1, event)" alt="Mealtime Care">
+                <img src="images/caregivers_feeding_2.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(2, event)" alt="Gentle Feeding">
+                <img src="images/caregivers_feeding_3.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(3, event)" alt="Affectionate Care">
+                <img src="images/caregivers_feeding_4.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(4, event)" alt="Mother Care">
+                <img src="images/caregivers_feeding_5.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(5, event)" alt="Nutrition Support">
+                <img src="images/caregivers_feeding_6.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(6, event)" alt="Spoon Feeding">
+                <img src="images/caregivers_feeding_7.jpg" class="physio-thumb caregivers-thumb" onclick="setCaregiversSlide(7, event)" alt="Family Dining">
+              </div>
             </div>
           </article>
 
@@ -429,6 +482,55 @@
     if (mealsBox) {
       mealsBox.addEventListener('mouseenter', () => clearInterval(freshMealsAutoTimer));
       mealsBox.addEventListener('mouseleave', () => startFreshMealsTimer());
+    }
+
+    // ── MOTHERS & CAREGIVERS FEEDING MULTI-PHOTO SLIDER ──
+    let currentCaregiversSlide = 0;
+    let caregiversAutoTimer = null;
+
+    function setCaregiversSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#caregiversFeedingCarousel .cause-slide');
+      const dots = document.querySelectorAll('#caregiversFeedingCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.caregivers-thumb');
+      if (!slides.length) return;
+
+      currentCaregiversSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentCaregiversSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentCaregiversSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentCaregiversSlide));
+    }
+
+    function nextCaregiversSlide(e) {
+      if (e) e.stopPropagation();
+      setCaregiversSlide(currentCaregiversSlide + 1);
+      resetCaregiversTimer();
+    }
+
+    function prevCaregiversSlide(e) {
+      if (e) e.stopPropagation();
+      setCaregiversSlide(currentCaregiversSlide - 1);
+      resetCaregiversTimer();
+    }
+
+    function startCaregiversTimer() {
+      if (caregiversAutoTimer) clearInterval(caregiversAutoTimer);
+      caregiversAutoTimer = setInterval(() => {
+        setCaregiversSlide(currentCaregiversSlide + 1);
+      }, 4400);
+    }
+
+    function resetCaregiversTimer() {
+      startCaregiversTimer();
+    }
+
+    startCaregiversTimer();
+
+    const careBox = document.getElementById('caregiversFeedingCarousel');
+    if (careBox) {
+      careBox.addEventListener('mouseenter', () => clearInterval(caregiversAutoTimer));
+      careBox.addEventListener('mouseleave', () => startCaregiversTimer());
     }
   </script>
   <script src="js/mobile-nav.js"></script>
