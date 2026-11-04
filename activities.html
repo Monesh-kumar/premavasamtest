@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=3.8">
+  <link rel="stylesheet" href="css/styles.css?v=3.9">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -229,6 +229,9 @@
             <div class="cause-slide">
               <img src="images/special_ed_8.jpg" alt="Special Education - Therapy Session" style="object-position: center top;">
             </div>
+            <div class="cause-slide">
+              <img src="images/special_ed_9.jpg" alt="Special Education - Vocational Sewing Training" style="object-position: center top;">
+            </div>
               </div>
               <button class="cause-slider-btn prev" onclick="prevSpecEdSlide()" aria-label="Previous">&#8249;</button>
               <button class="cause-slider-btn next" onclick="nextSpecEdSlide()" aria-label="Next">&#8250;</button>
@@ -241,6 +244,7 @@
               <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(5)" aria-label="Slide 6"></button>
               <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(6)" aria-label="Slide 7"></button>
               <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(7)" aria-label="Slide 8"></button>
+              <button class="specEdDot cause-slider-dot" onclick="setSpecEdSlide(8)" aria-label="Slide 9"></button>
               </div>
             </div>
             <div class="specEd-thumb-row">
@@ -252,6 +256,7 @@
               <img src="images/special_ed_6.jpg" class="specEd-thumb" onclick="setSpecEdSlide(5)" alt="Thumb 6" style="object-position: center top;">
               <img src="images/special_ed_7.jpg" class="specEd-thumb" onclick="setSpecEdSlide(6)" alt="Thumb 7" style="object-position: center top;">
               <img src="images/special_ed_8.jpg" class="specEd-thumb" onclick="setSpecEdSlide(7)" alt="Thumb 8" style="object-position: center top;">
+              <img src="images/special_ed_9.jpg" class="specEd-thumb" onclick="setSpecEdSlide(8)" alt="Thumb 9" style="object-position: center top;">
             </div>
             <div class="cause-body">
               <span class="cause-cat">Customized Curriculum</span>
@@ -502,7 +507,7 @@
     // === Special Education Slider ===
     let specEdIdx = 0;
     let specEdTimer = null;
-    const SPEC_ED_COUNT = 8;
+    const SPEC_ED_COUNT = 9;
     function setSpecEdSlide(n) {
       const slides = document.querySelectorAll('#specialEdCarousel .cause-slide');
       const dots = document.querySelectorAll('.specEdDot');
