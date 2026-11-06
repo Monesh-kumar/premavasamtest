@@ -830,7 +830,8 @@ img {
 .specEd-thumb-row,
 .playTherapy-thumb-row,
 .freshMeals-thumb-row,
-.caregivers-thumb-row {
+.caregivers-thumb-row,
+.sports-thumb-row {
   display: flex;
   gap: 6px;
   margin-top: 14px;
@@ -845,7 +846,8 @@ img {
 .specEd-thumb,
 .playTherapy-thumb,
 .freshMeals-thumb,
-.caregivers-thumb {
+.caregivers-thumb,
+.sports-thumb {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-sm);
@@ -863,7 +865,8 @@ img {
 .specEd-thumb:hover,
 .playTherapy-thumb:hover,
 .freshMeals-thumb:hover,
-.caregivers-thumb:hover {
+.caregivers-thumb:hover,
+.sports-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
 }
@@ -874,10 +877,16 @@ img {
 .specEd-thumb.active,
 .playTherapy-thumb.active,
 .freshMeals-thumb.active,
-.caregivers-thumb.active {
+.caregivers-thumb.active,
+.sports-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Precision face positioning for Sports Meets images */
+.cause-slide img[src*="sports_meet"] {
+  object-position: center 30%;
 }
 
 /* Precision face positioning for Occupational Therapy images */

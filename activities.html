@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=4.7">
+  <link rel="stylesheet" href="css/styles.css?v=4.8">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -336,15 +336,48 @@
 
           <!-- 6. Sports & Special Olympics -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/gallery/sports_1.jpg" alt="Sports Meet">
+            <div class="cause-media" id="sportsCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/sports_meet_1.jpg" alt="Prema Vasam sports team outside SDAT District Stadium Kanchipuram" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/sports_meet_2.jpg" alt="Student receiving official SDAT sports achievement certificate" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/sports_meet_3.jpg" alt="Student receiving state sports felicitation with teachers" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/gallery/sports_1.jpg" alt="World Disabled Day running race and athletic sprints" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevSportsSlide(event)" aria-label="Previous sports photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextSportsSlide(event)" aria-label="Next sports photo">›</button>
+
+              <!-- Indicators -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setSportsSlide(0, event)" aria-label="Photo 1"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(1, event)" aria-label="Photo 2"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(2, event)" aria-label="Photo 3"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(3, event)" aria-label="Photo 4"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Athletic Pride</span>
+              <span class="cause-cat">Athletic Pride • 4 Sports Milestones</span>
               <h3>Sports Meets &amp; Physical Training</h3>
               <p>
                 Our athletes compete annually in district and state-level World Disabled Day Sports Meets, winning medals in running, shot put, and assisted wheelchair relays with thunderous applause!
               </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="physio-thumb-row sports-thumb-row" title="Click to view sports photo">
+                <img src="images/sports_meet_1.jpg" class="physio-thumb sports-thumb active" onclick="setSportsSlide(0, event)" alt="SDAT Stadium">
+                <img src="images/sports_meet_2.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(1, event)" alt="Boy Award">
+                <img src="images/sports_meet_3.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(2, event)" alt="Girl Award">
+                <img src="images/gallery/sports_1.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(3, event)" alt="Running Race">
+              </div>
             </div>
           </article>
         </div>
@@ -638,6 +671,55 @@
     if (playBox) {
       playBox.addEventListener('mouseenter', () => clearInterval(playTherapyAutoTimer));
       playBox.addEventListener('mouseleave', () => startPlayTherapyTimer());
+    }
+
+    // ── 5. SPORTS MEETS & PHYSICAL TRAINING MULTI-PHOTO SLIDER ──
+    let currentSportsSlide = 0;
+    let sportsAutoTimer = null;
+
+    function setSportsSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#sportsCarousel .cause-slide');
+      const dots = document.querySelectorAll('#sportsCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.sports-thumb');
+      if (!slides.length) return;
+
+      currentSportsSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentSportsSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentSportsSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentSportsSlide));
+    }
+
+    function nextSportsSlide(e) {
+      if (e) e.stopPropagation();
+      setSportsSlide(currentSportsSlide + 1);
+      resetSportsTimer();
+    }
+
+    function prevSportsSlide(e) {
+      if (e) e.stopPropagation();
+      setSportsSlide(currentSportsSlide - 1);
+      resetSportsTimer();
+    }
+
+    function startSportsTimer() {
+      if (sportsAutoTimer) clearInterval(sportsAutoTimer);
+      sportsAutoTimer = setInterval(() => {
+        setSportsSlide(currentSportsSlide + 1);
+      }, 4800);
+    }
+
+    function resetSportsTimer() {
+      startSportsTimer();
+    }
+
+    startSportsTimer();
+
+    const sportsBox = document.getElementById('sportsCarousel');
+    if (sportsBox) {
+      sportsBox.addEventListener('mouseenter', () => clearInterval(sportsAutoTimer));
+      sportsBox.addEventListener('mouseleave', () => startSportsTimer());
     }
   </script>
   <script src="js/mobile-nav.js"></script>
