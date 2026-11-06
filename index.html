@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=4.8">
+  <link rel="stylesheet" href="css/styles.css?v=4.9">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -220,13 +220,42 @@
           </article>
 
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/gallery/diwali_1.jpg" alt="Joyful Celebrations">
+            <div class="cause-media" id="festiveCelebrationsCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/celebration_krishna_jayanthi.jpg" alt="Children celebrating Krishna Jayanthi dressed as Lord Krishna" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/celebration_onam_pookkalam.jpg" alt="Children celebrating Onam around a traditional floral pookkalam" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/gallery/diwali_1.jpg" alt="Joyful Diwali sparkler celebrations with children and staff" style="object-position: center 30%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevFestiveSlide(event)" aria-label="Previous celebration photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextFestiveSlide(event)" aria-label="Next celebration photo">›</button>
+
+              <!-- Indicators -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setFestiveSlide(0, event)" aria-label="Photo 1"></button>
+                <button type="button" class="cause-slider-dot" onclick="setFestiveSlide(1, event)" aria-label="Photo 2"></button>
+                <button type="button" class="cause-slider-dot" onclick="setFestiveSlide(2, event)" aria-label="Photo 3"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Community &amp; Culture</span>
+              <span class="cause-cat">Community &amp; Culture • 3 Festive Celebrations</span>
               <h3>Festive Joy &amp; Special Celebrations</h3>
-              <p>Celebrating Pongal, Diwali, and World Disabled Day sports meets with colorful music, dance therapy, and pride in achievements.</p>
+              <p>Celebrating Krishna Jayanthi, Onam, Pongal, and Diwali with traditional costumes, floral pookkalams, music, dance therapy, and pride in achievements.</p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="physio-thumb-row festive-thumb-row" title="Click to view festival photo">
+                <img src="images/celebration_krishna_jayanthi.jpg" class="physio-thumb festive-thumb active" onclick="setFestiveSlide(0, event)" alt="Krishna Jayanthi">
+                <img src="images/celebration_onam_pookkalam.jpg" class="physio-thumb festive-thumb" onclick="setFestiveSlide(1, event)" alt="Onam Pookkalam">
+                <img src="images/gallery/diwali_1.jpg" class="physio-thumb festive-thumb" onclick="setFestiveSlide(2, event)" alt="Diwali">
+              </div>
+
               <div class="cause-footer">
                 <a href="gallery.html" class="btn btn-sm btn-outline">View Moments →</a>
               </div>
@@ -827,6 +856,54 @@
 
     startHeroAutoTimer();
 
+    // ── FESTIVE JOY & CELEBRATIONS SLIDER ──
+    let currentFestiveSlide = 0;
+    let festiveAutoTimer = null;
+
+    function setFestiveSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#festiveCelebrationsCarousel .cause-slide');
+      const dots = document.querySelectorAll('#festiveCelebrationsCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.festive-thumb');
+      if (!slides.length) return;
+
+      currentFestiveSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentFestiveSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentFestiveSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentFestiveSlide));
+    }
+
+    function nextFestiveSlide(e) {
+      if (e) e.stopPropagation();
+      setFestiveSlide(currentFestiveSlide + 1);
+      resetFestiveTimer();
+    }
+
+    function prevFestiveSlide(e) {
+      if (e) e.stopPropagation();
+      setFestiveSlide(currentFestiveSlide - 1);
+      resetFestiveTimer();
+    }
+
+    function startFestiveTimer() {
+      if (festiveAutoTimer) clearInterval(festiveAutoTimer);
+      festiveAutoTimer = setInterval(() => {
+        setFestiveSlide(currentFestiveSlide + 1);
+      }, 4500);
+    }
+
+    function resetFestiveTimer() {
+      startFestiveTimer();
+    }
+
+    startFestiveTimer();
+
+    const festBox = document.getElementById('festiveCelebrationsCarousel');
+    if (festBox) {
+      festBox.addEventListener('mouseenter', () => clearInterval(festiveAutoTimer));
+      festBox.addEventListener('mouseleave', () => startFestiveTimer());
+    }
 
     // Default Date (tomorrow)
     const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
@@ -843,6 +920,8 @@
       { src: 'images/gallery/school_1.jpg', title: 'Classroom Learning & Alphabet ADL', cat: 'education' },
       { src: 'images/gallery/school_2.jpg', title: 'Creative Art & Clay Modeling', cat: 'education' },
       { src: 'images/gallery/school_3.jpg', title: 'Sensory Therapy & Special Aids', cat: 'education' },
+      { src: 'images/celebration_krishna_jayanthi.jpg', title: 'Krishna Jayanthi Costume & Music Celebration', cat: 'festivals' },
+      { src: 'images/celebration_onam_pookkalam.jpg', title: 'Onam Floral Pookkalam & Traditional Attire', cat: 'festivals' },
       { src: 'images/gallery/diwali_1.jpg', title: 'Diwali Sparklers & Celebrations', cat: 'festivals' },
       { src: 'images/gallery/diwali_2.jpg', title: 'Traditional Pongal Feasts', cat: 'festivals' },
       { src: 'images/gallery/diwali_3.jpg', title: 'Grand Music & Dance Festivals', cat: 'festivals' },
