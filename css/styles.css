@@ -881,6 +881,7 @@ img {
 }
 
 /* Precision face positioning for Occupational Therapy images */
+.cause-slide img[src*="occupational_1_sensory_ball"],
 .cause-slide img[src*="occupational_1_pegboard"] {
   object-position: center 30%;
 }
