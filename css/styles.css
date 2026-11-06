@@ -832,6 +832,7 @@ img {
 .freshMeals-thumb-row,
 .caregivers-thumb-row,
 .sports-thumb-row,
+.dance-thumb-row,
 .festive-thumb-row {
   display: flex;
   gap: 6px;
@@ -849,6 +850,7 @@ img {
 .freshMeals-thumb,
 .caregivers-thumb,
 .sports-thumb,
+.dance-thumb,
 .festive-thumb {
   width: 46px;
   height: 46px;
@@ -869,6 +871,7 @@ img {
 .freshMeals-thumb:hover,
 .caregivers-thumb:hover,
 .sports-thumb:hover,
+.dance-thumb:hover,
 .festive-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
@@ -882,15 +885,30 @@ img {
 .freshMeals-thumb.active,
 .caregivers-thumb.active,
 .sports-thumb.active,
+.dance-thumb.active,
 .festive-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-/* Precision face positioning for Festival images */
+/* Precision face positioning for Festival and Dance images */
 .cause-slide img[src*="celebration_"] {
   object-position: center 30%;
+}
+
+.cause-slide img[src*="dance_movement_1"],
+.cause-slide img[src*="dance_movement_2"] {
+  object-position: center 25%;
+}
+
+.cause-slide img[src*="dance_movement_3"],
+.cause-slide img[src*="dance_movement_4"] {
+  object-position: center 30%;
+}
+
+.cause-slide img[src*="dance_movement_5"] {
+  object-position: center 38%;
 }
 
 /* Precision face positioning for Sports Meets images */
