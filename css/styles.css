@@ -911,6 +911,10 @@ img {
   object-position: center 38%;
 }
 
+.cause-slide img[src*="creative_art"] {
+  object-position: center 25%;
+}
+
 /* Precision face positioning for Sports Meets images */
 .cause-slide img[src*="sports_meet"] {
   object-position: center 30%;

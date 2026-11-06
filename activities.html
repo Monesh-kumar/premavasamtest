@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=5.0">
+  <link rel="stylesheet" href="css/styles.css?v=5.1">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -337,13 +337,16 @@
                   <img src="images/dance_movement_4.jpg" alt="Synchronized floral daisy prop dance performance" style="object-position: center 25%;">
                 </div>
                 <div class="cause-slide">
-                  <img src="images/dance_movement_5.jpg" alt="Creative arts expression students displaying hand-painted tote bags" style="object-position: center 25%;">
+                  <img src="images/creative_art_1.jpg" alt="Student sketching and coloring character art at creative arts desk" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/dance_movement_5.jpg" alt="Creative arts expression students displaying hand-painted tote bags" style="object-position: center 38%;">
                 </div>
               </div>
 
               <!-- Slider Navigation Chevrons -->
-              <button type="button" class="cause-slider-btn prev" onclick="prevDanceSlide(event)" aria-label="Previous dance photo">‹</button>
-              <button type="button" class="cause-slider-btn next" onclick="nextDanceSlide(event)" aria-label="Next dance photo">›</button>
+              <button type="button" class="cause-slider-btn prev" onclick="prevDanceSlide(event)" aria-label="Previous dance and art photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextDanceSlide(event)" aria-label="Next dance and art photo">›</button>
 
               <!-- Indicators -->
               <div class="cause-slider-dots">
@@ -352,22 +355,24 @@
                 <button type="button" class="cause-slider-dot" onclick="setDanceSlide(2, event)" aria-label="Photo 3"></button>
                 <button type="button" class="cause-slider-dot" onclick="setDanceSlide(3, event)" aria-label="Photo 4"></button>
                 <button type="button" class="cause-slider-dot" onclick="setDanceSlide(4, event)" aria-label="Photo 5"></button>
+                <button type="button" class="cause-slider-dot" onclick="setDanceSlide(5, event)" aria-label="Photo 6"></button>
               </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Expression &amp; Joy • 5 Creative Showcases</span>
-              <h3>Music, Rhythm &amp; Dance Movement</h3>
+              <span class="cause-cat">Creative Arts &amp; Expression • 6 Showcases</span>
+              <h3>Creative Arts, Music &amp; Dance Movement</h3>
               <p>
-                Rhythmic clapping, traditional Tamil folk songs, and dance movement sessions help improve body posture, spatial awareness, and provide deep emotional joy and expression. Each child is given individualistic care to bring out their talents and skills.
+                Creative pencil drawing, canvas painting, rhythmic clapping, traditional Tamil folk songs, and dance movement sessions nurture fine motor dexterity, spatial awareness, and provide deep emotional joy. Each child is given individualistic care to bring out their unique artistic talents.
               </p>
 
               <!-- Interactive Session Mini-Thumbnails -->
-              <div class="physio-thumb-row dance-thumb-row" title="Click to view dance and arts photo">
+              <div class="physio-thumb-row dance-thumb-row" title="Click to view creative arts and dance photo">
                 <img src="images/dance_movement_1.jpg" class="physio-thumb dance-thumb active" onclick="setDanceSlide(0, event)" alt="Traditional Dance">
                 <img src="images/dance_movement_2.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(1, event)" alt="Pom-Pom Dance">
                 <img src="images/dance_movement_3.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(2, event)" alt="Stage Group">
                 <img src="images/dance_movement_4.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(3, event)" alt="Daisy Flower Prop">
-                <img src="images/dance_movement_5.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(4, event)" alt="Painted Bags">
+                <img src="images/creative_art_1.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(4, event)" alt="Drawing &amp; Sketching">
+                <img src="images/dance_movement_5.jpg" class="physio-thumb dance-thumb" onclick="setDanceSlide(5, event)" alt="Painted Bags">
               </div>
             </div>
           </article>
