@@ -445,7 +445,6 @@ const GALLERY_DATA = [
   { src: '/images/gallery/children_3.jpg', title: 'Tender Companionship & Friendship', cat: 'daily' },
   { src: '/images/gallery/children_4.jpg', title: 'Moments of Pure Innocent Joy', cat: 'daily' },
   { src: '/images/gallery/children_5.jpg', title: 'Embraced with Compassion & Love', cat: 'daily' },
-  { src: '/images/individual_care1.jpg', title: 'Dedicated Motherly Care & Feeding', cat: 'daily' },
   { src: '/images/individual_care3.jpg', title: 'Individual Physical Rehabilitation', cat: 'daily' },
   { src: '/images/individual_care4.jpg', title: 'Warm Affection & Daily Nursing', cat: 'daily' },
   { src: '/images/achieve_praveena.jpg', title: 'Milestone Walk: Praveena Triumphs', cat: 'daily' }
