@@ -879,7 +879,8 @@ input, select, textarea {
 .sports-thumb-row,
 .dance-thumb-row,
 .festive-thumb-row,
-.building-thumb-row {
+.building-thumb-row,
+.amudhan-thumb-row {
   display: flex;
   gap: 6px;
   margin-top: 14px;
@@ -900,7 +901,8 @@ input, select, textarea {
 .sports-thumb-row::-webkit-scrollbar,
 .dance-thumb-row::-webkit-scrollbar,
 .festive-thumb-row::-webkit-scrollbar,
-.building-thumb-row::-webkit-scrollbar {
+.building-thumb-row::-webkit-scrollbar,
+.amudhan-thumb-row::-webkit-scrollbar {
   display: none;
 }
 
@@ -914,7 +916,8 @@ input, select, textarea {
 .sports-thumb,
 .dance-thumb,
 .festive-thumb,
-.building-thumb {
+.building-thumb,
+.amudhan-thumb {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-sm);
@@ -936,7 +939,8 @@ input, select, textarea {
 .sports-thumb:hover,
 .dance-thumb:hover,
 .festive-thumb:hover,
-.building-thumb:hover {
+.building-thumb:hover,
+.amudhan-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
 }
@@ -951,7 +955,8 @@ input, select, textarea {
 .sports-thumb.active,
 .dance-thumb.active,
 .festive-thumb.active,
-.building-thumb.active {
+.building-thumb.active,
+.amudhan-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);

@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=5.9">
+  <link rel="stylesheet" href="css/styles.css?v=6.0">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -188,7 +188,49 @@
             </div>
           </article>
 
-          <!-- 3. Walking Milestones -->
+          <!-- 3. Amudhan’s Success Story -->
+          <article class="cause-card">
+            <div class="cause-media" id="amudhanCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/amudhan_1_baby.jpg?v=3.6" alt="Founder Selvyn Roy holding one-month-old infant Amudhan in December 2010" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/amudhan_2_walker.jpg?v=3.6" alt="Young Amudhan smiling with his pediatric walker and leg calipers as children cheer him on" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/amudhan_3_school.jpg?v=3.6" alt="Schoolboy Amudhan in uniform with school backpack and ID card heading to class" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevAmudhanSlide(event)" aria-label="Previous milestone photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextAmudhanSlide(event)" aria-label="Next milestone photo">›</button>
+
+              <!-- Indicators (3 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setAmudhanSlide(0, event)" aria-label="Photo 1 - Infant Amudhan (2010)"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAmudhanSlide(1, event)" aria-label="Photo 2 - First Steps with Walker"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAmudhanSlide(2, event)" aria-label="Photo 3 - School Student"></button>
+              </div>
+            </div>
+            <div class="cause-body">
+              <span class="cause-cat">Resilience &amp; Academic Triumph • 3 Photo Milestones</span>
+              <h3>Amudhan’s Success Story</h3>
+              <p>
+                In 2010 December, little Amudhan came as one month old baby. He has Spina bifida which causes hydrocephalus, hence multiple surgeries were done to reduce the fluid accumulation when he was a few months old baby. He was given continuous physiotherapy and have achieved all the milestones, since he lost sensation below his hip he could not walk. Amudhan is a very intelligent boy and he moves around independently with his wheelchair. He has written 10th public examination with the help of scribe; at present he is going to table tennis. We are so proud of his accomplishments!
+              </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="amudhan-thumb-row" title="Click to view story photo">
+                <img src="images/amudhan_1_baby.jpg?v=3.6" alt="Infant Amudhan (2010)" class="amudhan-thumb active" onclick="setAmudhanSlide(0, event)">
+                <img src="images/amudhan_2_walker.jpg?v=3.6" alt="Walker Milestone" class="amudhan-thumb" onclick="setAmudhanSlide(1, event)">
+                <img src="images/amudhan_3_school.jpg?v=3.6" alt="School Student" class="amudhan-thumb" onclick="setAmudhanSlide(2, event)">
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Walking Milestones -->
           <article class="cause-card">
             <div class="cause-media">
               <img src="images/achieve_praveena.jpg" alt="Praveena & Children">
@@ -202,7 +244,7 @@
             </div>
           </article>
 
-          <!-- 4. Mothers Living & Serving -->
+          <!-- 5. Mothers Living & Serving -->
           <article class="cause-card">
             <div class="cause-media">
               <img src="images/individual_care4.jpg" alt="Mothers and Children">
@@ -379,6 +421,55 @@
     if (buildingBox) {
       buildingBox.addEventListener('mouseenter', () => clearInterval(buildingAutoTimer));
       buildingBox.addEventListener('mouseleave', () => startBuildingTimer());
+    }
+
+    // ── AMUDHAN'S SUCCESS STORY MULTI-PHOTO SLIDER ──
+    let currentAmudhanSlide = 0;
+    let amudhanAutoTimer = null;
+
+    function setAmudhanSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#amudhanCarousel .cause-slide');
+      const dots = document.querySelectorAll('#amudhanCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.amudhan-thumb');
+      if (!slides.length) return;
+
+      currentAmudhanSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentAmudhanSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentAmudhanSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentAmudhanSlide));
+    }
+
+    function nextAmudhanSlide(e) {
+      if (e) e.stopPropagation();
+      setAmudhanSlide(currentAmudhanSlide + 1);
+      resetAmudhanTimer();
+    }
+
+    function prevAmudhanSlide(e) {
+      if (e) e.stopPropagation();
+      setAmudhanSlide(currentAmudhanSlide - 1);
+      resetAmudhanTimer();
+    }
+
+    function startAmudhanTimer() {
+      if (amudhanAutoTimer) clearInterval(amudhanAutoTimer);
+      amudhanAutoTimer = setInterval(() => {
+        setAmudhanSlide(currentAmudhanSlide + 1);
+      }, 5000);
+    }
+
+    function resetAmudhanTimer() {
+      startAmudhanTimer();
+    }
+
+    startAmudhanTimer();
+
+    const amudhanBox = document.getElementById('amudhanCarousel');
+    if (amudhanBox) {
+      amudhanBox.addEventListener('mouseenter', () => clearInterval(amudhanAutoTimer));
+      amudhanBox.addEventListener('mouseleave', () => startAmudhanTimer());
     }
   </script>
 </body>
