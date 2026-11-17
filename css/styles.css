@@ -98,6 +98,51 @@ img {
   padding: 0 24px;
 }
 
+
+/* ── TYPOGRAPHY: JUSTIFIED ALIGNMENT & BALANCED WORD GAPS ── */
+p,
+.cause-body p,
+.story-narrative p,
+.story-quote-block,
+.hero p,
+.donate-box p,
+article p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-spacing: -0.015em;
+  text-rendering: optimizeLegibility;
+}
+
+/* Maintain intentional center alignment */
+.section-header,
+.section-header p,
+.section-header .section-desc,
+.text-center,
+.text-center p,
+.footer-bottom,
+.footer-bottom p,
+[style*="text-align: center"],
+[style*="text-align:center"],
+[style*="text-align: center"] p,
+[style*="text-align:center"] p,
+.founder-pill,
+.founder-pill h5,
+.founder-pill span {
+  text-align: center;
+}
+
+/* Maintain clean alignment for tags, buttons, forms, and headings */
+.section-tag,
+.cause-cat,
+.nav-menu a,
+.btn,
+.form-label,
+input, select, textarea {
+  text-align: left;
+}
+
 /* ── 1. UTILITY TOP BAR ── */
 .top-bar {
   background-color: var(--color-primary-deep);
