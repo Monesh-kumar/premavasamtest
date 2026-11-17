@@ -1856,9 +1856,9 @@ input, select, textarea {
   
   /* Mobile Sticky Navbar */
   .navbar .container {
-    height: 64px;
-    padding: 0 16px;
-    gap: 8px;
+    height: 58px;
+    padding: 0 12px;
+    gap: 6px;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -1866,19 +1866,19 @@ input, select, textarea {
   }
 
   .brand {
-    gap: 8px;
+    gap: 6px;
     min-width: 0;
-    flex: 0 1 auto;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
   }
 
   .brand-emblem {
-    height: 48px;
+    height: 38px;
     width: auto;
     flex-shrink: 0;
     background-color: #ffffff;
-    padding: 3px 5px;
+    padding: 2px 4px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -1887,10 +1887,11 @@ input, select, textarea {
   .brand-text {
     min-width: 0;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .brand-text h1 {
-    font-size: 1.10rem;
+    font-size: 0.90rem;
     font-weight: 800;
     line-height: 1.1;
     margin: 0;
@@ -1901,7 +1902,7 @@ input, select, textarea {
 
   .brand-text span {
     display: block;
-    font-size: 0.58rem;
+    font-size: 0.50rem;
     font-weight: 600;
     color: var(--color-text-muted);
     line-height: 1.15;
@@ -1912,16 +1913,16 @@ input, select, textarea {
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
   }
 
   .nav-actions .btn,
   .nav-actions .btn-tertiary {
-    height: 34px;
-    min-height: 34px;
-    padding: 0 11px;
-    font-size: 0.66rem;
+    height: 30px;
+    min-height: 30px;
+    padding: 0 8px;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     border-radius: var(--radius-pill);
@@ -1940,8 +1941,8 @@ input, select, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     background: rgba(43, 84, 53, 0.08);
     color: var(--color-primary-deep);
@@ -2319,22 +2320,32 @@ input, select, textarea {
     padding: 0 8px;
     gap: 4px;
   }
+  .brand {
+    gap: 4px;
+  }
+  .brand-emblem {
+    height: 32px;
+    padding: 1px 3px;
+  }
   .brand-text h1 {
-    font-size: 0.88rem;
+    font-size: 0.78rem;
   }
   .brand-text span {
-    font-size: 0.48rem;
+    font-size: 0.44rem;
+  }
+  .nav-actions {
+    gap: 4px;
   }
   .nav-actions .btn,
   .nav-actions .btn-tertiary {
-    padding: 0 7px;
+    padding: 0 5px;
     font-size: 0.60rem;
-    height: 30px;
-    min-height: 30px;
+    height: 28px;
+    min-height: 28px;
   }
   .mobile-toggle {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     font-size: 1.05rem;
   }
   .meal-filter-bar {
