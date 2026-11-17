@@ -878,13 +878,30 @@ input, select, textarea {
 .caregivers-thumb-row,
 .sports-thumb-row,
 .dance-thumb-row,
-.festive-thumb-row {
+.festive-thumb-row,
+.building-thumb-row {
   display: flex;
   gap: 6px;
   margin-top: 14px;
   padding-top: 12px;
   border-top: 1px solid var(--color-border);
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.physio-thumb-row::-webkit-scrollbar,
+.occupational-thumb-row::-webkit-scrollbar,
+.specialEd-thumb-row::-webkit-scrollbar,
+.specEd-thumb-row::-webkit-scrollbar,
+.playTherapy-thumb-row::-webkit-scrollbar,
+.freshMeals-thumb-row::-webkit-scrollbar,
+.caregivers-thumb-row::-webkit-scrollbar,
+.sports-thumb-row::-webkit-scrollbar,
+.dance-thumb-row::-webkit-scrollbar,
+.festive-thumb-row::-webkit-scrollbar,
+.building-thumb-row::-webkit-scrollbar {
+  display: none;
 }
 
 .physio-thumb,
@@ -896,7 +913,8 @@ input, select, textarea {
 .caregivers-thumb,
 .sports-thumb,
 .dance-thumb,
-.festive-thumb {
+.festive-thumb,
+.building-thumb {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-sm);
@@ -917,7 +935,8 @@ input, select, textarea {
 .caregivers-thumb:hover,
 .sports-thumb:hover,
 .dance-thumb:hover,
-.festive-thumb:hover {
+.festive-thumb:hover,
+.building-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
 }
@@ -931,7 +950,8 @@ input, select, textarea {
 .caregivers-thumb.active,
 .sports-thumb.active,
 .dance-thumb.active,
-.festive-thumb.active {
+.festive-thumb.active,
+.building-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);

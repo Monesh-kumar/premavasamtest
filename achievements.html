@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css?v=5.8">
+  <link rel="stylesheet" href="css/styles.css?v=5.9">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -104,15 +104,73 @@
         <div class="causes-grid">
           <!-- 1. Permanent Sanctuary -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/achieve_building.jpg" alt="Permanent Concrete Building">
+            <div class="cause-media" id="buildingCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/achieve_building_1.jpg?v=3.6" alt="June 2, 1999 Inauguration Ribbon Cutting with Founder Selvyn Roy holding baby Prem" style="object-position: center 20%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_2.jpg?v=3.6" alt="Founders lighting ceremonial Kuthu Vilakku lamp on opening day in 1999" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_3.jpg?v=3.6" alt="Early Prema Vasam Special School thatched roof rental premises" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_4.jpg?v=3.6" alt="Original thatched roof shelter and floral garden pathway" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_5.jpg?v=3.6" alt="Permanent concrete campus construction underway with community masons and bullock cart" style="object-position: center 35%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_6.jpg?v=3.6" alt="Two-story brick building construction with arched windows taking shape" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_7.jpg?v=3.6" alt="Ceremonial carved door ribbon cutting of the concrete sanctuary with special children" style="object-position: center 20%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_8.jpg?v=3.6" alt="Children, teachers, and founders gathered at new brick steps of the permanent home" style="object-position: center 20%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/achieve_building_9.jpg?v=3.6" alt="Celebration and ceremonial lamp lighting inside the completed concrete haven" style="object-position: center 20%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevBuildingSlide(event)" aria-label="Previous milestone photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextBuildingSlide(event)" aria-label="Next milestone photo">›</button>
+
+              <!-- Indicators (9 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setBuildingSlide(0, event)" aria-label="Photo 1 - 1999 Inauguration"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(1, event)" aria-label="Photo 2 - Ceremonial Lamp"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(2, event)" aria-label="Photo 3 - Thatched School"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(3, event)" aria-label="Photo 4 - Early Shelter"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(4, event)" aria-label="Photo 5 - Concrete Works"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(5, event)" aria-label="Photo 6 - Brick Structure"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(6, event)" aria-label="Photo 7 - Carved Door Ribbon Cutting"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(7, event)" aria-label="Photo 8 - Community Gathering"></button>
+                <button type="button" class="cause-slider-dot" onclick="setBuildingSlide(8, event)" aria-label="Photo 9 - Finished Concrete Haven"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Infrastructure Milestone</span>
+              <span class="cause-cat">Infrastructure Milestone • 9 Archival Photographs</span>
               <h3>From Thatched Roof to Concrete Haven</h3>
               <p>
                 In our early days, children lived under a fragile thatched roof. Through relentless community effort, we constructed a safe, hygienic, concrete campus with sensory rooms, ramps, dormitory and classrooms in Gerugambakkam.
               </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="building-thumb-row" title="Click to view milestone photo">
+                <img src="images/achieve_building_1.jpg?v=3.6" alt="1999 Inauguration" class="building-thumb active" onclick="setBuildingSlide(0, event)">
+                <img src="images/achieve_building_2.jpg?v=3.6" alt="Lamp Lighting" class="building-thumb" onclick="setBuildingSlide(1, event)">
+                <img src="images/achieve_building_3.jpg?v=3.6" alt="Thatched Roof School" class="building-thumb" onclick="setBuildingSlide(2, event)">
+                <img src="images/achieve_building_4.jpg?v=3.6" alt="Early Shelter" class="building-thumb" onclick="setBuildingSlide(3, event)">
+                <img src="images/achieve_building_5.jpg?v=3.6" alt="Concrete Works" class="building-thumb" onclick="setBuildingSlide(4, event)">
+                <img src="images/achieve_building_6.jpg?v=3.6" alt="Brick Construction" class="building-thumb" onclick="setBuildingSlide(5, event)">
+                <img src="images/achieve_building_7.jpg?v=3.6" alt="Carved Door" class="building-thumb" onclick="setBuildingSlide(6, event)">
+                <img src="images/achieve_building_8.jpg?v=3.6" alt="Sanctuary Steps" class="building-thumb" onclick="setBuildingSlide(7, event)">
+                <img src="images/achieve_building_9.jpg?v=3.6" alt="Finished Haven" class="building-thumb" onclick="setBuildingSlide(8, event)">
+              </div>
             </div>
           </article>
 
@@ -272,5 +330,56 @@
     if (window.lucide) lucide.createIcons();
   </script>
   <script src="js/mobile-nav.js"></script>
+
+  <script>
+    // ── THATCHED ROOF TO CONCRETE HAVEN MULTI-PHOTO SLIDER ──
+    let currentBuildingSlide = 0;
+    let buildingAutoTimer = null;
+
+    function setBuildingSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#buildingCarousel .cause-slide');
+      const dots = document.querySelectorAll('#buildingCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.building-thumb');
+      if (!slides.length) return;
+
+      currentBuildingSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentBuildingSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentBuildingSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentBuildingSlide));
+    }
+
+    function nextBuildingSlide(e) {
+      if (e) e.stopPropagation();
+      setBuildingSlide(currentBuildingSlide + 1);
+      resetBuildingTimer();
+    }
+
+    function prevBuildingSlide(e) {
+      if (e) e.stopPropagation();
+      setBuildingSlide(currentBuildingSlide - 1);
+      resetBuildingTimer();
+    }
+
+    function startBuildingTimer() {
+      if (buildingAutoTimer) clearInterval(buildingAutoTimer);
+      buildingAutoTimer = setInterval(() => {
+        setBuildingSlide(currentBuildingSlide + 1);
+      }, 4500);
+    }
+
+    function resetBuildingTimer() {
+      startBuildingTimer();
+    }
+
+    startBuildingTimer();
+
+    const buildingBox = document.getElementById('buildingCarousel');
+    if (buildingBox) {
+      buildingBox.addEventListener('mouseenter', () => clearInterval(buildingAutoTimer));
+      buildingBox.addEventListener('mouseleave', () => startBuildingTimer());
+    }
+  </script>
 </body>
 </html>
