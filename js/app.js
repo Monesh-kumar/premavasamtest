@@ -441,7 +441,6 @@ const GALLERY_DATA = [
 
   // Our Children & Daily Life (all 5 photos + individual care)
   { src: '/images/gallery/children_1.jpg', title: 'Morning Smiles & Fresh Day Care', cat: 'daily' },
-  { src: '/images/gallery/children_2.jpg', title: 'Courtyard Laughter & Free Play', cat: 'daily' },
   { src: '/images/gallery/children_3.jpg', title: 'Tender Companionship & Friendship', cat: 'daily' },
   { src: '/images/gallery/children_4.jpg', title: 'Moments of Pure Innocent Joy', cat: 'daily' },
   { src: '/images/gallery/children_5.jpg', title: 'Embraced with Compassion & Love', cat: 'daily' },
