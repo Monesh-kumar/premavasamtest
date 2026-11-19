@@ -1219,23 +1219,9 @@
 
     // ── DEFAULT STATIC PREVIEW DATA (FOR GITHUB PAGES & OFFLINE BROWSING) ──
     const DEFAULT_PREVIEW_DATA = {
-      donations: [
-        { id: '#DON-301', donor_name: 'Dr. S. Ramanathan', donor_email: 'ramanathan.s@hospital.org', donor_phone: '9840011223', pan_number: 'AABCR1234F', amount: 25000, transfer_type: 'Net Banking', reference_number: 'NEFT-BOB-998822', receipt_status: 'issued', notes: 'For pediatric orthopedic medicines', created_at: '2026-10-20T11:00:00Z' },
-        { id: '#DON-302', donor_name: 'Lakshmi Narayanan', donor_email: 'lnarayanan@outlook.com', donor_phone: '9884022334', pan_number: 'BPYPL9988K', amount: 10000, transfer_type: 'UPI', reference_number: 'UPI-REF-88442211', receipt_status: 'issued', notes: 'Monthly sponsorship pledge', created_at: '2026-10-24T15:20:00Z' },
-        { id: '#DON-303', donor_name: 'R. Venkatesan', donor_email: 'venkat.r@chennai.net', donor_phone: '9444155667', pan_number: 'AHIPV4433E', amount: 50000, transfer_type: 'Cheque', reference_number: 'CHQ-882211', receipt_status: 'issued', notes: 'Corpus donation for physiotherapy equipment', created_at: '2026-10-27T16:45:00Z' },
-        { id: '#DON-304', donor_name: 'Global Hope Foundation (UK)', donor_email: 'grants@globalhope.org.uk', donor_phone: '+44 20 7946 0912', pan_number: 'FCRA-SBI', amount: 150000, transfer_type: 'SBI FCRA Wire', reference_number: 'SWIFT-SBI-UK-4411', receipt_status: 'issued', notes: 'MHA Approved FCRA wire for special educator honorariums', created_at: '2026-10-29T12:00:00Z' },
-        { id: '#DON-305', donor_name: 'Meenakshi Sundaram', donor_email: 'meena.s@yahoo.com', donor_phone: '9790811223', pan_number: 'BZMPS7711Q', amount: 15000, transfer_type: 'UPI', reference_number: 'UPI-9922001188', receipt_status: 'pending', notes: 'Deepavali clothes fund', created_at: '2026-11-01T10:15:00Z' }
-      ],
-      volunteers: [
-        { id: '#VOL-151', full_name: 'Kavitha Swaminathan', phone: '+91 98401 22334', email: 'kavitha.s@gmail.com', skills: 'Pediatric Physiotherapy (BPT)', message: 'Available Saturday mornings to assist with mobility therapy and sensory integration.', status: 'active', created_at: '2026-10-18T10:00:00Z' },
-        { id: '#VOL-152', full_name: 'Arun Kumar Rajan', phone: '+91 97909 33445', email: 'arun.rajan@techcorp.in', skills: 'Art, Craft & Carnatic Music', message: 'Would love to conduct weekend music therapy and drawing workshops for the children.', status: 'active', created_at: '2026-10-22T14:30:00Z' },
-        { id: '#VOL-153', full_name: 'Dr. Deepa Chandrasekaran', phone: '+91 94440 66778', email: 'deepa.chandra@medicare.org', skills: 'General Medicine & Health Checkups', message: 'Volunteering for monthly preventive healthcare and nutrition screenings.', status: 'new', created_at: '2026-10-29T11:20:00Z' }
-      ],
-      contacts: [
-        { id: '#MSG-881', name: 'Saravanan & Revathi', email: 'saravanan.r@gmail.com', subject: 'Campus Visit Request for Children Blessing', message: 'Vanakkam, we would like to visit the Gerugambakkam home this Sunday at 11 AM to distribute biscuits and interact with the children. Please let us know if this slot is suitable.', is_read: 1, created_at: '2026-10-28T16:20:00Z' },
-        { id: '#MSG-882', name: 'Dr. Geetha Narayanan', email: 'drgeetha.n@speechtherapyclinic.com', subject: 'Pro-bono Speech Therapy Support', message: 'Our clinical team is eager to offer complimentary weekly speech assessments for non-verbal children. Kindly connect with Miss Mumtaj.', is_read: 0, created_at: '2026-10-31T09:40:00Z' },
-        { id: '#MSG-883', name: 'Apollo Pharmacy Porur', email: 'porur.branch@apollopharmacy.org', subject: 'Regular Medicine Donation Delivery', message: 'Monthly antiepileptic and pediatric multivitamin medicines ready for collection at Porur branch.', is_read: 0, created_at: '2026-11-01T12:00:00Z' }
-      ]
+      donations: [],
+      volunteers: [],
+      contacts: []
     };
 
     function getStoredData() {
@@ -1244,7 +1230,7 @@
         const raw = localStorage.getItem('premavasam_preview_store');
         if (raw) stored = JSON.parse(raw);
       } catch (e) {}
-      if (!stored || !stored.donations || !stored.donations.length) {
+      if (!stored || !stored.donations) {
         stored = JSON.parse(JSON.stringify(DEFAULT_PREVIEW_DATA));
       }
       // Merge public page submissions if present
@@ -1400,7 +1386,7 @@
 
       // 2. Static / GitHub Pages Preview Fallback
       if ((username.toLowerCase() === 'admin' || username.toLowerCase() === 'premavasam') &&
-          (password === 'premavasam1999' || password === 'admin')) {
+          (password === 'prem$1999#vasam' || password === 'admin')) {
         const adminData = {
           name: 'Premavasam Administrator',
           role: 'Superadmin (Preview)',

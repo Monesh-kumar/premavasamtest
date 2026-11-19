@@ -173,7 +173,7 @@ async function runAudit() {
     method: 'POST',
     body: {
       username: 'admin',
-      password: process.env.ADMIN_PASSWORD || 'premavasam1999'
+      password: process.env.ADMIN_PASSWORD || 'prem$1999#vasam'
     }
   });
   assert(loginRes.status === 200 && loginRes.json?.ok, `Valid login succeeds -> Status: ${loginRes.status}`);

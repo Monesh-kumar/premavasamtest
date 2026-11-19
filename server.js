@@ -32,7 +32,7 @@ const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || '*'; // Configure to your doma
 
 // Admin Credentials (Set via environment variables in production)
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'premavasam1999';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'prem$1999#vasam';
 const ADMIN_NAME = process.env.ADMIN_NAME || 'Premavasam Administrator';
 const ADMIN_ROLE = process.env.ADMIN_ROLE || 'Superadmin';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'premavasam1999@gmail.com';
