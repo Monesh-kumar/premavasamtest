@@ -1100,6 +1100,18 @@ input, select, textarea {
   object-position: 45% 20%;
 }
 
+.story-img-main img[src*="story_children_collage"] {
+  object-position: center center;
+}
+
+.story-img-sub img[src*="story_physio_hall"] {
+  object-position: center 55%;
+}
+
+.story-img-sub img[src*="story_celebration_cake"] {
+  object-position: 32% 25%;
+}
+
 .cause-media img[src*="mumtaj"] {
   object-position: center 25%;
 }
