@@ -421,7 +421,7 @@
     let walkingAutoTimer = null;
 
     function setWalkingSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetWalkingTimer(); }
       const slides = document.querySelectorAll('#walkingCarousel .cause-slide');
       const dots = document.querySelectorAll('#walkingCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.walking-thumb');
@@ -432,8 +432,11 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentWalkingSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentWalkingSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentWalkingSlide));
-      if (thumbs[currentWalkingSlide] && typeof thumbs[currentWalkingSlide].scrollIntoView === 'function') {
-        thumbs[currentWalkingSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const activeThumb = thumbs[currentWalkingSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
 
@@ -476,7 +479,7 @@
     let buildingAutoTimer = null;
 
     function setBuildingSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetBuildingTimer(); }
       const slides = document.querySelectorAll('#buildingCarousel .cause-slide');
       const dots = document.querySelectorAll('#buildingCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.building-thumb');
@@ -525,7 +528,7 @@
     let amudhanAutoTimer = null;
 
     function setAmudhanSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetAmudhanTimer(); }
       const slides = document.querySelectorAll('#amudhanCarousel .cause-slide');
       const dots = document.querySelectorAll('#amudhanCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.amudhan-thumb');
@@ -536,8 +539,11 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentAmudhanSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentAmudhanSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentAmudhanSlide));
-      if (thumbs[currentAmudhanSlide] && typeof thumbs[currentAmudhanSlide].scrollIntoView === 'function') {
-        thumbs[currentAmudhanSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const activeThumb = thumbs[currentAmudhanSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
 

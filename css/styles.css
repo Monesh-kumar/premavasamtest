@@ -883,6 +883,7 @@ input, select, textarea {
 .amudhan-thumb-row,
 .walking-thumb-row {
   display: flex;
+  position: relative;
   gap: 6px;
   margin-top: 14px;
   padding-top: 12px;

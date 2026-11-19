@@ -537,7 +537,7 @@
     let physioAutoTimer = null;
 
     function setPhysioSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetPhysioTimer(); }
       const slides = document.querySelectorAll('#physioCarousel .cause-slide');
       const dots = document.querySelectorAll('#physioCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.physio-thumb');
@@ -548,6 +548,12 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentPhysioSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentPhysioSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentPhysioSlide));
+      const activeThumb = thumbs[currentPhysioSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
     }
 
     function nextPhysioSlide(e) {
@@ -586,7 +592,7 @@
     let occupationalAutoTimer = null;
 
     function setOccupationalSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetOccupationalTimer(); }
       const slides = document.querySelectorAll('#occupationalCarousel .cause-slide');
       const dots = document.querySelectorAll('#occupationalCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.occupational-thumb');
@@ -597,6 +603,12 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentOccupationalSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentOccupationalSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentOccupationalSlide));
+      const activeThumb = thumbs[currentOccupationalSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
     }
 
     function nextOccupationalSlide(e) {
@@ -635,7 +647,7 @@
     let specialEdAutoTimer = null;
 
     function setSpecialEdSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetSpecialEdTimer(); }
       const slides = document.querySelectorAll('#specialEdCarousel .cause-slide');
       const dots = document.querySelectorAll('#specialEdCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.specialEd-thumb');
@@ -646,6 +658,12 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentSpecialEdSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentSpecialEdSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentSpecialEdSlide));
+      const activeThumb = thumbs[currentSpecialEdSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
     }
 
     function nextSpecialEdSlide(e) {
@@ -689,7 +707,7 @@
     let playTherapyAutoTimer = null;
 
     function setPlayTherapySlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetPlayTherapyTimer(); }
       const slides = document.querySelectorAll('#playTherapyCarousel .cause-slide');
       const dots = document.querySelectorAll('#playTherapyCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.playTherapy-thumb');
@@ -700,8 +718,11 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentPlayTherapySlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentPlayTherapySlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentPlayTherapySlide));
-      if (thumbs[currentPlayTherapySlide] && typeof thumbs[currentPlayTherapySlide].scrollIntoView === 'function') {
-        thumbs[currentPlayTherapySlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const activeThumb = thumbs[currentPlayTherapySlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
 
@@ -741,7 +762,7 @@
     let sportsAutoTimer = null;
 
     function setSportsSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetSportsTimer(); }
       const slides = document.querySelectorAll('#sportsCarousel .cause-slide');
       const dots = document.querySelectorAll('#sportsCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.sports-thumb');
@@ -752,8 +773,11 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentSportsSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentSportsSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentSportsSlide));
-      if (thumbs[currentSportsSlide] && typeof thumbs[currentSportsSlide].scrollIntoView === 'function') {
-        thumbs[currentSportsSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const activeThumb = thumbs[currentSportsSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
 
@@ -793,7 +817,7 @@
     let danceAutoTimer = null;
 
     function setDanceSlide(index, e) {
-      if (e) e.stopPropagation();
+      if (e) { e.stopPropagation(); resetDanceTimer(); }
       const slides = document.querySelectorAll('#danceMovementCarousel .cause-slide');
       const dots = document.querySelectorAll('#danceMovementCarousel .cause-slider-dot');
       const thumbs = document.querySelectorAll('.dance-thumb');
@@ -804,6 +828,12 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentDanceSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentDanceSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentDanceSlide));
+      const activeThumb = thumbs[currentDanceSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
     }
 
     function nextDanceSlide(e) {
