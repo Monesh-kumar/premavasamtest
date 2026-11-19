@@ -183,7 +183,7 @@ premavasam-webpage/
 
 ## Contact & Location
 
-- **Address**: No. 15, Thiru V.K.A. Road, Gerugambakkam, Porur, Chennai – 600128, Tamil Nadu, India.
+- **Address**: No. 15, Thiru V.K.A. Road, Gerugambakkam, Chennai – 600128, Tamil Nadu, India.
 - **Phone**: +91 96772 38998 (9:00 AM – 8:00 PM IST)
 - **Email**: premavasam1999@gmail.com
 - **Website**: [https://www.premavasam.org](https://www.premavasam.org)
