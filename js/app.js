@@ -436,6 +436,8 @@ const GALLERY_DATA = [
   { src: '/images/gallery/sports_4.jpg', title: 'Cheering Squad & Enthusiastic Support', cat: 'sports' },
   { src: '/images/gallery/sports_5.jpg', title: 'Medal & Trophy Distribution Ceremony', cat: 'sports' },
   { src: '/images/gallery/sports_6.jpg', title: 'Group Sports Victory Celebration', cat: 'sports' },
+  { src: '/images/sports_meet_4.jpg', title: 'Proud Special Athletes with Tournament Medals', cat: 'sports' },
+  { src: '/images/sports_meet_5.jpg', title: 'Team Medalists Celebrating Sports Victory', cat: 'sports' },
   { src: '/images/play_therapy.jpg', title: 'Play Therapy & Active Outdoor Games', cat: 'sports' },
   { src: '/images/play_therapy_sports.jpg', title: 'Athletic Training & Parallel Bar Walking', cat: 'sports' },
 

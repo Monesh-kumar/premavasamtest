@@ -391,22 +391,30 @@
                 <div class="cause-slide">
                   <img src="images/gallery/sports_1.jpg" alt="World Disabled Day running race and athletic sprints" style="object-position: center 25%;">
                 </div>
+                <div class="cause-slide">
+                  <img src="images/sports_meet_4.jpg?v=6.0" alt="Prema Vasam special athletes proudly displaying their medals in team orange jerseys" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/sports_meet_5.jpg?v=6.0" alt="Special children smiling proudly with their tournament medals in sports uniforms" style="object-position: center 25%;">
+                </div>
               </div>
 
               <!-- Slider Navigation Chevrons -->
               <button type="button" class="cause-slider-btn prev" onclick="prevSportsSlide(event)" aria-label="Previous sports photo">‹</button>
               <button type="button" class="cause-slider-btn next" onclick="nextSportsSlide(event)" aria-label="Next sports photo">›</button>
 
-              <!-- Indicators -->
+              <!-- Indicators (6 dots) -->
               <div class="cause-slider-dots">
-                <button type="button" class="cause-slider-dot active" onclick="setSportsSlide(0, event)" aria-label="Photo 1"></button>
-                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(1, event)" aria-label="Photo 2"></button>
-                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(2, event)" aria-label="Photo 3"></button>
-                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(3, event)" aria-label="Photo 4"></button>
+                <button type="button" class="cause-slider-dot active" onclick="setSportsSlide(0, event)" aria-label="Photo 1 - SDAT Stadium"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(1, event)" aria-label="Photo 2 - Certificate"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(2, event)" aria-label="Photo 3 - Felicitation"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(3, event)" aria-label="Photo 4 - Running Race"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(4, event)" aria-label="Photo 5 - Team Medals"></button>
+                <button type="button" class="cause-slider-dot" onclick="setSportsSlide(5, event)" aria-label="Photo 6 - Sports Champions"></button>
               </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Athletic Pride • 4 Sports Milestones</span>
+              <span class="cause-cat">Athletic Pride • 6 Sports Milestones</span>
               <h3>Sports Meets &amp; Physical Training</h3>
               <p>
                 Our athletes compete annually in district and state-level World Disabled Day Sports Meets, winning medals in running, shot put, and assisted wheelchair relays with thunderous applause!
@@ -418,6 +426,8 @@
                 <img src="images/sports_meet_2.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(1, event)" alt="Boy Award">
                 <img src="images/sports_meet_3.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(2, event)" alt="Girl Award">
                 <img src="images/gallery/sports_1.jpg" class="physio-thumb sports-thumb" onclick="setSportsSlide(3, event)" alt="Running Race">
+                <img src="images/sports_meet_4.jpg?v=6.0" class="physio-thumb sports-thumb" onclick="setSportsSlide(4, event)" alt="Team Medals">
+                <img src="images/sports_meet_5.jpg?v=6.0" class="physio-thumb sports-thumb" onclick="setSportsSlide(5, event)" alt="Sports Champions">
               </div>
             </div>
           </article>
@@ -733,6 +743,9 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentSportsSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentSportsSlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentSportsSlide));
+      if (thumbs[currentSportsSlide] && typeof thumbs[currentSportsSlide].scrollIntoView === 'function') {
+        thumbs[currentSportsSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     function nextSportsSlide(e) {
