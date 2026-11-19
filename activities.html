@@ -289,6 +289,9 @@
                 <div class="cause-slide">
                   <img src="images/play_therapy_2.jpg" alt="Joyful Dance & Movement Play" style="object-position: center 30%;">
                 </div>
+                <div class="cause-slide">
+                  <img src="images/play_therapy_3.jpg" alt="Courtyard Ball Games & Active Play Therapy" style="object-position: center 25%;">
+                </div>
               </div>
 
               <!-- Slider Navigation Chevrons -->
@@ -300,10 +303,11 @@
                 <button type="button" class="cause-slider-dot active" onclick="setPlayTherapySlide(0, event)" aria-label="Photo 1"></button>
                 <button type="button" class="cause-slider-dot" onclick="setPlayTherapySlide(1, event)" aria-label="Photo 2"></button>
                 <button type="button" class="cause-slider-dot" onclick="setPlayTherapySlide(2, event)" aria-label="Photo 3"></button>
+                <button type="button" class="cause-slider-dot" onclick="setPlayTherapySlide(3, event)" aria-label="Photo 4"></button>
               </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Emotional Well-being • 3 Activity Sessions</span>
+              <span class="cause-cat">Emotional Well-being • 4 Activity Sessions</span>
               <h3>Play Therapy &amp; Social Interaction</h3>
               <p>
                 Safe indoor play zones equipped with balls, swings, sensory mats, and musical toys stimulate motor skills, hand-eye coordination, and laughter among children of all ages.
@@ -314,6 +318,7 @@
                 <img src="images/play_therapy.jpg" class="physio-thumb playTherapy-thumb active" onclick="setPlayTherapySlide(0, event)" alt="Sensory Play Zone">
                 <img src="images/play_therapy_1.jpg" class="physio-thumb playTherapy-thumb" onclick="setPlayTherapySlide(1, event)" alt="Outdoor Basketball">
                 <img src="images/play_therapy_2.jpg" class="physio-thumb playTherapy-thumb" onclick="setPlayTherapySlide(2, event)" alt="Joyful Dance">
+                <img src="images/play_therapy_3.jpg" class="physio-thumb playTherapy-thumb" onclick="setPlayTherapySlide(3, event)" alt="Courtyard Ball Games">
               </div>
             </div>
           </article>
@@ -694,6 +699,9 @@
       slides.forEach((s, i) => s.classList.toggle('active', i === currentPlayTherapySlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentPlayTherapySlide));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === currentPlayTherapySlide));
+      if (thumbs[currentPlayTherapySlide] && typeof thumbs[currentPlayTherapySlide].scrollIntoView === 'function') {
+        thumbs[currentPlayTherapySlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     function nextPlayTherapySlide(e) {

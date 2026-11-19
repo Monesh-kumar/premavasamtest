@@ -439,6 +439,7 @@ const GALLERY_DATA = [
   { src: '/images/sports_meet_4.jpg', title: 'Proud Special Athletes with Tournament Medals', cat: 'sports' },
   { src: '/images/sports_meet_5.jpg', title: 'Team Medalists Celebrating Sports Victory', cat: 'sports' },
   { src: '/images/play_therapy.jpg', title: 'Play Therapy & Active Outdoor Games', cat: 'sports' },
+  { src: '/images/play_therapy_3.jpg', title: 'Play Therapy Courtyard Ball Games', cat: 'sports' },
   { src: '/images/play_therapy_sports.jpg', title: 'Athletic Training & Parallel Bar Walking', cat: 'sports' },
 
   // Our Children & Daily Life (all 5 photos + individual care)
