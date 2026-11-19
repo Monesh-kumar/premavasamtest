@@ -26,9 +26,15 @@ if (typeof process.loadEnvFile === 'function') {
 // ── CONFIGURATION & ENVIRONMENT ──
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
-const DB_PATH = path.join(__dirname, 'database.sqlite');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'database.sqlite');
 const APP_ENV = process.env.NODE_ENV || 'production';
 const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || '*'; // Configure to your domain in production e.g. 'https://premavasam.org'
+
+// Ensure database directory exists
+const DB_DIR = path.dirname(DB_PATH);
+if (!fs.existsSync(DB_DIR)) {
+  fs.mkdirSync(DB_DIR, { recursive: true });
+}
 
 // Admin Credentials (Set via environment variables in production)
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
@@ -36,6 +42,42 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'prem$1999#vasam';
 const ADMIN_NAME = process.env.ADMIN_NAME || 'Premavasam Administrator';
 const ADMIN_ROLE = process.env.ADMIN_ROLE || 'Superadmin';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'premavasam1999@gmail.com';
+
+// ── 0. STRUCTURED AUDIT LOGGING & SENSITIVE DATA REDACTION ──
+const SENSITIVE_KEYS = new Set([
+  'password', 'token', 'authorization', 'cookie', 'session',
+  'pan', 'pan_number', 'pan_card', 'card', 'cvv', 'secret'
+]);
+
+function redactData(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(redactData);
+  const out = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (SENSITIVE_KEYS.has(k.toLowerCase())) {
+      out[k] = '[REDACTED]';
+    } else if (typeof v === 'object' && v !== null) {
+      out[k] = redactData(v);
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
+
+function appLog(level, message, meta = {}) {
+  const timestamp = new Date().toISOString();
+  const entry = {
+    timestamp,
+    level: level.toUpperCase(),
+    message,
+    ...redactData(meta)
+  };
+  const line = JSON.stringify(entry);
+  if (level === 'error') console.error(line);
+  else if (level === 'warn') console.warn(line);
+  else console.log(line);
+}
 
 // ── 1. DATABASE INITIALIZATION (SQLite WAL Mode) ──
 const db = new DatabaseSync(DB_PATH);
@@ -92,6 +134,13 @@ db.exec(`
     is_read INTEGER DEFAULT 0,
     created_at TEXT NOT NULL
   );
+
+  -- Performance Indexes for Chronological Queries and Admin Metrics
+  CREATE INDEX IF NOT EXISTS idx_meals_created ON meals(created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_donations_created ON donations(created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_volunteers_created ON volunteers(created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_contacts_created ON contacts(created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_contacts_unread ON contacts(is_read);
 `);
 
 // ── 2. CYBER SECURITY: RATE LIMITING & BRUTE FORCE SHIELD ──
@@ -127,10 +176,19 @@ setInterval(() => {
   }
 }, 5 * 60 * 1000).unref();
 
+// Explicit reverse proxy trust configuration (Cloudflare, Nginx, GoDaddy proxy)
+const TRUST_PROXY = process.env.TRUST_PROXY === 'true' || process.env.TRUST_PROXY === '1';
+
 function getClientIp(req) {
-  const xForwardedFor = req.headers['x-forwarded-for'];
-  if (xForwardedFor) {
-    return xForwardedFor.split(',')[0].trim();
+  if (TRUST_PROXY) {
+    const xForwardedFor = req.headers['x-forwarded-for'];
+    if (xForwardedFor) {
+      const clientIp = xForwardedFor.split(',')[0].trim();
+      // Basic IPv4 / IPv6 validation
+      if (/^[\da-fA-F.:]+$/.test(clientIp)) {
+        return clientIp;
+      }
+    }
   }
   return req.socket.remoteAddress || '127.0.0.1';
 }
@@ -297,6 +355,7 @@ function getStats() {
   const donStats = db.prepare('SELECT COUNT(*) as count, COALESCE(SUM(amount), 0) as total FROM donations').get();
   const conStats = db.prepare('SELECT COUNT(*) as count, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) as unread FROM contacts').get();
   const volStats = db.prepare('SELECT COUNT(*) as count FROM volunteers').get();
+  const recentDonations = db.prepare('SELECT id, donor_name, donor_phone, donor_email, amount, transfer_type, reference_number, receipt_status, created_at FROM donations ORDER BY created_at DESC LIMIT 5').all();
 
   const mealTotal = Number(mealStats.total) || 0;
   const donTotal = Number(donStats.total) || 0;
@@ -318,7 +377,8 @@ function getStats() {
     totalFunds: mealTotal + donTotal,
     mealsCount: mealStats.count,
     unreadContacts: conStats.unread || 0,
-    newMessages: conStats.unread || 0
+    newMessages: conStats.unread || 0,
+    recentDonations
   };
 }
 
@@ -368,13 +428,15 @@ const MIME_TYPES = {
 // SENSITIVE FILES THAT MUST NEVER BE SERVED OVER HTTP
 const BLOCKED_EXTENSIONS = new Set([
   '.sqlite', '.sqlite-shm', '.sqlite-wal', '.db', '.db-shm', '.db-wal',
-  '.env', '.git', '.gitignore', '.log', '.md', '.bak', '.tar', '.zip', '.gz'
+  '.env', '.git', '.gitignore', '.log', '.md', '.bak', '.tar', '.zip', '.gz',
+  '.example', '.conf', '.yaml', '.yml'
 ]);
 
 const BLOCKED_FILES = new Set([
   'server.js', 'package.json', 'package-lock.json', 'test_suite.js',
-  'security_audit_test.js', 'test_runner.js',
-  'database.sqlite', 'database.sqlite-shm', 'database.sqlite-wal'
+  'security_audit_test.js', 'test_runner.js', 'backup.js',
+  'database.sqlite', 'database.sqlite-shm', 'database.sqlite-wal',
+  'ecosystem.config.js', 'nginx.conf.example'
 ]);
 
 // ── 10. MAIN HTTP REQUEST DISPATCHER ──
@@ -414,6 +476,30 @@ const server = http.createServer(async (req, res) => {
   // ══════════════════════════════════════════════════════════════
   // A. PUBLIC APIS (Protected by Rate Limiting & Validation)
   // ══════════════════════════════════════════════════════════════
+
+  // GET /api/health (Application & SQLite Connectivity Health Check)
+  if (req.method === 'GET' && pathname === '/api/health') {
+    try {
+      const ping = db.prepare('SELECT 1 AS alive').get();
+      if (!ping || ping.alive !== 1) throw new Error('Database ping failed');
+      return sendJson(res, 200, {
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: Math.floor(process.uptime()),
+        database: 'connected',
+        environment: APP_ENV,
+        version: '2.0.0'
+      });
+    } catch (err) {
+      appLog('error', 'Health check probe failed', { error: err.message });
+      return sendJson(res, 503, {
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        database: 'disconnected',
+        error: err.message
+      });
+    }
+  }
 
   // GET /api/stats
   if (req.method === 'GET' && pathname === '/api/stats') {
@@ -644,6 +730,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && pathname === '/api/admin/login') {
     const rateCheck = checkRateLimit(clientIp, 'admin-login', 5, 15 * 60 * 1000);
     if (!rateCheck.allowed) {
+      appLog('warn', 'Admin login blocked: Rate limit exceeded', { clientIp, resetInMs: rateCheck.resetInMs });
       return sendJson(res, 429, {
         ok: false,
         error: 'Too many failed login attempts. Account temporarily locked for 15 minutes.'
@@ -669,6 +756,8 @@ const server = http.createServer(async (req, res) => {
         };
         const token = generateSessionToken(adminData);
 
+        appLog('info', 'Admin authentication succeeded', { clientIp, username: usernameInput });
+
         return sendJson(res, 200, {
           ok: true,
           token,
@@ -676,6 +765,7 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
+      appLog('warn', 'Admin authentication failed: Invalid credentials', { clientIp, attemptedUsername: usernameInput });
       return sendJson(res, 401, { ok: false, error: 'Invalid username or password' });
     } catch (e) {
       return sendJson(res, 500, { ok: false, error: 'Authentication service error' });
@@ -817,6 +907,22 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // POST /api/admin/clear-all (Authenticated Purge of Test Data)
+  if (req.method === 'POST' && pathname === '/api/admin/clear-all') {
+    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    try {
+      db.prepare('DELETE FROM meals').run();
+      db.prepare('DELETE FROM donations').run();
+      db.prepare('DELETE FROM volunteers').run();
+      db.prepare('DELETE FROM contacts').run();
+      db.exec('PRAGMA wal_checkpoint(TRUNCATE);');
+      appLog('info', 'Admin cleared all database records', { clientIp });
+      return sendJson(res, 200, { ok: true, message: 'All database records cleared successfully' });
+    } catch (err) {
+      return sendJson(res, 500, { ok: false, error: 'Failed to clear records: ' + err.message });
+    }
+  }
+
   // GET /api/admin/export-csv?type=...
   if (req.method === 'GET' && pathname === '/api/admin/export-csv') {
     if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
@@ -867,7 +973,8 @@ const server = http.createServer(async (req, res) => {
     '/volunteers': 'volunteers.html',
     '/activities': 'activities.html',
     '/achievements': 'achievements.html',
-    '/admin': 'admin.html'
+    '/admin': 'admin.html',
+    '/privacy': 'privacy.html'
   };
 
   let targetFile = ROUTE_MAP[pathname] || pathname;
@@ -883,9 +990,9 @@ const server = http.createServer(async (req, res) => {
   }
 
   const pathParts = targetFile.split(/[\/\\]/);
-  if (pathParts.some(p => p.startsWith('.') || p.includes('..'))) {
+  if (pathParts.some(p => p.startsWith('.') || p.includes('..') || p.toLowerCase() === 'backups' || p.toLowerCase() === 'data')) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
-    return res.end('403 Forbidden: Access to hidden files or directories is prohibited');
+    return res.end('403 Forbidden: Access to protected directory is prohibited');
   }
 
   const baseName = path.basename(resolvedPath).toLowerCase();
@@ -914,22 +1021,38 @@ const server = http.createServer(async (req, res) => {
       // Clean URL HTML fallback (e.g. /about -> /about.html)
       if (!ext) {
         const htmlPath = resolvedPath + '.html';
-        if (fs.existsSync(htmlPath)) {
-          applySecurityHeaders(res);
-          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-          return fs.createReadStream(htmlPath).pipe(res);
-        }
+        try {
+          const htmlStats = fs.statSync(htmlPath);
+          if (htmlStats.isFile()) {
+            applySecurityHeaders(res);
+            res.writeHead(200, {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Content-Length': htmlStats.size,
+              'Cache-Control': 'no-cache, no-store, must-revalidate'
+            });
+            if (req.method === 'HEAD') return res.end();
+            return fs.createReadStream(htmlPath).pipe(res);
+          }
+        } catch (_) {}
       }
 
       // Branded 404 page for user-friendly navigation
       const notFoundPath = path.join(PUBLIC_DIR, '404.html');
-      if (fs.existsSync(notFoundPath)) {
-        applySecurityHeaders(res);
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        return fs.createReadStream(notFoundPath).pipe(res);
-      }
+      try {
+        const nfStats = fs.statSync(notFoundPath);
+        if (nfStats.isFile()) {
+          applySecurityHeaders(res);
+          res.writeHead(404, {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Content-Length': nfStats.size,
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          });
+          if (req.method === 'HEAD') return res.end();
+          return fs.createReadStream(notFoundPath).pipe(res);
+        }
+      } catch (_) {}
 
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.writeHead(404, { 'Content-Type': 'text/plain', 'Content-Length': 13 });
       return res.end('404 Not Found');
     }
 
@@ -943,8 +1066,10 @@ const server = http.createServer(async (req, res) => {
 
     res.writeHead(200, {
       'Content-Type': contentType,
+      'Content-Length': stats.size,
       'Cache-Control': cacheHeader,
-      'Access-Control-Allow-Origin': ALLOWED_ORIGIN
+      'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+      'Accept-Ranges': 'bytes'
     });
 
     if (req.method === 'HEAD') {

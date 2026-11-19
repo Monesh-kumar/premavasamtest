@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css?v=6.0">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.76.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -187,6 +187,10 @@
               <textarea id="vMessage" class="form-textarea" rows="4" placeholder="Tell us about your background, availability (full-time, weekly, weekends), and what inspires you to serve..." required></textarea>
             </div>
 
+            <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.1); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 18px; font-size: 0.84rem; color: var(--color-text-mid); line-height: 1.55;">
+              🔒 <strong>DPDP Consent:</strong> By submitting this application, you consent to Prema Vasam securely storing and processing your contact details and background solely for volunteer coordination and related non-profit communications per our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+            </div>
+
             <button type="submit" id="vSubmitBtn" class="btn btn-primary" style="width: 100%;">
               Submit Volunteer Application →
             </button>
@@ -253,6 +257,7 @@
 
       <div class="footer-bottom">
         <div>© 1999 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div><a href="privacy.html" style="color: #b0c2ac; text-decoration: underline;">Privacy Policy &amp; DPDP Notice</a></div>
       </div>
     </div>
   </footer>

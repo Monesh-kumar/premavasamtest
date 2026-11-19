@@ -19,11 +19,9 @@ COPY package*.json ./
 # Install production dependencies
 RUN npm ci --omit=dev --ignore-scripts || npm install --omit=dev
 
-# Copy all application files
+# Copy all application files and ensure data directory exists for persistent SQLite storage
 COPY . .
-
-# Ensure ownership by non-root user
-RUN chown -R premavasam:premavasam /app
+RUN mkdir -p /app/data && chown -R premavasam:premavasam /app
 
 USER premavasam
 
@@ -31,6 +29,6 @@ EXPOSE 3000
 
 # Built-in health check for container orchestrators (Docker Swarm, Kubernetes, Cloud Run)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD node -e "fetch('http://localhost:3000/api/stats').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"
+  CMD node -e "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"
 
 CMD ["node", "server.js"]

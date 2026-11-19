@@ -10,13 +10,16 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - DB_PATH=/app/data/database.sqlite
+      - BACKUP_DIR=/app/data/backups
       - CORS_ORIGIN=https://premavasam.org
+      - TRUST_PROXY=true
       - ADMIN_USER=admin
       - ADMIN_PASSWORD=ChangeThisPassphrase2026!
       - ADMIN_NAME="Premavasam Administrator"
       - ADMIN_EMAIL="premavasam1999@gmail.com"
     volumes:
-      - sqlite_data:/app
+      - sqlite_data:/app/data
 
 volumes:
   sqlite_data:

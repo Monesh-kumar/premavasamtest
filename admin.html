@@ -843,6 +843,9 @@
         <button class="btn-csv" onclick="downloadCsv('donations')" title="Download 80G Donations & Receipts Report">
           <span>📥</span> <span>Export Donations CSV</span>
         </button>
+        <button class="btn-action" style="color:#DC2626; border-color:#FECACA;" onclick="handleClearAllData()" title="Clean up all testing records from the portal">
+          <span>🗑️</span> <span>Clear Test Data</span>
+        </button>
         <div class="admin-pill">
           <strong id="sessionAdminName">Administrator</strong>
           <span id="sessionAdminRole">admin</span>
@@ -1193,10 +1196,25 @@
       return phone.replace(/[^0-9]/g, '');
     }
 
-    // Modal controls
-    function openModal(title, html) {
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('modalContent').innerHTML = html;
+    // Modal controls (Safe DOM rendering against Stored XSS)
+    function openModal(title, content) {
+      document.getElementById('modalTitle').textContent = title;
+      const container = document.getElementById('modalContent');
+      container.textContent = '';
+      if (content instanceof Node) {
+        container.appendChild(content);
+      } else if (typeof content === 'string') {
+        const textWrapper = document.createElement('div');
+        textWrapper.className = 'modal-safe-text';
+        textWrapper.style.background = '#FAF6F0';
+        textWrapper.style.padding = '16px';
+        textWrapper.style.borderRadius = '8px';
+        textWrapper.style.whiteSpace = 'pre-wrap';
+        textWrapper.style.border = '1px solid var(--border)';
+        textWrapper.style.fontSize = '0.92rem';
+        textWrapper.textContent = content; // Safe plain text!
+        container.appendChild(textWrapper);
+      }
       document.getElementById('adminModal').style.display = 'flex';
     }
 
@@ -1275,20 +1293,10 @@
       return lines.join('\n');
     }
 
-    // ── AUTH & INIT ──
+    // ── AUTH & INIT (Exclusively Backend-Authenticated) ──
     window.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('premavasam_admin_token');
       if (token) {
-        if (token.startsWith('pvs_static_')) {
-          state.isLive = false;
-          setupDashboard({
-            name: 'Premavasam Administrator',
-            role: 'Superadmin (Preview)',
-            email: 'premavasam1999@gmail.com'
-          });
-          return;
-        }
-
         try {
           const res = await fetch('/api/admin/verify', {
             headers: { 'Authorization': 'Bearer ' + token }
@@ -1302,15 +1310,9 @@
             }
           }
         } catch (e) {
-          // If live verify failed due to network / static, fallback to static
-          state.isLive = false;
-          setupDashboard({
-            name: 'Premavasam Administrator',
-            role: 'Superadmin (Preview)',
-            email: 'premavasam1999@gmail.com'
-          });
-          return;
+          // Network or server error
         }
+        localStorage.removeItem('premavasam_admin_token');
       }
       showLoginScreen();
     });
@@ -1340,13 +1342,15 @@
       const username = document.getElementById('usernameInput').value.trim();
       const password = document.getElementById('passwordInput').value;
 
+      if (!username || !password) {
+        err.innerText = 'Please enter both username and password.';
+        err.style.display = 'block';
+        return;
+      }
+
       btn.disabled = true;
       btn.innerText = 'Verifying credentials...';
 
-      let liveSuccess = false;
-      let serverError = false;
-
-      // 1. Try Live Server API first
       try {
         const res = await fetch('/api/admin/login', {
           method: 'POST',
@@ -1361,43 +1365,24 @@
             state.isLive = true;
             setupDashboard(data.admin);
             showToast('Welcome back, ' + (data.admin.name || 'Admin'));
-            liveSuccess = true;
+            btn.disabled = false;
+            btn.innerText = 'Sign In to Dashboard';
+            return;
           }
         } else if (res.status === 401) {
           const data = await res.json().catch(() => ({}));
           err.innerText = data.error || 'Invalid username or password';
           err.style.display = 'block';
-          serverError = true;
         } else if (res.status === 429) {
           const data = await res.json().catch(() => ({}));
           err.innerText = data.error || 'Too many failed login attempts. Locked for 15 minutes.';
           err.style.display = 'block';
-          serverError = true;
+        } else {
+          err.innerText = 'Authentication service error. Please try again later.';
+          err.style.display = 'block';
         }
       } catch (networkErr) {
-        // Backend API unreachable (e.g. GitHub Pages static hosting or offline)
-      }
-
-      if (liveSuccess || serverError) {
-        btn.disabled = false;
-        btn.innerText = 'Sign In to Dashboard';
-        return;
-      }
-
-      // 2. Static / GitHub Pages Preview Fallback
-      if ((username.toLowerCase() === 'admin' || username.toLowerCase() === 'premavasam') &&
-          (password === 'prem$1999#vasam' || password === 'admin')) {
-        const adminData = {
-          name: 'Premavasam Administrator',
-          role: 'Superadmin (Preview)',
-          email: 'premavasam1999@gmail.com'
-        };
-        state.isLive = false;
-        localStorage.setItem('premavasam_admin_token', 'pvs_static_preview');
-        setupDashboard(adminData);
-        showToast('Welcome back! Signed in to Preview Mode.');
-      } else {
-        err.innerText = 'Invalid username or password.';
+        err.innerText = 'Unable to connect to authentication server. Please check backend connection.';
         err.style.display = 'block';
       }
 
@@ -1434,37 +1419,39 @@
       const headers = { 'Authorization': 'Bearer ' + token };
 
       try {
-        const statsRes = await fetch('/api/admin/dashboard-stats', { headers });
-        if (!statsRes.ok) throw new Error('Live fetch failed');
-        const statsData = await statsRes.json();
-        if (statsData.ok && statsData.stats) {
-          state.stats = statsData.stats;
-          renderStats(statsData.stats);
-        }
+        const [statsRes, donRes, volRes, conRes] = await Promise.all([
+          fetch('/api/admin/dashboard-stats', { headers }),
+          fetch('/api/admin/donations', { headers }),
+          fetch('/api/admin/volunteers', { headers }),
+          fetch('/api/admin/contacts', { headers })
+        ]);
 
-        const donRes = await fetch('/api/admin/donations', { headers });
-        const donData = await donRes.json();
-        if (donData.ok) {
-          state.donations = donData.donations || [];
-          document.getElementById('badgeDonations').innerText = state.donations.length;
-          renderDonationsTable();
-        }
+        if (!statsRes.ok || !donRes.ok || !volRes.ok || !conRes.ok) throw new Error('Live fetch failed');
 
-        const volRes = await fetch('/api/admin/volunteers', { headers });
-        const volData = await volRes.json();
-        if (volData.ok) {
-          state.volunteers = volData.volunteers || [];
-          document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
-          renderVolunteersTable();
-        }
+        const [statsData, donData, volData, conData] = await Promise.all([
+          statsRes.json(),
+          donRes.json(),
+          volRes.json(),
+          conRes.json()
+        ]);
 
-        const conRes = await fetch('/api/admin/contacts', { headers });
-        const conData = await conRes.json();
-        if (conData.ok) {
-          state.contacts = conData.contacts || [];
-          document.getElementById('badgeContacts').innerText = state.contacts.length;
-          renderContactsTable();
-        }
+        state.stats = statsData.stats || {};
+        state.donations = donData.donations || [];
+        state.volunteers = volData.volunteers || [];
+        state.contacts = conData.contacts || [];
+
+        // Update badge counts
+        document.getElementById('badgeDonations').innerText = state.donations.length;
+        document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
+        document.getElementById('badgeContacts').innerText = state.contacts.length;
+
+        // Render all dashboard metrics, progress bars, and recent overview table
+        renderStats(state.stats);
+
+        // Render individual tab tables
+        renderDonationsTable();
+        renderVolunteersTable();
+        renderContactsTable();
       } catch (err) {
         console.warn('Live API unavailable, falling back to static preview data:', err);
         state.isLive = false;
@@ -1596,7 +1583,7 @@
             </td>
             <td><span style="font-size:0.8rem;">${formatDate(d.created_at)}</span></td>
             <td>
-              ${d.notes ? `<button class="btn-row-action" onclick="viewNotes('${escapeHtml(d.donor_name)} Notes', '${escapeHtml(d.notes)}')">👁️ View</button>` : '<span style="color:var(--text-light);">-</span>'}
+              ${d.notes ? `<button type="button" class="btn-row-action" onclick="viewDonationNotes('${escapeHtml(d.id)}')">👁️ View</button>` : '<span style="color:var(--text-light);">-</span>'}
             </td>
             <td>
               <button class="btn-row-action btn-delete" onclick="deleteDonation('${d.id}')" title="Delete Record">🗑️</button>
@@ -1639,6 +1626,11 @@
       if (!confirm(`Delete donation record ${id}?`)) return;
       if (!state.isLive) {
         state.donations = state.donations.filter(d => d.id !== id);
+        try {
+          let pDon = JSON.parse(localStorage.getItem('premavasam_public_donations') || '[]');
+          pDon = pDon.filter(d => d.id !== id);
+          localStorage.setItem('premavasam_public_donations', JSON.stringify(pDon));
+        } catch (_) {}
         saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
         showToast(`Deleted donation ${id}`);
         loadStaticData();
@@ -1646,15 +1638,19 @@
       }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
-        await fetch('/api/admin/donations', {
+        const res = await fetch('/api/admin/donations', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify({ id })
         });
+        if (!res.ok) throw new Error('Server returned ' + res.status);
+        state.donations = state.donations.filter(d => d.id !== id);
+        document.getElementById('badgeDonations').innerText = state.donations.length;
+        renderDonationsTable();
         showToast(`Deleted donation ${id}`);
-        fetchDashboardData();
+        await fetchDashboardData();
       } catch (e) {
-        showToast('Delete failed', false);
+        showToast('Delete failed: ' + e.message, false);
       }
     }
 
@@ -1701,7 +1697,7 @@
               </span>
             </td>
             <td>
-              ${v.message ? `<button class="btn-row-action" onclick="viewNotes('Volunteer Statement · ${escapeHtml(v.full_name)}', '${escapeHtml(v.message)}')">👁️ Read Application</button>` : '<span style="color:var(--text-light);">-</span>'}
+              ${v.message ? `<button type="button" class="btn-row-action" onclick="viewVolunteerStatement('${escapeHtml(v.id)}')">👁️ Read Application</button>` : '<span style="color:var(--text-light);">-</span>'}
             </td>
             <td>
               <select class="status-select" onchange="updateVolunteerStatus('${v.id}', this.value)">
@@ -1754,6 +1750,11 @@
       if (!confirm(`Delete volunteer application ${id}?`)) return;
       if (!state.isLive) {
         state.volunteers = state.volunteers.filter(v => v.id !== id);
+        try {
+          let pVol = JSON.parse(localStorage.getItem('premavasam_public_volunteers') || '[]');
+          pVol = pVol.filter(v => v.id !== id);
+          localStorage.setItem('premavasam_public_volunteers', JSON.stringify(pVol));
+        } catch (_) {}
         saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
         showToast(`Deleted volunteer ${id}`);
         loadStaticData();
@@ -1761,15 +1762,19 @@
       }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
-        await fetch('/api/admin/volunteers', {
+        const res = await fetch('/api/admin/volunteers', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify({ id })
         });
+        if (!res.ok) throw new Error('Server returned ' + res.status);
+        state.volunteers = state.volunteers.filter(v => v.id !== id);
+        document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
+        renderVolunteersTable();
         showToast(`Deleted volunteer ${id}`);
-        fetchDashboardData();
+        await fetchDashboardData();
       } catch (e) {
-        showToast('Delete failed', false);
+        showToast('Delete failed: ' + e.message, false);
       }
     }
 
@@ -1818,7 +1823,7 @@
             <td><span style="font-size:0.8rem;">${formatDate(c.created_at)}</span></td>
             <td>
               <div style="display:flex; align-items:center; gap:6px;">
-                <button class="btn-row-action" onclick="viewMessage('${escapeHtml(c.name)}', '${escapeHtml(c.email)}', '${escapeHtml(c.subject)}', '${escapeHtml(c.message)}', '${c.id}', ${isRead})">👁️ Read</button>
+                <button type="button" class="btn-row-action" onclick="viewContactMessage('${escapeHtml(c.id)}')">👁️ Read</button>
                 <a href="mailto:${escapeHtml(c.email)}?subject=${replySubject}&body=${replyBody}" class="btn-row-action" title="Reply via Email">✉️ Reply</a>
                 <button class="btn-row-action" onclick="toggleContactRead('${c.id}', ${!isRead})">${isRead ? 'Mark Unread' : 'Mark Read'}</button>
                 <button class="btn-row-action btn-delete" onclick="deleteContact('${c.id}')" title="Delete">🗑️</button>
@@ -1829,32 +1834,73 @@
       }).join('');
     }
 
-    function viewMessage(name, email, subject, message, id, isRead) {
-      if (!isRead) {
-        toggleContactRead(id, true);
-      }
-      const replySubject = encodeURIComponent(`Re: ${subject || 'Inquiry regarding Prema Vasam'}`);
-      const replyBody = encodeURIComponent(`Dear ${name},\n\nThank you for reaching out to Prema Vasam.\n\nWarm regards,\nPrema Vasam Team`);
-      openModal(`Inquiry from ${name}`, `
-        <div style="margin-bottom:12px;">
-          <div style="font-size:0.85rem; color:var(--text-muted);">From: <strong>${name}</strong> &lt;${email}&gt;</div>
-          <div style="font-size:0.95rem; font-weight:700; color:var(--brand); margin-top:4px;">Subject: ${subject}</div>
-        </div>
-        <div style="background:#FAF6F0; padding:16px; border-radius:8px; white-space:pre-wrap; border:1px solid var(--border); font-size:0.92rem;">${message}</div>
-        <div style="margin-top:16px; text-align:right;">
-          <a href="mailto:${email}?subject=${replySubject}&body=${replyBody}" class="btn-action" style="background:var(--brand); color:#fff; border-color:var(--brand);">
-            Reply via Email
-          </a>
-        </div>
-      `);
+    function viewDonationNotes(id) {
+      const d = state.donations.find(item => item.id === id);
+      if (!d) return;
+      openModal(`${d.donor_name} · Notes`, d.notes || 'No notes attached.');
     }
 
-    function viewNotes(title, notes) {
-      openModal(title, `
-        <div style="background:#FAF6F0; padding:16px; border-radius:8px; white-space:pre-wrap; border:1px solid var(--border); font-size:0.92rem;">
-          ${notes}
-        </div>
-      `);
+    function viewVolunteerStatement(id) {
+      const v = state.volunteers.find(item => item.id === id);
+      if (!v) return;
+      openModal(`Volunteer Application · ${v.full_name}`, v.message || 'No application statement provided.');
+    }
+
+    function viewContactMessage(id) {
+      const c = state.contacts.find(item => item.id === id);
+      if (!c) return;
+      if (!c.is_read) {
+        toggleContactRead(id, true);
+      }
+      const wrap = document.createElement('div');
+
+      const meta = document.createElement('div');
+      meta.style.marginBottom = '12px';
+
+      const fromLine = document.createElement('div');
+      fromLine.style.fontSize = '0.85rem';
+      fromLine.style.color = 'var(--text-muted)';
+      const fromStrong = document.createElement('strong');
+      fromStrong.textContent = c.name;
+      fromLine.appendChild(document.createTextNode('From: '));
+      fromLine.appendChild(fromStrong);
+      fromLine.appendChild(document.createTextNode(` <${c.email}>`));
+      meta.appendChild(fromLine);
+
+      const subjLine = document.createElement('div');
+      subjLine.style.fontSize = '0.95rem';
+      subjLine.style.fontWeight = '700';
+      subjLine.style.color = 'var(--brand)';
+      subjLine.style.marginTop = '4px';
+      subjLine.textContent = `Subject: ${c.subject || 'General Inquiry'}`;
+      meta.appendChild(subjLine);
+      wrap.appendChild(meta);
+
+      const bodyBox = document.createElement('div');
+      bodyBox.style.background = '#FAF6F0';
+      bodyBox.style.padding = '16px';
+      bodyBox.style.borderRadius = '8px';
+      bodyBox.style.whiteSpace = 'pre-wrap';
+      bodyBox.style.border = '1px solid var(--border)';
+      bodyBox.style.fontSize = '0.92rem';
+      bodyBox.textContent = c.message; // 100% safe plain text via textContent!
+      wrap.appendChild(bodyBox);
+
+      const footBox = document.createElement('div');
+      footBox.style.marginTop = '16px';
+      footBox.style.textAlign = 'right';
+
+      const replyLink = document.createElement('a');
+      replyLink.className = 'btn-action';
+      replyLink.style.background = 'var(--brand)';
+      replyLink.style.color = '#fff';
+      replyLink.style.borderColor = 'var(--brand)';
+      replyLink.href = `mailto:${encodeURIComponent(c.email)}?subject=${encodeURIComponent('Re: ' + (c.subject || 'Inquiry regarding Prema Vasam'))}`;
+      replyLink.textContent = 'Reply via Email';
+      footBox.appendChild(replyLink);
+      wrap.appendChild(footBox);
+
+      openModal(`Inquiry from ${c.name}`, wrap);
     }
 
     async function toggleContactRead(id, is_read) {
@@ -1882,6 +1928,11 @@
       if (!confirm('Permanently delete this inquiry?')) return;
       if (!state.isLive) {
         state.contacts = state.contacts.filter(c => c.id !== id);
+        try {
+          let pMsg = JSON.parse(localStorage.getItem('premavasam_public_contacts') || '[]');
+          pMsg = pMsg.filter(c => c.id !== id);
+          localStorage.setItem('premavasam_public_contacts', JSON.stringify(pMsg));
+        } catch (_) {}
         saveStoredData({ donations: state.donations, volunteers: state.volunteers, contacts: state.contacts });
         showToast('Message deleted');
         loadStaticData();
@@ -1889,15 +1940,54 @@
       }
       const token = localStorage.getItem('premavasam_admin_token');
       try {
-        await fetch('/api/admin/contacts', {
+        const res = await fetch('/api/admin/contacts', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify({ id })
         });
+        if (!res.ok) throw new Error('Server returned ' + res.status);
+        state.contacts = state.contacts.filter(c => c.id !== id);
+        document.getElementById('badgeContacts').innerText = state.contacts.length;
+        renderContactsTable();
         showToast('Message deleted');
-        fetchDashboardData();
+        await fetchDashboardData();
       } catch (e) {
-        showToast('Delete failed', false);
+        showToast('Delete failed: ' + e.message, false);
+      }
+    }
+
+    // ── PURGE ALL TESTING RECORDS & REFRESH ──
+    async function handleClearAllData() {
+      if (!confirm('⚠️ Are you sure you want to clean up all testing records from the portal? This will reset all donations, volunteers, and contact messages.')) return;
+      
+      // Clear all browser preview/submission caches
+      try {
+        localStorage.removeItem('premavasam_preview_store');
+        localStorage.removeItem('premavasam_public_donations');
+        localStorage.removeItem('premavasam_public_volunteers');
+        localStorage.removeItem('premavasam_public_contacts');
+      } catch (_) {}
+
+      if (!state.isLive) {
+        state.donations = [];
+        state.volunteers = [];
+        state.contacts = [];
+        showToast('All preview test data cleared');
+        loadStaticData();
+        return;
+      }
+
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/clear-all', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) throw new Error('Server returned ' + res.status);
+        showToast('All database records cleared successfully');
+        await fetchDashboardData();
+      } catch (e) {
+        showToast('Failed to clear records: ' + e.message, false);
       }
     }
 

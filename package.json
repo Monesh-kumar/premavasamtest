@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node test_runner.js"
+    "test": "node test_runner.js",
+    "backup": "node backup.js",
+    "backup:verify": "node backup.js --test-restore"
   },
   "engines": {
     "node": ">=22.0.0"

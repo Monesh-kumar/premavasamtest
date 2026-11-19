@@ -75,7 +75,9 @@ async function runAudit() {
     '/.env',
     '/.git/config',
     '/.git/HEAD',
-    '/test_suite.js'
+    '/test_suite.js',
+    '/backup.js',
+    '/backups/test.sqlite'
   ];
 
   for (const p of blockedPaths) {
@@ -205,7 +207,7 @@ async function runAudit() {
 
   // 5. PUBLIC ROUTE INTEGRITY & LEAKAGE
   console.log('\n--- 5. Verifying No Admin/Staff Link Leakage on Public Pages ---');
-  const publicRoutes = ['/', '/about', '/sponsormeals', '/activities', '/achievements', '/gallery', '/volunteers', '/contact', '/howhelp'];
+  const publicRoutes = ['/', '/about', '/sponsormeals', '/activities', '/achievements', '/gallery', '/volunteers', '/contact', '/howhelp', '/privacy'];
   for (const route of publicRoutes) {
     const res = await request(route);
     const hasAdminLink = res.data.includes('href="/admin"') || res.data.includes('href="/admin.html"');

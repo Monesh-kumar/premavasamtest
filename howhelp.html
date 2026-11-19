@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css?v=6.0">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.76.0/dist/umd/lucide.min.js"></script>
   <style>
     /* Banking Card Enhancements */
     .bank-grid {
@@ -397,6 +397,11 @@
               <textarea id="dNotes" class="form-textarea" rows="2" placeholder="e.g. In memory of my mother, on my child's birthday, or general child nutrition..."></textarea>
             </div>
 
+            <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 20px; font-size: 0.84rem; color: var(--color-text-mid); line-height: 1.55;">
+              <span style="font-weight: 600; color: var(--color-primary-deep); display: block; margin-bottom: 4px;">🔒 Privacy &amp; 80G Tax Filing Consent (DPDP Act 2023):</span>
+              By submitting this contribution, you consent to Prema Vasam securely storing and processing your contact details and PAN solely for issuing official Section 80G tax receipts and filing statutory Form 10BD with the Income Tax Department. We never sell, rent, or commercialize your personal information. Read our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+            </div>
+
             <button type="submit" id="dSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px 32px; font-size: 1.05rem;">
               <i data-lucide="heart" style="width: 18px; height: 18px;"></i> Register Contribution &amp; Request 80G Receipt
             </button>
@@ -518,6 +523,7 @@
 
       <div class="footer-bottom">
         <div>© 1999 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div><a href="privacy.html" style="color: #b0c2ac; text-decoration: underline;">Privacy Policy &amp; DPDP Notice</a></div>
       </div>
     </div>
   </footer>

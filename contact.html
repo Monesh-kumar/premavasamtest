@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css?v=6.0">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.76.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -230,6 +230,10 @@
                 <textarea id="cMessage" class="form-textarea" rows="4" placeholder="Please share how we can assist you, or details of your planned visit..." required></textarea>
               </div>
 
+              <div style="font-size: 0.84rem; color: var(--color-text-mid); margin-bottom: 18px; line-height: 1.55; background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.1); border-radius: var(--radius-sm); padding: 10px 14px;">
+                🔒 By submitting this form, you consent to Prema Vasam storing and processing your contact details solely to respond to your inquiry in accordance with our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+              </div>
+
               <button type="submit" id="cSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">
                 <i data-lucide="send" style="width: 18px; height: 18px;"></i> Send Message to Premavasam
               </button>
@@ -343,6 +347,7 @@
 
       <div class="footer-bottom">
         <div>© 1999 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div><a href="privacy.html" style="color: #b0c2ac; text-decoration: underline;">Privacy Policy &amp; DPDP Notice</a></div>
       </div>
     </div>
   </footer>

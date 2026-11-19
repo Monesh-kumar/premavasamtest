@@ -10,6 +10,7 @@ const routes = [
   { path: '/volunteers', expectedText: 'Volunteers' },
   { path: '/contact', expectedText: 'Contact Us' },
   { path: '/howhelp', expectedText: 'How Can You Help' },
+  { path: '/privacy', expectedText: 'Privacy Policy' },
   { path: '/admin', expectedText: 'Admin Portal' }
 ];
 
@@ -66,7 +67,7 @@ async function runTests() {
   }
 
   console.log('\n--- 2. VERIFYING NO ADMIN/STAFF LINKS ON PUBLIC PAGES ---');
-  const publicRoutes = ['/', '/about', '/sponsormeals', '/activities', '/achievements', '/gallery', '/volunteers', '/contact', '/howhelp'];
+  const publicRoutes = ['/', '/about', '/sponsormeals', '/activities', '/achievements', '/gallery', '/volunteers', '/contact', '/howhelp', '/privacy'];
   let noAdminLinks = true;
   for (const p of publicRoutes) {
     const res = await fetchRoute(p);
@@ -82,6 +83,15 @@ async function runTests() {
 
   console.log('\n--- 3. TESTING API ENDPOINTS ---');
   
+  // Test Health Check
+  const healthRes = await fetchRoute('/api/health');
+  let healthOk = false;
+  try {
+    const healthData = JSON.parse(healthRes.data);
+    healthOk = healthRes.status === 200 && healthData.status === 'healthy' && healthData.database === 'connected';
+  } catch (_) {}
+  console.log(`[${healthOk ? 'PASS' : 'FAIL'}] GET /api/health -> ${healthRes.status} (healthy: ${healthOk})`);
+
   // Test Stats
   const statsRes = await fetchRoute('/api/stats');
   console.log(`[${statsRes.status === 200 ? 'PASS' : 'FAIL'}] GET /api/stats -> ${statsRes.status}`);

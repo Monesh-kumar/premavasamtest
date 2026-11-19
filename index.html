@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css?v=6.0">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.76.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -618,6 +618,10 @@
                 </div>
               </div>
 
+              <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px; font-size: 0.82rem; color: var(--color-text-mid); line-height: 1.5;">
+                🔒 <strong>DPDP Notice:</strong> Your details and PAN are securely processed solely for issuing Section 80G tax receipts and filing Form 10BD with the Income Tax Department. See our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+              </div>
+
               <button type="submit" id="donSubmitBtn" class="btn btn-tertiary" style="width: 100%;">
                 Submit Donation Details for 80G Receipt →
               </button>
@@ -676,6 +680,9 @@
               <div class="form-group">
                 <label class="form-label">Message *</label>
                 <textarea id="contactMessage" class="form-textarea" rows="4" placeholder="How can we help you?" required></textarea>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--color-text-mid); margin-bottom: 14px; line-height: 1.5;">
+                🔒 By sending this message, you consent to Prema Vasam storing your details to respond to your inquiry in accordance with our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Privacy Policy</a>.
               </div>
               <button type="submit" id="contactSubmitBtn" class="btn btn-primary" style="width: 100%;">
                 Send Message →
@@ -744,6 +751,7 @@
 
       <div class="footer-bottom">
         <div>© 1999 Premavasam · Prem Charitable Trust · Registered Charity · "To Serve... Not to be Served"</div>
+        <div><a href="privacy.html" style="color: #b0c2ac; text-decoration: underline;">Privacy Policy &amp; DPDP Notice</a></div>
       </div>
     </div>
   </footer>
@@ -782,7 +790,7 @@
   <!-- Lightbox Modal -->
   <div class="modal-overlay" id="lightboxModal" onclick="closeLightbox(event)">
     <div style="position: relative; max-width: 900px; width: 100%; text-align: center;">
-      <img id="lightboxImg" src="" alt="Gallery Preview" style="max-height: 80vh; margin: 0 auto; border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+      <img id="lightboxImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Gallery Preview" style="max-height: 80vh; margin: 0 auto; border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
       <h4 id="lightboxTitle" style="color: #ffffff; font-family: var(--font-heading); margin-top: 16px; font-size: 1.25rem;"></h4>
       <button onclick="closeLightboxDirect()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: #ffffff; font-size: 2rem; cursor: pointer;">✕</button>
     </div>

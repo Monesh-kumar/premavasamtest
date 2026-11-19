@@ -20,5 +20,8 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Backups
+# Backups and database snapshots
+backups/
+data/
+*.bak
 images/mumtaj_full.jpg
