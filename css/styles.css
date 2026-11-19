@@ -880,7 +880,8 @@ input, select, textarea {
 .dance-thumb-row,
 .festive-thumb-row,
 .building-thumb-row,
-.amudhan-thumb-row {
+.amudhan-thumb-row,
+.walking-thumb-row {
   display: flex;
   gap: 6px;
   margin-top: 14px;
@@ -902,7 +903,8 @@ input, select, textarea {
 .dance-thumb-row::-webkit-scrollbar,
 .festive-thumb-row::-webkit-scrollbar,
 .building-thumb-row::-webkit-scrollbar,
-.amudhan-thumb-row::-webkit-scrollbar {
+.amudhan-thumb-row::-webkit-scrollbar,
+.walking-thumb-row::-webkit-scrollbar {
   display: none;
 }
 
@@ -917,7 +919,8 @@ input, select, textarea {
 .dance-thumb,
 .festive-thumb,
 .building-thumb,
-.amudhan-thumb {
+.amudhan-thumb,
+.walking-thumb {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-sm);
@@ -940,7 +943,8 @@ input, select, textarea {
 .dance-thumb:hover,
 .festive-thumb:hover,
 .building-thumb:hover,
-.amudhan-thumb:hover {
+.amudhan-thumb:hover,
+.walking-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
 }
@@ -956,7 +960,8 @@ input, select, textarea {
 .dance-thumb.active,
 .festive-thumb.active,
 .building-thumb.active,
-.amudhan-thumb.active {
+.amudhan-thumb.active,
+.walking-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);

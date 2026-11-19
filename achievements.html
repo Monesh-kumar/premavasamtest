@@ -262,15 +262,48 @@
 
           <!-- 4. Walking Milestones -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/achieve_praveena.jpg" alt="Praveena & Children">
+            <div class="cause-media" id="walkingCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/achieve_praveena.jpg?v=6.0" alt="Clinical physiotherapy session with Praveena and special children" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/walking_milestone_1.jpg?v=6.0" alt="Motorized continuous passive motion therapy with rehabilitation specialist" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/walking_milestone_2.jpg?v=6.0" alt="Two young special girls standing upright and independently with walker behind" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/walking_milestone_3.jpg?v=6.0" alt="Special educator guiding children writing in notebooks at the study table" style="object-position: center 30%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevWalkingSlide(event)" aria-label="Previous milestone photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextWalkingSlide(event)" aria-label="Next milestone photo">›</button>
+
+              <!-- Indicators (4 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setWalkingSlide(0, event)" aria-label="Photo 1 - Physiotherapy Session"></button>
+                <button type="button" class="cause-slider-dot" onclick="setWalkingSlide(1, event)" aria-label="Photo 2 - Rehabilitation Machine"></button>
+                <button type="button" class="cause-slider-dot" onclick="setWalkingSlide(2, event)" aria-label="Photo 3 - Standing Independently"></button>
+                <button type="button" class="cause-slider-dot" onclick="setWalkingSlide(3, event)" aria-label="Photo 4 - Special Education Table"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <span class="cause-cat">Clinical Rehabilitation</span>
+              <span class="cause-cat">Clinical Rehabilitation • 4 Milestone Photos</span>
               <h3>Bedridden Children Now Walking</h3>
               <p>
                 Through persistent physiotherapy by Mr. Robinson and team, bedridden children diagnosed with severe cerebral palsy and contractures — Rohit, Meenakshi, Senthil Kumari, John, and Rithvik — now walk independently!
               </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="walking-thumb-row" title="Click to view walking milestone photo">
+                <img src="images/achieve_praveena.jpg?v=6.0" alt="Physiotherapy Session" class="walking-thumb active" onclick="setWalkingSlide(0, event)">
+                <img src="images/walking_milestone_1.jpg?v=6.0" alt="Rehabilitation Machine" class="walking-thumb" onclick="setWalkingSlide(1, event)">
+                <img src="images/walking_milestone_2.jpg?v=6.0" alt="Standing Independently" class="walking-thumb" onclick="setWalkingSlide(2, event)">
+                <img src="images/walking_milestone_3.jpg?v=6.0" alt="Special Education Table" class="walking-thumb" onclick="setWalkingSlide(3, event)">
+              </div>
             </div>
           </article>
 
@@ -387,6 +420,58 @@
 
   <script>
     if (window.lucide) lucide.createIcons();
+
+    // ── BEDRIDDEN CHILDREN NOW WALKING MULTI-PHOTO SLIDER ──
+    let currentWalkingSlide = 0;
+    let walkingAutoTimer = null;
+
+    function setWalkingSlide(index, e) {
+      if (e) e.stopPropagation();
+      const slides = document.querySelectorAll('#walkingCarousel .cause-slide');
+      const dots = document.querySelectorAll('#walkingCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.walking-thumb');
+      if (!slides.length) return;
+
+      currentWalkingSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentWalkingSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentWalkingSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentWalkingSlide));
+      if (thumbs[currentWalkingSlide] && typeof thumbs[currentWalkingSlide].scrollIntoView === 'function') {
+        thumbs[currentWalkingSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    function nextWalkingSlide(e) {
+      if (e) e.stopPropagation();
+      setWalkingSlide(currentWalkingSlide + 1);
+      resetWalkingTimer();
+    }
+
+    function prevWalkingSlide(e) {
+      if (e) e.stopPropagation();
+      setWalkingSlide(currentWalkingSlide - 1);
+      resetWalkingTimer();
+    }
+
+    function startWalkingTimer() {
+      if (walkingAutoTimer) clearInterval(walkingAutoTimer);
+      walkingAutoTimer = setInterval(() => {
+        setWalkingSlide(currentWalkingSlide + 1);
+      }, 5000);
+    }
+
+    function resetWalkingTimer() {
+      startWalkingTimer();
+    }
+
+    startWalkingTimer();
+
+    const walkingBox = document.getElementById('walkingCarousel');
+    if (walkingBox) {
+      walkingBox.addEventListener('mouseenter', () => clearInterval(walkingAutoTimer));
+      walkingBox.addEventListener('mouseleave', () => startWalkingTimer());
+    }
   </script>
   <script src="js/mobile-nav.js"></script>
 
