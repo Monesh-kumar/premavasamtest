@@ -135,12 +135,24 @@ db.exec(`
     created_at TEXT NOT NULL
   );
 
+  CREATE TABLE IF NOT EXISTS guest_users (
+    id TEXT PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    role TEXT DEFAULT 'Guest',
+    notes TEXT,
+    created_at TEXT NOT NULL
+  );
+
   -- Performance Indexes for Chronological Queries and Admin Metrics
   CREATE INDEX IF NOT EXISTS idx_meals_created ON meals(created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_donations_created ON donations(created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_volunteers_created ON volunteers(created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_contacts_created ON contacts(created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_contacts_unread ON contacts(is_read);
+  CREATE INDEX IF NOT EXISTS idx_guest_users_created ON guest_users(created_at DESC);
 `);
 
 // ── 2. CYBER SECURITY: RATE LIMITING & BRUTE FORCE SHIELD ──
@@ -219,9 +231,29 @@ function pruneExpiredSessions() {
   }
 }
 
-function hasActiveAdminSession() {
+function hasActiveAdminSession(role = 'Superadmin') {
   pruneExpiredSessions();
-  return activeSessions.size > 0;
+  for (const session of activeSessions.values()) {
+    if (session.admin && session.admin.role === role) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function hashGuestPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
+  const hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+  return { hash, salt };
+}
+
+function verifyGuestPassword(password, storedHash, salt) {
+  if (typeof password !== 'string' || typeof storedHash !== 'string' || typeof salt !== 'string') return false;
+  const hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+  try {
+    return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(storedHash, 'hex'));
+  } catch (_) {
+    return false;
+  }
 }
 
 function verifyAuth(req) {
@@ -764,7 +796,7 @@ const server = http.createServer(async (req, res) => {
         rateLimitStore.delete(`admin-login:${clientIp}`);
 
         const forceLogin = Boolean(data.forceLogin);
-        const existingSessions = hasActiveAdminSession();
+        const existingSessions = hasActiveAdminSession('Superadmin');
 
         if (existingSessions && !forceLogin) {
           appLog('info', 'Admin login conflict: existing active session detected', { clientIp, username: usernameInput });
@@ -776,16 +808,21 @@ const server = http.createServer(async (req, res) => {
           });
         }
 
-        // If forceLogin requested, terminate previous active sessions
+        // If forceLogin requested, terminate previous superadmin active sessions
         if (existingSessions && forceLogin) {
           appLog('info', 'Admin canceled previous active sessions to sign in', { clientIp, username: usernameInput });
-          activeSessions.clear();
+          for (const [t, s] of activeSessions.entries()) {
+            if (s.admin && s.admin.role === 'Superadmin') {
+              activeSessions.delete(t);
+            }
+          }
         }
 
         const adminData = {
           name: ADMIN_NAME,
           role: ADMIN_ROLE,
-          email: ADMIN_EMAIL
+          email: ADMIN_EMAIL,
+          username: ADMIN_USER
         };
         const token = generateSessionToken(adminData);
 
@@ -797,6 +834,34 @@ const server = http.createServer(async (req, res) => {
           admin: adminData,
           previousSessionTerminated: Boolean(existingSessions && forceLogin)
         });
+      }
+
+      // Check Guest Users credentials
+      try {
+        const guestUser = db.prepare('SELECT * FROM guest_users WHERE lower(username) = ?').get(usernameInput);
+        if (guestUser && verifyGuestPassword(passwordInput, guestUser.password_hash, guestUser.salt)) {
+          rateLimitStore.delete(`admin-login:${clientIp}`);
+
+          const guestData = {
+            id: guestUser.id,
+            name: guestUser.full_name,
+            role: 'Guest',
+            username: guestUser.username,
+            notes: guestUser.notes
+          };
+          const token = generateSessionToken(guestData);
+
+          appLog('info', 'Guest user authentication succeeded', { clientIp, username: guestUser.username });
+
+          return sendJson(res, 200, {
+            ok: true,
+            token,
+            admin: guestData,
+            previousSessionTerminated: false
+          });
+        }
+      } catch (guestErr) {
+        appLog('warn', 'Error checking guest user credentials', { error: guestErr.message });
       }
 
       appLog('warn', 'Admin authentication failed: Invalid credentials', { clientIp, attemptedUsername: usernameInput });
@@ -832,11 +897,16 @@ const server = http.createServer(async (req, res) => {
 
   // GET, PUT, DELETE /api/admin/meals
   if (pathname === '/api/admin/meals') {
-    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
 
     if (req.method === 'GET') {
       const meals = db.prepare('SELECT * FROM meals ORDER BY created_at DESC').all();
       return sendJson(res, 200, { ok: true, meals });
+    }
+
+    if (admin.role === 'Guest') {
+      return sendJson(res, 403, { ok: false, error: 'Guest accounts have view-only permissions.' });
     }
 
     try {
@@ -860,11 +930,16 @@ const server = http.createServer(async (req, res) => {
 
   // GET, PUT, DELETE /api/admin/donations
   if (pathname === '/api/admin/donations') {
-    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
 
     if (req.method === 'GET') {
       const donations = db.prepare('SELECT * FROM donations ORDER BY created_at DESC').all();
       return sendJson(res, 200, { ok: true, donations });
+    }
+
+    if (admin.role === 'Guest') {
+      return sendJson(res, 403, { ok: false, error: 'Guest accounts have view-only permissions.' });
     }
 
     try {
@@ -888,11 +963,16 @@ const server = http.createServer(async (req, res) => {
 
   // GET, PUT, DELETE /api/admin/volunteers
   if (pathname === '/api/admin/volunteers') {
-    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
 
     if (req.method === 'GET') {
       const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY created_at DESC').all();
       return sendJson(res, 200, { ok: true, volunteers });
+    }
+
+    if (admin.role === 'Guest') {
+      return sendJson(res, 403, { ok: false, error: 'Guest accounts have view-only permissions.' });
     }
 
     try {
@@ -916,11 +996,16 @@ const server = http.createServer(async (req, res) => {
 
   // GET, PUT, DELETE /api/admin/contacts
   if (pathname === '/api/admin/contacts') {
-    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
 
     if (req.method === 'GET') {
       const contacts = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
       return sendJson(res, 200, { ok: true, contacts });
+    }
+
+    if (admin.role === 'Guest') {
+      return sendJson(res, 403, { ok: false, error: 'Guest accounts have view-only permissions.' });
     }
 
     try {
@@ -941,9 +1026,120 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // ── GUEST USER MANAGEMENT (Superadmin Only) ──
+  // GET /api/admin/guest-users
+  if (req.method === 'GET' && pathname === '/api/admin/guest-users') {
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+
+    try {
+      const guests = db.prepare('SELECT id, username, full_name, role, notes, created_at FROM guest_users ORDER BY created_at DESC').all();
+      return sendJson(res, 200, { ok: true, guests });
+    } catch (e) {
+      return sendJson(res, 500, { ok: false, error: 'Failed to retrieve guest users: ' + e.message });
+    }
+  }
+
+  // POST /api/admin/guest-users
+  if (req.method === 'POST' && pathname === '/api/admin/guest-users') {
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    if (admin.role !== 'Superadmin') {
+      return sendJson(res, 403, { ok: false, error: 'Only Superadmin can create guest user accounts.' });
+    }
+
+    try {
+      const data = await parseJsonBody(req);
+      const username = sanitizeString(data.username, 30).trim().toLowerCase();
+      const fullName = sanitizeString(data.full_name, 100).trim();
+      const password = typeof data.password === 'string' ? data.password.trim() : '';
+      const notes = sanitizeString(data.notes, 250).trim();
+
+      if (!username || username.length < 3 || !/^[a-zA-Z0-9_\-\.]+$/.test(username)) {
+        return sendJson(res, 400, { ok: false, error: 'Username must be at least 3 characters and contain only letters, numbers, hyphens, dots, or underscores.' });
+      }
+      if (!fullName || fullName.length < 2) {
+        return sendJson(res, 400, { ok: false, error: 'Full name must be at least 2 characters.' });
+      }
+      if (!password || password.length < 6) {
+        return sendJson(res, 400, { ok: false, error: 'Password must be at least 6 characters.' });
+      }
+
+      // Check conflict with Superadmin
+      if (username === ADMIN_USER.toLowerCase() || username === ADMIN_EMAIL.toLowerCase()) {
+        return sendJson(res, 400, { ok: false, error: 'Username is reserved by system administrator.' });
+      }
+
+      // Check existing guest user
+      const existing = db.prepare('SELECT id FROM guest_users WHERE lower(username) = ?').get(username);
+      if (existing) {
+        return sendJson(res, 409, { ok: false, error: 'A guest user with this username already exists.' });
+      }
+
+      const id = generateId('guest_users', '#GST', 100);
+      const now = new Date().toISOString();
+      const { hash, salt } = hashGuestPassword(password);
+
+      db.prepare(`
+        INSERT INTO guest_users (id, username, password_hash, salt, full_name, role, notes, created_at)
+        VALUES (?, ?, ?, ?, ?, 'Guest', ?, ?)
+      `).run(id, username, hash, salt, fullName, notes, now);
+
+      appLog('info', 'Guest user created successfully', { admin: admin.name, createdUsername: username, id });
+
+      return sendJson(res, 201, {
+        ok: true,
+        guest: {
+          id,
+          username,
+          full_name: fullName,
+          role: 'Guest',
+          notes,
+          created_at: now
+        },
+        message: 'Guest user created successfully.'
+      });
+    } catch (e) {
+      appLog('error', 'Error creating guest user', { error: e.message });
+      return sendJson(res, 500, { ok: false, error: 'Failed to create guest user: ' + e.message });
+    }
+  }
+
+  // DELETE /api/admin/guest-users
+  if (req.method === 'DELETE' && pathname === '/api/admin/guest-users') {
+    const admin = verifyAuth(req);
+    if (!admin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    if (admin.role !== 'Superadmin') {
+      return sendJson(res, 403, { ok: false, error: 'Only Superadmin can revoke guest accounts.' });
+    }
+
+    try {
+      const data = await parseJsonBody(req);
+      const id = sanitizeString(data.id, 20);
+      if (!id) return sendJson(res, 400, { ok: false, error: 'Missing guest user id' });
+
+      // Terminate any active sessions for this guest user
+      for (const [token, session] of activeSessions.entries()) {
+        if (session.admin && session.admin.id === id) {
+          activeSessions.delete(token);
+        }
+      }
+
+      db.prepare('DELETE FROM guest_users WHERE id = ?').run(id);
+      appLog('info', 'Guest user revoked', { admin: admin.name, id });
+      return sendJson(res, 200, { ok: true, message: 'Guest user access revoked successfully.' });
+    } catch (e) {
+      return sendJson(res, 500, { ok: false, error: 'Failed to revoke guest user: ' + e.message });
+    }
+  }
+
   // POST /api/admin/clear-all (Authenticated Purge of Test Data)
   if (req.method === 'POST' && pathname === '/api/admin/clear-all') {
-    if (!verifyAuth(req)) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    const authAdmin = verifyAuth(req);
+    if (!authAdmin) return sendJson(res, 401, { ok: false, error: 'Unauthorized' });
+    if (authAdmin.role === 'Guest') {
+      return sendJson(res, 403, { ok: false, error: 'Guest accounts have view-only permissions.' });
+    }
     try {
       db.prepare('DELETE FROM meals').run();
       db.prepare('DELETE FROM donations').run();

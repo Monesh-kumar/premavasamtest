@@ -759,7 +759,305 @@
       font-style: italic;
     }
 
+    /* ── DASHBOARD LAYOUT & SIDEBAR ── */
+    .dash-body {
+      display: flex;
+      flex: 1;
+      position: relative;
+      min-height: calc(100vh - 72px);
+    }
+
+    .dash-sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: sticky;
+      top: 72px;
+      height: calc(100vh - 72px);
+      overflow-y: auto;
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-user-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #FAF6F0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .sidebar-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      color: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      border: 1px solid #EAD4B4;
+    }
+
+    .sidebar-user-info {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar-user-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-role-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9A5E10;
+      background: #FFF0D6;
+      border: 1px solid #FCD34D;
+      padding: 2px 7px;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+
+    .sidebar-role-badge.guest {
+      color: #1D4ED8;
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+    }
+
+    /* Primary CTA in Sidebar: Create Guest User */
+    .sidebar-cta-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-create-guest {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(27, 67, 50, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .btn-create-guest:hover {
+      background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(27, 67, 50, 0.32);
+    }
+
+    .btn-create-guest:active {
+      transform: translateY(0);
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 0 6px;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      text-align: left;
+      width: 100%;
+    }
+
+    .sidebar-link-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-link:hover {
+      background: #FAF6F0;
+      color: var(--brand);
+      border-color: var(--border);
+    }
+
+    .sidebar-link.active {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      font-weight: 700;
+      border-color: #FCD34D;
+      box-shadow: 0 2px 8px rgba(193, 127, 36, 0.12);
+    }
+
+    .sidebar-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #FAF6F0;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .sidebar-link.active .sidebar-badge {
+      background: #FFFFFF;
+      color: #9A5E10;
+      border-color: #FCD34D;
+    }
+
+    .sidebar-footer {
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.74rem;
+      color: var(--text-light);
+    }
+
+    .sidebar-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #059669;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    }
+
+    .dash-main-pane {
+      flex: 1;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* Mobile Sidebar Toggle Button & Backdrop */
+    .sidebar-toggle-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      padding: 0;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 24, 16, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 90;
+    }
+
+    .guest-mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    body.guest-user-mode .btn-delete,
+    body.guest-user-mode #clearDataBtn,
+    body.guest-user-mode #sidebarGuestCtaWrap,
+    body.guest-user-mode #tabCreateGuestBtn {
+      display: none !important;
+    }
+
     /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar-toggle-btn {
+        display: flex;
+      }
+      .dash-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 100;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+      }
+      .dash-sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-backdrop.open {
+        display: block;
+      }
+    }
     @media (max-width: 768px) {
       .dash-nav {
         padding: 12px 16px;
@@ -853,22 +1151,26 @@
   <div id="dashboardView">
     <!-- Navigation Bar -->
     <header class="dash-nav">
-      <a href="/admin.html" class="dash-brand">
-        <img src="images/logo.png?v=3.1" alt="Logo">
-        <div>
-          <span class="dash-brand-title">PREMA VASAM</span>
-          <span class="dash-badge">Admin Suite</span>
-        </div>
-      </a>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" aria-label="Toggle Navigation">☰</button>
+        <a href="/admin.html" class="dash-brand">
+          <img src="images/logo.png?v=3.1" alt="Logo">
+          <div>
+            <span class="dash-brand-title">PREMA VASAM</span>
+            <span class="dash-badge">Admin Suite</span>
+          </div>
+        </a>
+      </div>
 
       <div class="dash-nav-actions">
+        <span id="guestModeBanner" class="guest-mode-badge" style="display: none;">👁️ View-Only Guest</span>
         <button class="btn-action" onclick="fetchDashboardData()" title="Reload All Data">
           <span>↻</span> <span>Refresh</span>
         </button>
         <button class="btn-csv" onclick="downloadCsv('donations')" title="Download 80G Donations & Receipts Report">
           <span>📥</span> <span>Export Donations CSV</span>
         </button>
-        <button class="btn-action" style="color:#DC2626; border-color:#FECACA;" onclick="handleClearAllData()" title="Clean up all testing records from the portal">
+        <button id="clearDataBtn" class="btn-action" style="color:#DC2626; border-color:#FECACA;" onclick="handleClearAllData()" title="Clean up all testing records from the portal">
           <span>🗑️</span> <span>Clear Data</span>
         </button>
         <div class="admin-pill">
@@ -879,70 +1181,149 @@
       </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="dash-container">
-      
-      <!-- ── EXECUTIVE KPI ROW ── -->
-      <div class="kpi-grid">
-        <!-- 1. Total Funds Raised -->
-        <div class="kpi-card kpi-card-hero">
-          <div class="kpi-icon-box" style="background:#FAF0DC; color:#9A5E10;">💰</div>
-          <div>
-            <div class="kpi-label">Total Funds Raised</div>
-            <div class="kpi-val" id="kpiTotalFunds" style="color:#9A5E10;">₹ 0</div>
-            <div class="kpi-sub">Verified 80G Tax-Exempt Donations</div>
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
+
+    <!-- Dashboard Flex Body -->
+    <div class="dash-body">
+      <!-- Collapsible / Sticky Sidebar -->
+      <aside class="dash-sidebar" id="dashSidebar">
+        <!-- User Info Badge -->
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar" id="sidebarAvatar">👤</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebarUserName">Administrator</div>
+            <span class="sidebar-role-badge" id="sidebarRoleBadge">Superadmin</span>
           </div>
         </div>
 
-        <!-- 2. Donations Recorded -->
-        <div class="kpi-card">
-          <div class="kpi-icon-box" style="background:var(--amber-light); color:#B45309;">💳</div>
-          <div>
-            <div class="kpi-label">Donations Recorded</div>
-            <div class="kpi-val" id="kpiDonationsCount">0</div>
-            <div class="kpi-sub">Total 80G Tax Receipts</div>
-          </div>
+        <!-- Primary CTA: Create Guest User Option in Sidebar -->
+        <div class="sidebar-cta-wrap" id="sidebarGuestCtaWrap">
+          <button type="button" class="btn-create-guest" onclick="openCreateGuestModal()" title="Create view-only guest account">
+            <span style="font-size: 1.05rem; line-height: 1;">➕</span>
+            <span>Create Guest User</span>
+          </button>
         </div>
 
-        <!-- 3. Active Volunteers -->
-        <div class="kpi-card">
-          <div class="kpi-icon-box" style="background:var(--green-light); color:#047857;">🤝</div>
-          <div>
-            <div class="kpi-label">Active Volunteers</div>
-            <div class="kpi-val" id="kpiVolunteersCount">0</div>
-            <div class="kpi-sub">Therapists, Teachers & Specialists</div>
-          </div>
-        </div>
+        <!-- Sidebar Navigation Links -->
+        <nav class="sidebar-nav">
+          <div class="sidebar-section-title">Navigation</div>
+          <button type="button" class="sidebar-link active" data-tab="overview" onclick="switchSidebarTab('overview')">
+            <span class="sidebar-link-content">
+              <span>📊</span>
+              <span>Overview</span>
+            </span>
+          </button>
+          <button type="button" class="sidebar-link" data-tab="donations" onclick="switchSidebarTab('donations')">
+            <span class="sidebar-link-content">
+              <span>💳</span>
+              <span>Donations &amp; 80G</span>
+            </span>
+            <span class="sidebar-badge" id="sidebarBadgeDonations">0</span>
+          </button>
+          <button type="button" class="sidebar-link" data-tab="volunteers" onclick="switchSidebarTab('volunteers')">
+            <span class="sidebar-link-content">
+              <span>🤝</span>
+              <span>Volunteer Roster</span>
+            </span>
+            <span class="sidebar-badge" id="sidebarBadgeVolunteers">0</span>
+          </button>
+          <button type="button" class="sidebar-link" data-tab="contacts" onclick="switchSidebarTab('contacts')">
+            <span class="sidebar-link-content">
+              <span>✉️</span>
+              <span>Inquiries Inbox</span>
+            </span>
+            <span class="sidebar-badge" id="sidebarBadgeContacts">0</span>
+          </button>
+          <button type="button" class="sidebar-link" data-tab="guests" id="sidebarLinkGuests" onclick="switchSidebarTab('guests')">
+            <span class="sidebar-link-content">
+              <span>👥</span>
+              <span>Guest Users</span>
+            </span>
+            <span class="sidebar-badge" id="sidebarBadgeGuests">0</span>
+          </button>
+        </nav>
 
-        <!-- 4. Unread Inquiries -->
-        <div class="kpi-card">
-          <div class="kpi-icon-box" style="background:var(--blue-light); color:#1D4ED8;">✉️</div>
-          <div>
-            <div class="kpi-label">Unread Messages</div>
-            <div class="kpi-val" id="kpiUnreadContacts" style="color:#1D4ED8;">0</div>
-            <div class="kpi-sub">Pending Inbox Inquiries</div>
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+          <div class="sidebar-status-pill">
+            <span class="status-dot"></span>
+            <span>System Online · v2.1</span>
           </div>
+          <div>Prema Vasam Admin Portal</div>
         </div>
-      </div>
+      </aside>
 
-      <!-- ── TABS NAVIGATION ── -->
-      <nav class="tabs-bar" aria-label="Portal Navigation">
-        <button class="tab-btn active" onclick="showTab('overview', this)">
-          <span>📊 Dashboard Overview</span>
-        </button>
-        <button class="tab-btn" onclick="showTab('donations', this)">
-          <span>💳 Donations &amp; 80G Receipts</span>
-          <span class="tab-badge" id="badgeDonations">0</span>
-        </button>
-        <button class="tab-btn" onclick="showTab('volunteers', this)">
-          <span>🤝 Volunteer Roster</span>
-          <span class="tab-badge" id="badgeVolunteers">0</span>
-        </button>
-        <button class="tab-btn" onclick="showTab('contacts', this)">
-          <span>✉️ Inquiries Inbox</span>
-          <span class="tab-badge" id="badgeContacts">0</span>
-        </button>
-      </nav>
+      <!-- Main Pane -->
+      <div class="dash-main-pane">
+        <!-- Main Container -->
+        <main class="dash-container">
+          
+          <!-- ── EXECUTIVE KPI ROW ── -->
+          <div class="kpi-grid">
+            <!-- 1. Total Funds Raised -->
+            <div class="kpi-card kpi-card-hero">
+              <div class="kpi-icon-box" style="background:#FAF0DC; color:#9A5E10;">💰</div>
+              <div>
+                <div class="kpi-label">Total Funds Raised</div>
+                <div class="kpi-val" id="kpiTotalFunds" style="color:#9A5E10;">₹ 0</div>
+                <div class="kpi-sub">Verified 80G Tax-Exempt Donations</div>
+              </div>
+            </div>
+
+            <!-- 2. Donations Recorded -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:var(--amber-light); color:#B45309;">💳</div>
+              <div>
+                <div class="kpi-label">Donations Recorded</div>
+                <div class="kpi-val" id="kpiDonationsCount">0</div>
+                <div class="kpi-sub">Total 80G Tax Receipts</div>
+              </div>
+            </div>
+
+            <!-- 3. Active Volunteers -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:var(--green-light); color:#047857;">🤝</div>
+              <div>
+                <div class="kpi-label">Active Volunteers</div>
+                <div class="kpi-val" id="kpiVolunteersCount">0</div>
+                <div class="kpi-sub">Therapists, Teachers & Specialists</div>
+              </div>
+            </div>
+
+            <!-- 4. Unread Inquiries -->
+            <div class="kpi-card">
+              <div class="kpi-icon-box" style="background:var(--blue-light); color:#1D4ED8;">✉️</div>
+              <div>
+                <div class="kpi-label">Unread Messages</div>
+                <div class="kpi-val" id="kpiUnreadContacts" style="color:#1D4ED8;">0</div>
+                <div class="kpi-sub">Pending Inbox Inquiries</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TABS NAVIGATION ── -->
+          <nav class="tabs-bar" aria-label="Portal Navigation">
+            <button class="tab-btn active" onclick="showTab('overview', this)">
+              <span>📊 Dashboard Overview</span>
+            </button>
+            <button class="tab-btn" onclick="showTab('donations', this)">
+              <span>💳 Donations &amp; 80G Receipts</span>
+              <span class="tab-badge" id="badgeDonations">0</span>
+            </button>
+            <button class="tab-btn" onclick="showTab('volunteers', this)">
+              <span>🤝 Volunteer Roster</span>
+              <span class="tab-badge" id="badgeVolunteers">0</span>
+            </button>
+            <button class="tab-btn" onclick="showTab('contacts', this)">
+              <span>✉️ Inquiries Inbox</span>
+              <span class="tab-badge" id="badgeContacts">0</span>
+            </button>
+            <button class="tab-btn" id="tabBtnGuests" onclick="showTab('guests', this)">
+              <span>👥 Guest Users</span>
+              <span class="tab-badge" id="badgeGuests">0</span>
+            </button>
+          </nav>
 
       <!-- ════════════════════════════════════════════════════════
            TAB 1: DASHBOARD OVERVIEW & RECENT DONATIONS
@@ -1147,7 +1528,108 @@
         </div>
       </div>
 
-    </main>
+      <!-- ════════════════════════════════════════════════════════
+           TAB 4: GUEST USERS MANAGEMENT TABLE
+      ════════════════════════════════════════════════════════ -->
+      <div id="tab-guests" class="tab-panel">
+        <div class="table-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <span>👥</span>
+              <span>Guest User Accounts (`guest_users`)</span>
+            </h3>
+            <div class="panel-actions">
+              <input type="text" id="guestsSearchInput" class="search-box" placeholder="Search username, name, notes..." oninput="renderGuestsTable()">
+              <button type="button" id="tabCreateGuestBtn" class="btn-create-guest" style="width: auto; padding: 8px 16px; font-size: 0.85rem;" onclick="openCreateGuestModal()">
+                <span>➕</span> <span>Create Guest User</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                  <th>Username</th>
+                  <th>Access Role</th>
+                  <th>Purpose / Notes</th>
+                  <th>Created Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="guestsTableBody">
+                <tr><td colspan="7" class="empty-row">Loading guest users...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+        </main>
+      </div> <!-- /.dash-main-pane -->
+    </div> <!-- /.dash-body -->
+  </div> <!-- /#dashboardView -->
+
+  <!-- ════════════════════════════════════════════════════════
+       CREATE GUEST USER MODAL
+  ════════════════════════════════════════════════════════ -->
+  <div id="createGuestModal" class="modal-overlay" onclick="closeCreateGuestOnOverlay(event)">
+    <div class="modal-card" style="max-width: 490px;">
+      <div class="modal-head">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size: 1.3rem;">👤</span>
+          <h3 style="font-size: 1.15rem; color: var(--brand-dark); font-weight: 700;">Create Guest User Account</h3>
+        </div>
+        <button type="button" class="modal-close" onclick="closeCreateGuestModal()">&times;</button>
+      </div>
+
+      <form id="createGuestForm" onsubmit="handleCreateGuestUser(event)">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="padding: 10px 14px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: var(--radius-sm); font-size: 0.85rem; color: #1E40AF; line-height: 1.5;">
+            ℹ️ <strong>View-Only Permission:</strong> Guest users can inspect donations, volunteer rosters, and inquiries, but cannot delete records or clear data.
+          </div>
+
+          <div id="createGuestError" style="display: none; padding: 10px 14px; background: var(--red-light); border: 1px solid #FCA5A5; border-radius: var(--radius-sm); color: #B91C1C; font-size: 0.85rem;"></div>
+
+          <div class="form-group" style="margin: 0;">
+            <label for="guestFullNameInput">Full Name / Organization</label>
+            <input type="text" id="guestFullNameInput" class="form-input" placeholder="e.g. Auditor Ramesh" required>
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label for="guestUsernameInput">Guest Username</label>
+            <input type="text" id="guestUsernameInput" class="form-input" placeholder="e.g. auditor_ramesh" required pattern="[a-zA-Z0-9_\-\.]+" title="Only letters, numbers, dashes, underscores, and dots">
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label for="guestPasswordInput" style="margin-bottom: 0;">Access Password</label>
+              <button type="button" onclick="generateGuestPassword()" style="background: none; border: none; color: var(--brand); font-weight: 700; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                🎲 Auto-Generate Password
+              </button>
+            </div>
+            <div style="position: relative;">
+              <input type="text" id="guestPasswordInput" class="form-input" placeholder="Enter or generate password" required minlength="6" style="padding-right: 42px; font-family: monospace; font-size: 0.98rem;">
+              <button type="button" onclick="copyGuestPassword()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 0.95rem; color: var(--text-muted);" title="Copy password">📋</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label for="guestNotesInput">Notes / Purpose (Optional)</label>
+            <input type="text" id="guestNotesInput" class="form-input" placeholder="e.g. Financial audit inspection Nov 2026">
+          </div>
+        </div>
+
+        <div class="modal-foot" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-action" onclick="closeCreateGuestModal()">Cancel</button>
+          <button type="submit" id="createGuestSubmitBtn" class="btn-create-guest" style="width: auto; padding: 9px 18px;">
+            <span>Create Guest Account</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- ── MODAL DIALOG ── -->
@@ -1175,8 +1657,56 @@
       stats: {},
       donations: [],
       volunteers: [],
-      contacts: []
+      contacts: [],
+      guests: []
     };
+
+    // Sidebar Controller
+    function toggleSidebar() {
+      const sidebar = document.getElementById('dashSidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      if (!sidebar) return;
+      sidebar.classList.toggle('open');
+      if (backdrop) backdrop.classList.toggle('open');
+    }
+
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('dashSidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      if (sidebar) sidebar.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+
+    function switchSidebarTab(tabId) {
+      const tabBtns = document.querySelectorAll('.tabs-bar .tab-btn');
+      let targetBtn = null;
+      tabBtns.forEach(btn => {
+        const onClickAttr = btn.getAttribute('onclick') || '';
+        if (onClickAttr.includes(`'${tabId}'`)) {
+          targetBtn = btn;
+        }
+      });
+      showTab(tabId, targetBtn);
+      closeMobileSidebar();
+    }
+
+    // Tab switcher (Synchronized with Sidebar)
+    function showTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const panel = document.getElementById('tab-' + tabId);
+      if (panel) panel.classList.add('active');
+
+      // Synchronize sidebar active links
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        if (link.getAttribute('data-tab') === tabId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
 
     // Helper: Toast
     function showToast(msg, isSuccess = true) {
@@ -1353,8 +1883,42 @@
       state.admin = admin;
       document.getElementById('loginView').style.display = 'none';
       document.getElementById('dashboardView').style.display = 'flex';
-      document.getElementById('sessionAdminName').innerText = admin.name || admin.username || 'Administrator';
-      document.getElementById('sessionAdminRole').innerText = admin.role || 'Superadmin';
+      
+      const adminName = admin.name || admin.username || 'Administrator';
+      const adminRole = admin.role || 'Superadmin';
+      const isGuest = adminRole === 'Guest';
+
+      document.getElementById('sessionAdminName').innerText = adminName;
+      document.getElementById('sessionAdminRole').innerText = adminRole;
+
+      const sidebarName = document.getElementById('sidebarUserName');
+      if (sidebarName) sidebarName.innerText = adminName;
+
+      const sidebarRole = document.getElementById('sidebarRoleBadge');
+      if (sidebarRole) {
+        sidebarRole.innerText = adminRole;
+        if (isGuest) {
+          sidebarRole.classList.add('guest');
+        } else {
+          sidebarRole.classList.remove('guest');
+        }
+      }
+
+      // Guest role UI restrictions
+      const guestCta = document.getElementById('sidebarGuestCtaWrap');
+      if (guestCta) guestCta.style.display = isGuest ? 'none' : 'flex';
+
+      const tabCreateBtn = document.getElementById('tabCreateGuestBtn');
+      if (tabCreateBtn) tabCreateBtn.style.display = isGuest ? 'none' : 'inline-flex';
+
+      const clearDataBtn = document.getElementById('clearDataBtn');
+      if (clearDataBtn) clearDataBtn.style.display = isGuest ? 'none' : 'inline-flex';
+
+      const guestBadge = document.getElementById('guestModeBanner');
+      if (guestBadge) guestBadge.style.display = isGuest ? 'inline-flex' : 'none';
+
+      document.body.classList.toggle('guest-user-mode', isGuest);
+
       fetchDashboardData();
     }
 
@@ -1496,11 +2060,12 @@
       const headers = { 'Authorization': 'Bearer ' + token };
 
       try {
-        const [statsRes, donRes, volRes, conRes] = await Promise.all([
+        const [statsRes, donRes, volRes, conRes, guestRes] = await Promise.all([
           fetch('/api/admin/dashboard-stats', { headers }),
           fetch('/api/admin/donations', { headers }),
           fetch('/api/admin/volunteers', { headers }),
-          fetch('/api/admin/contacts', { headers })
+          fetch('/api/admin/contacts', { headers }),
+          fetch('/api/admin/guest-users', { headers })
         ]);
 
         if ([statsRes, donRes, volRes, conRes].some(r => r.status === 401)) {
@@ -1517,22 +2082,39 @@
 
         if (!statsRes.ok || !donRes.ok || !volRes.ok || !conRes.ok) throw new Error('Live fetch failed');
 
-        const [statsData, donData, volData, conData] = await Promise.all([
+        const [statsData, donData, volData, conData, guestData] = await Promise.all([
           statsRes.json(),
           donRes.json(),
           volRes.json(),
-          conRes.json()
+          conRes.json(),
+          guestRes.ok ? guestRes.json() : Promise.resolve({ guests: [] })
         ]);
 
         state.stats = statsData.stats || {};
         state.donations = donData.donations || [];
         state.volunteers = volData.volunteers || [];
         state.contacts = conData.contacts || [];
+        state.guests = guestData.guests || [];
 
-        // Update badge counts
-        document.getElementById('badgeDonations').innerText = state.donations.length;
-        document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
-        document.getElementById('badgeContacts').innerText = state.contacts.length;
+        // Update badge counts for horizontal tabs
+        const bDon = document.getElementById('badgeDonations');
+        if (bDon) bDon.innerText = state.donations.length;
+        const bVol = document.getElementById('badgeVolunteers');
+        if (bVol) bVol.innerText = state.volunteers.length;
+        const bCon = document.getElementById('badgeContacts');
+        if (bCon) bCon.innerText = state.contacts.length;
+        const bGst = document.getElementById('badgeGuests');
+        if (bGst) bGst.innerText = state.guests.length;
+
+        // Update badge counts for sidebar
+        const sDon = document.getElementById('sidebarBadgeDonations');
+        if (sDon) sDon.innerText = state.donations.length;
+        const sVol = document.getElementById('sidebarBadgeVolunteers');
+        if (sVol) sVol.innerText = state.volunteers.length;
+        const sCon = document.getElementById('sidebarBadgeContacts');
+        if (sCon) sCon.innerText = state.contacts.length;
+        const sGst = document.getElementById('sidebarBadgeGuests');
+        if (sGst) sGst.innerText = state.guests.length;
 
         // Render all dashboard metrics, progress bars, and recent overview table
         renderStats(state.stats);
@@ -1541,6 +2123,7 @@
         renderDonationsTable();
         renderVolunteersTable();
         renderContactsTable();
+        renderGuestsTable();
       } catch (err) {
         console.warn('Live API unavailable, falling back to static preview data:', err);
         state.isLive = false;
@@ -2042,6 +2625,191 @@
         await fetchDashboardData();
       } catch (e) {
         showToast('Delete failed: ' + e.message, false);
+      }
+    }
+
+    // ── RENDER GUEST USERS ROSTER ──
+    function renderGuestsTable() {
+      const tbody = document.getElementById('guestsTableBody');
+      if (!tbody) return;
+
+      const q = (document.getElementById('guestsSearchInput')?.value || '').toLowerCase().trim();
+      const list = (state.guests || []).filter(g => {
+        if (!q) return true;
+        return (g.username && g.username.toLowerCase().includes(q)) ||
+               (g.full_name && g.full_name.toLowerCase().includes(q)) ||
+               (g.notes && g.notes.toLowerCase().includes(q));
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">' +
+          (q ? 'No matching guest users found.' : 'No guest users created yet. Click "Create Guest User" in the sidebar to add one.') +
+          '</td></tr>';
+        return;
+      }
+
+      const isSuperadmin = state.admin && state.admin.role === 'Superadmin';
+
+      tbody.innerHTML = list.map(g => {
+        return `
+          <tr>
+            <td><span class="badge" style="background:#FAF6F0; border:1px solid var(--border); color:var(--text-muted); font-family:monospace;">${escapeHtml(g.id)}</span></td>
+            <td><strong>${escapeHtml(g.full_name)}</strong></td>
+            <td><code style="background:var(--brand-light); color:#9A5E10; padding:2px 8px; border-radius:4px; font-weight:700;">@${escapeHtml(g.username)}</code></td>
+            <td><span class="badge" style="background:#EFF6FF; border:1px solid #BFDBFE; color:#1D4ED8;">👁️ Guest (View Only)</span></td>
+            <td><div style="font-size:0.85rem; color:var(--text-muted); max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(g.notes || '-')}</div></td>
+            <td><span style="font-size:0.82rem; color:var(--text-muted);">${formatDate(g.created_at)}</span></td>
+            <td>
+              ${isSuperadmin ? `<button type="button" class="btn-row-action btn-delete" onclick="deleteGuestUser('${escapeHtml(g.id)}', '${escapeHtml(g.username)}')">🗑️ Revoke</button>` : `<span style="font-size:0.8rem; color:var(--text-light);">Restricted</span>`}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ── CREATE GUEST USER CONTROLLER ──
+    function openCreateGuestModal() {
+      const modal = document.getElementById('createGuestModal');
+      if (modal) {
+        const err = document.getElementById('createGuestError');
+        if (err) err.style.display = 'none';
+        const fn = document.getElementById('guestFullNameInput');
+        if (fn) fn.value = '';
+        const un = document.getElementById('guestUsernameInput');
+        if (un) un.value = '';
+        const nt = document.getElementById('guestNotesInput');
+        if (nt) nt.value = '';
+        generateGuestPassword();
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closeCreateGuestModal() {
+      const modal = document.getElementById('createGuestModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function closeCreateGuestOnOverlay(e) {
+      if (e.target.id === 'createGuestModal') closeCreateGuestModal();
+    }
+
+    function generateGuestPassword() {
+      const chars = '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ#$@!';
+      let pwd = 'PVM-';
+      for (let i = 0; i < 8; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const pwdInput = document.getElementById('guestPasswordInput');
+      if (pwdInput) pwdInput.value = pwd;
+    }
+
+    function copyGuestPassword() {
+      const pwd = document.getElementById('guestPasswordInput')?.value;
+      if (!pwd) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(pwd).then(() => {
+          showToast('Guest password copied to clipboard!');
+        }).catch(() => {
+          showToast('Password: ' + pwd);
+        });
+      } else {
+        showToast('Password: ' + pwd);
+      }
+    }
+
+    async function handleCreateGuestUser(e) {
+      if (e) e.preventDefault();
+      const errBox = document.getElementById('createGuestError');
+      errBox.style.display = 'none';
+
+      const full_name = document.getElementById('guestFullNameInput').value.trim();
+      const username = document.getElementById('guestUsernameInput').value.trim();
+      const password = document.getElementById('guestPasswordInput').value.trim();
+      const notes = document.getElementById('guestNotesInput').value.trim();
+
+      if (!full_name || !username || !password) {
+        errBox.textContent = 'Please fill in all required fields.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('createGuestSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = 'Creating Account...';
+
+      const token = localStorage.getItem('premavasam_admin_token');
+
+      try {
+        const res = await fetch('/api/admin/guest-users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ full_name, username, password, notes })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          closeCreateGuestModal();
+          showToast(`Guest account @${username} created!`);
+          
+          // Display credential summary modal for easy copy
+          const summaryDiv = document.createElement('div');
+          summaryDiv.style.lineHeight = '1.7';
+          summaryDiv.innerHTML = `
+            <div style="background:#FAF6F0; border:1.5px solid var(--border); padding:16px; border-radius:8px; margin-bottom:12px;">
+              <div><strong>Full Name:</strong> ${escapeHtml(full_name)}</div>
+              <div><strong>Username:</strong> <code style="color:var(--brand); font-weight:700;">${escapeHtml(username)}</code></div>
+              <div><strong>Password:</strong> <code style="color:#B45309; font-weight:700;">${escapeHtml(password)}</code></div>
+              <div><strong>Access Level:</strong> View-Only Guest</div>
+              ${notes ? `<div><strong>Notes:</strong> ${escapeHtml(notes)}</div>` : ''}
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+              Share these credentials securely with the guest user. Guest users have view-only access and cannot modify or delete any records.
+            </p>
+          `;
+          openModal(`Guest Account Created: @${username}`, summaryDiv);
+
+          await fetchDashboardData();
+          showTab('guests', document.getElementById('tabBtnGuests'));
+        } else {
+          errBox.textContent = data.error || 'Failed to create guest user account.';
+          errBox.style.display = 'block';
+        }
+      } catch (netErr) {
+        errBox.textContent = 'Connection error: ' + netErr.message;
+        errBox.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.innerText = 'Create Guest Account';
+    }
+
+    async function deleteGuestUser(id, username) {
+      if (!confirm(`Revoke access for guest user @${username}? They will no longer be able to log in.`)) return;
+
+      const token = localStorage.getItem('premavasam_admin_token');
+      try {
+        const res = await fetch('/api/admin/guest-users', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ id })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          showToast(`Access for @${username} has been revoked.`);
+          await fetchDashboardData();
+        } else {
+          showToast(data.error || 'Failed to revoke guest account', false);
+        }
+      } catch (e) {
+        showToast('Error revoking account: ' + e.message, false);
       }
     }
 
