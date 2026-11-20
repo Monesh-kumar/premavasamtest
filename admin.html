@@ -810,7 +810,10 @@
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="password" id="passwordInput" class="form-input" placeholder="Password" required autocomplete="current-password">
+          <div style="position: relative;">
+            <input type="password" id="passwordInput" class="form-input" placeholder="Password" required autocomplete="current-password" style="padding-right: 42px;">
+            <button type="button" id="togglePasswordBtn" onclick="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 4px;" aria-label="Toggle password visibility">👁️</button>
+          </div>
         </div>
 
         <button type="submit" id="loginSubmitBtn" class="login-btn">
@@ -1333,6 +1336,19 @@
       fetchDashboardData();
     }
 
+    function togglePasswordVisibility() {
+      const pwd = document.getElementById('passwordInput');
+      const btn = document.getElementById('togglePasswordBtn');
+      if (!pwd) return;
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        if (btn) { btn.textContent = '🙈'; btn.setAttribute('aria-label', 'Hide password'); }
+      } else {
+        pwd.type = 'password';
+        if (btn) { btn.textContent = '👁️'; btn.setAttribute('aria-label', 'Show password'); }
+      }
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const err = document.getElementById('loginError');
@@ -1340,7 +1356,7 @@
       err.style.display = 'none';
 
       const username = document.getElementById('usernameInput').value.trim();
-      const password = document.getElementById('passwordInput').value;
+      const password = document.getElementById('passwordInput').value.trim();
 
       if (!username || !password) {
         err.innerText = 'Please enter both username and password.';

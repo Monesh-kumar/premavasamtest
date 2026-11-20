@@ -728,7 +728,7 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/admin/login (Anti-Brute Force Protected)
   if (req.method === 'POST' && pathname === '/api/admin/login') {
-    const rateCheck = checkRateLimit(clientIp, 'admin-login', 5, 15 * 60 * 1000);
+    const rateCheck = checkRateLimit(clientIp, 'admin-login', 10, 15 * 60 * 1000);
     if (!rateCheck.allowed) {
       appLog('warn', 'Admin login blocked: Rate limit exceeded', { clientIp, resetInMs: rateCheck.resetInMs });
       return sendJson(res, 429, {
@@ -739,11 +739,11 @@ const server = http.createServer(async (req, res) => {
 
     try {
       const data = await parseJsonBody(req);
-      const usernameInput = sanitizeString(data.username, 50);
-      const passwordInput = typeof data.password === 'string' ? data.password : '';
+      const usernameInput = sanitizeString(data.username, 50).toLowerCase();
+      const passwordInput = typeof data.password === 'string' ? data.password.trim() : '';
 
-      const isUserValid = timingSafeCheck(usernameInput, ADMIN_USER);
-      const isPassValid = timingSafeCheck(passwordInput, ADMIN_PASSWORD);
+      const isUserValid = timingSafeCheck(usernameInput, ADMIN_USER.toLowerCase()) || timingSafeCheck(usernameInput, ADMIN_EMAIL.toLowerCase());
+      const isPassValid = timingSafeCheck(passwordInput, ADMIN_PASSWORD.trim());
 
       if (isUserValid && isPassValid) {
         // Reset brute-force counter on successful login
