@@ -316,16 +316,64 @@
             </div>
           </article>
 
-          <!-- 5. Integrated Community Living -->
+          <!-- 5. Awards & Accolades -->
           <article class="cause-card">
-            <div class="cause-media">
-              <img src="images/splgroup.jpg" alt="Integrated Living">
+            <div class="cause-media" id="awardsCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/award_team_children_celebration.jpg" alt="Prema Vasam staff in wheelchair with gold shield award celebrating with children" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_we_excellence.jpg" alt="Women Excellence Award onstage ceremony with bouquet and ovation" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_malala_recognition.jpg" alt="Malala Recognition certificate presented by dignitaries on stage" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_citation_presentation.jpg" alt="Presentation of framed honor citation and ceremonial shawl" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_special_mothers_day.jpg" alt="Special Mother's Day 2025 recognition and gift presentation" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_srm_primadonna.jpg" alt="SRM University Prima Donna International Women's Day award trophy" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/award_wheelchair_certificate.jpg" alt="Recognition certificate presentation to resident and staff member" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevAwardsSlide(event)" aria-label="Previous award photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextAwardsSlide(event)" aria-label="Next award photo">›</button>
+
+              <!-- Indicators (7 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setAwardsSlide(0, event)" aria-label="Photo 1 - Team Celebration with Children"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(1, event)" aria-label="Photo 2 - Women Excellence Award"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(2, event)" aria-label="Photo 3 - Malala Recognition"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(3, event)" aria-label="Photo 4 - Honor Citation Presentation"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(4, event)" aria-label="Photo 5 - Special Mother's Day 2025"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(5, event)" aria-label="Photo 6 - SRM Prima Donna Trophy"></button>
+                <button type="button" class="cause-slider-dot" onclick="setAwardsSlide(6, event)" aria-label="Photo 7 - Recognition Certificate"></button>
+              </div>
             </div>
             <div class="cause-body">
-              <h3>Pioneering Integrated Care Model</h3>
+              <h3>Awards &amp; Accolades</h3>
               <p>
-                Prema Vasam stands as the pioneer model where differently-abled children and normal school-going children grow up together, destroying societal stigma and nurturing innate empathy.
+                Whenever our dedicated team members receive awards and appreciation, we celebrate them as achievements of our entire Prema Vasam family. Such recognition inspires and motivates us to work with renewed enthusiasm towards our shared goals.
               </p>
+
+              <!-- Interactive Session Mini-Thumbnails -->
+              <div class="awards-thumb-row" title="Click to view award photo">
+                <img src="images/award_team_children_celebration.jpg" alt="Team Celebration" class="awards-thumb active" onclick="setAwardsSlide(0, event)">
+                <img src="images/award_we_excellence.jpg" alt="Women Excellence" class="awards-thumb" onclick="setAwardsSlide(1, event)">
+                <img src="images/award_malala_recognition.jpg" alt="Malala Recognition" class="awards-thumb" onclick="setAwardsSlide(2, event)">
+                <img src="images/award_citation_presentation.jpg" alt="Honor Citation" class="awards-thumb" onclick="setAwardsSlide(3, event)">
+                <img src="images/award_special_mothers_day.jpg" alt="Special Mother's Day" class="awards-thumb" onclick="setAwardsSlide(4, event)">
+                <img src="images/award_srm_primadonna.jpg" alt="SRM Prima Donna" class="awards-thumb" onclick="setAwardsSlide(5, event)">
+                <img src="images/award_wheelchair_certificate.jpg" alt="Certificate Presentation" class="awards-thumb" onclick="setAwardsSlide(6, event)">
+              </div>
             </div>
           </article>
 
@@ -576,6 +624,61 @@
     if (amudhanBox) {
       amudhanBox.addEventListener('mouseenter', () => clearInterval(amudhanAutoTimer));
       amudhanBox.addEventListener('mouseleave', () => startAmudhanTimer());
+    }
+
+    // ── AWARDS & ACCOLADES MULTI-PHOTO SLIDER ──
+    let currentAwardsSlide = 0;
+    let awardsAutoTimer = null;
+
+    function setAwardsSlide(index, e) {
+      if (e) { e.stopPropagation(); resetAwardsTimer(); }
+      const slides = document.querySelectorAll('#awardsCarousel .cause-slide');
+      const dots = document.querySelectorAll('#awardsCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('.awards-thumb');
+      if (!slides.length) return;
+
+      currentAwardsSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentAwardsSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentAwardsSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentAwardsSlide));
+      const activeThumb = thumbs[currentAwardsSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
+    }
+
+    function nextAwardsSlide(e) {
+      if (e) e.stopPropagation();
+      setAwardsSlide(currentAwardsSlide + 1);
+      resetAwardsTimer();
+    }
+
+    function prevAwardsSlide(e) {
+      if (e) e.stopPropagation();
+      setAwardsSlide(currentAwardsSlide - 1);
+      resetAwardsTimer();
+    }
+
+    function startAwardsTimer() {
+      if (awardsAutoTimer) clearInterval(awardsAutoTimer);
+      awardsAutoTimer = setInterval(() => {
+        setAwardsSlide(currentAwardsSlide + 1);
+      }, 5000);
+    }
+
+    function resetAwardsTimer() {
+      startAwardsTimer();
+    }
+
+    startAwardsTimer();
+
+    const awardsBox = document.getElementById('awardsCarousel');
+    if (awardsBox) {
+      awardsBox.addEventListener('mouseenter', () => clearInterval(awardsAutoTimer));
+      awardsBox.addEventListener('mouseleave', () => startAwardsTimer());
     }
   </script>
 </body>
