@@ -882,7 +882,8 @@ input, select, textarea {
 .building-thumb-row,
 .amudhan-thumb-row,
 .walking-thumb-row,
-.awards-thumb-row {
+.awards-thumb-row,
+.reachingOut-thumb-row {
   display: flex;
   position: relative;
   gap: 6px;
@@ -907,7 +908,8 @@ input, select, textarea {
 .building-thumb-row::-webkit-scrollbar,
 .amudhan-thumb-row::-webkit-scrollbar,
 .walking-thumb-row::-webkit-scrollbar,
-.awards-thumb-row::-webkit-scrollbar {
+.awards-thumb-row::-webkit-scrollbar,
+.reachingOut-thumb-row::-webkit-scrollbar {
   display: none;
 }
 
@@ -924,7 +926,8 @@ input, select, textarea {
 .building-thumb,
 .amudhan-thumb,
 .walking-thumb,
-.awards-thumb {
+.awards-thumb,
+.reachingOut-thumb {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-sm);
@@ -949,7 +952,8 @@ input, select, textarea {
 .building-thumb:hover,
 .amudhan-thumb:hover,
 .walking-thumb:hover,
-.awards-thumb:hover {
+.awards-thumb:hover,
+.reachingOut-thumb:hover {
   opacity: 0.95;
   transform: scale(1.06);
 }
@@ -967,7 +971,8 @@ input, select, textarea {
 .building-thumb.active,
 .amudhan-thumb.active,
 .walking-thumb.active,
-.awards-thumb.active {
+.awards-thumb.active,
+.reachingOut-thumb.active {
   border-color: var(--color-primary);
   opacity: 1;
   box-shadow: 0 0 0 1px var(--color-primary);
