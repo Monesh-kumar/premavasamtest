@@ -12,17 +12,41 @@ const path = require('path');
 const crypto = require('crypto');
 const { DatabaseSync } = require('node:sqlite');
 
-// Native .env file loader for Node.js >= 20.6.0
-if (typeof process.loadEnvFile === 'function') {
-  const envPath = path.join(__dirname, '.env');
-  if (fs.existsSync(envPath)) {
-    try {
-      process.loadEnvFile(envPath);
-    } catch (e) {
-      console.warn('[ENV] Note loading .env:', e.message);
+// Universal .env file loader (supports Node.js >= 20.6 process.loadEnvFile and universal fallback)
+function loadEnv() {
+  const envCandidates = [
+    path.join(__dirname, '.env'),
+    path.join(process.cwd(), '.env')
+  ];
+  let loaded = false;
+  for (const envPath of envCandidates) {
+    if (fs.existsSync(envPath)) {
+      if (typeof process.loadEnvFile === 'function') {
+        try { process.loadEnvFile(envPath); loaded = true; } catch (_) {}
+      }
+      try {
+        const raw = fs.readFileSync(envPath, 'utf8');
+        raw.split(/\r?\n/).forEach(line => {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) return;
+          const eqIdx = trimmed.indexOf('=');
+          if (eqIdx === -1) return;
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[key]) {
+            process.env[key] = val;
+          }
+        });
+        loaded = true;
+      } catch (_) {}
+      if (loaded) break;
     }
   }
 }
+loadEnv();
 
 // ── CONFIGURATION & ENVIRONMENT ──
 const PORT = process.env.PORT || 3000;
@@ -47,13 +71,55 @@ const SESSION_TTL_MS = (parseInt(process.env.SESSION_TTL_HOURS, 10) || 4) * 60 *
 
 // ── 0. DATA ENCRYPTION AT REST: AES-256-GCM ──
 let encryptionKey = null;
-if (process.env.DATA_ENCRYPTION_KEY && /^[0-9a-fA-F]{64}$/.test(process.env.DATA_ENCRYPTION_KEY.trim())) {
-  encryptionKey = Buffer.from(process.env.DATA_ENCRYPTION_KEY.trim(), 'hex');
-} else {
-  // Deterministic fallback derived from administrator master secret with warning
-  console.warn('[SECURITY WARNING] DATA_ENCRYPTION_KEY is unset or not 64 hex characters. Deriving key from administrator secret. Set DATA_ENCRYPTION_KEY in production!');
-  encryptionKey = crypto.scryptSync(ADMIN_PASSWORD || 'premavasam_master_key', 'premavasam_pan_salt_2026', 32);
+let rawKey = (process.env.DATA_ENCRYPTION_KEY || '').trim().replace(/^['"]|['"]$/g, '');
+
+// If unset or invalid in process.env, inspect .env directly
+if (!/^[0-9a-fA-F]{64}$/.test(rawKey)) {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    try {
+      const envContent = fs.readFileSync(envPath, 'utf8');
+      const m = envContent.match(/DATA_ENCRYPTION_KEY\s*=\s*['"]?([0-9a-fA-F]{64})['"]?/);
+      if (m) {
+        rawKey = m[1];
+        process.env.DATA_ENCRYPTION_KEY = rawKey;
+      }
+    } catch (_) {}
+  }
 }
+
+// Self-healing: if still not set or invalid, generate cryptographically secure 256-bit key and persist to .env
+if (!/^[0-9a-fA-F]{64}$/.test(rawKey)) {
+  rawKey = crypto.randomBytes(32).toString('hex');
+  process.env.DATA_ENCRYPTION_KEY = rawKey;
+  try {
+    const envPath = path.join(__dirname, '.env');
+    if (fs.existsSync(envPath)) {
+      let content = fs.readFileSync(envPath, 'utf8');
+      if (/DATA_ENCRYPTION_KEY\s*=/.test(content)) {
+        content = content.replace(/DATA_ENCRYPTION_KEY\s*=.*/, `DATA_ENCRYPTION_KEY=${rawKey}`);
+      } else {
+        content += `\n# Native AES-256-GCM Data Encryption Key\nDATA_ENCRYPTION_KEY=${rawKey}\n`;
+      }
+      fs.writeFileSync(envPath, content, 'utf8');
+    } else {
+      const examplePath = path.join(__dirname, '.env.example');
+      if (fs.existsSync(examplePath)) {
+        let example = fs.readFileSync(examplePath, 'utf8');
+        example = example.replace(/DATA_ENCRYPTION_KEY\s*=.*/, `DATA_ENCRYPTION_KEY=${rawKey}`);
+        fs.writeFileSync(envPath, example, 'utf8');
+      } else {
+        fs.writeFileSync(envPath, `DATA_ENCRYPTION_KEY=${rawKey}\n`, 'utf8');
+      }
+    }
+  } catch (_) {
+    // In read-only filesystem environments, fallback to deterministic key
+    rawKey = crypto.scryptSync(ADMIN_PASSWORD || 'premavasam_master_key', 'premavasam_pan_salt_2026', 32).toString('hex');
+    process.env.DATA_ENCRYPTION_KEY = rawKey;
+  }
+}
+
+encryptionKey = Buffer.from(rawKey, 'hex');
 
 function encryptPan(plainPan) {
   if (!plainPan || typeof plainPan !== 'string') return '';
