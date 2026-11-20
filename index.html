@@ -729,8 +729,15 @@
                 </div>
               </div>
 
-              <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px; font-size: 0.82rem; color: var(--color-text-mid); line-height: 1.5;">
+              <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; font-size: 0.82rem; color: var(--color-text-mid); line-height: 1.5;">
                 🔒 <strong>DPDP Notice:</strong> Your details and PAN are securely processed solely for issuing Section 80G tax receipts and filing Form 10BD with the Income Tax Department. See our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.84rem; color: var(--color-text-mid); cursor: pointer;">
+                  <input type="checkbox" id="donConsent" required style="margin-top: 3px;">
+                  <span>I agree to the <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a> and consent to the secure processing of my details for Section 80G receipt issuance.</span>
+                </label>
               </div>
 
               <button type="submit" id="donSubmitBtn" class="btn btn-tertiary" style="width: 100%;">
@@ -1197,7 +1204,8 @@
         pan_number: document.getElementById('donPan').value.trim().toUpperCase(),
         amount: parseFloat(document.getElementById('donAmount').value),
         transfer_type: document.getElementById('donMode').value,
-        reference_number: document.getElementById('donRef').value.trim()
+        reference_number: document.getElementById('donRef').value.trim(),
+        privacy_consent: document.getElementById('donConsent').checked
       };
 
       let liveDone = false;
@@ -1223,7 +1231,8 @@
 
       if (!liveDone) {
         const newId = '#DON-' + (320 + Math.floor(Math.random() * 500));
-        const record = { id: newId, ...payload, receipt_status: 'pending', created_at: new Date().toISOString() };
+        const safePayload = { ...payload, pan_number: payload.pan_number ? (payload.pan_number.slice(0, 5) + '****' + payload.pan_number.slice(-1)) : '' };
+        const record = { id: newId, ...safePayload, receipt_status: 'pending', created_at: new Date().toISOString() };
         try {
           const existing = JSON.parse(localStorage.getItem('premavasam_public_donations') || '[]');
           existing.unshift(record);

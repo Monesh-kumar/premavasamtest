@@ -2,8 +2,15 @@ node_modules/
 .git/
 .vscode/
 *.log
+database.sqlite
+database.sqlite*
 database.sqlite-wal
 database.sqlite-shm
+*.sqlite
+*.sqlite3
+*.db
 backups/
 data/
 .env
+.env.*
+!.env.example

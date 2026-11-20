@@ -1852,9 +1852,9 @@
     window.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('premavasam_admin_token');
       if (token) {
-        if (token.startsWith('pvs_static_')) {
+        if (token.startsWith('pvs_demo_')) {
           let savedAdmin = null;
-          try { savedAdmin = JSON.parse(localStorage.getItem('premavasam_static_admin')); } catch (_) {}
+          try { savedAdmin = JSON.parse(sessionStorage.getItem('premavasam_static_admin') || localStorage.getItem('premavasam_static_admin')); } catch (_) {}
           if (savedAdmin) {
             state.isLive = false;
             setupDashboard(savedAdmin);
@@ -1883,7 +1883,10 @@
             return;
           }
         }
-        localStorage.removeItem('premavasam_admin_token');
+        sessionStorage.removeItem('premavasam_admin_token');
+      sessionStorage.removeItem('premavasam_static_admin');
+      localStorage.removeItem('premavasam_admin_token');
+      localStorage.removeItem('premavasam_static_admin');
       }
       showLoginScreen();
     });
@@ -1957,44 +1960,21 @@
       const cleanUser = (username || '').toLowerCase().trim();
       const cleanPass = (password || '').trim();
 
-      // Superadmin authentication (Admin credentials)
-      const isSuperadmin = (cleanUser === 'admin' || cleanUser === 'premavasam1999@gmail.com') && cleanPass === 'prem$1999#vasam';
-      if (isSuperadmin) {
-        const adminData = {
-          name: 'Premavasam Administrator',
-          role: 'Superadmin',
-          email: 'premavasam1999@gmail.com',
-          username: 'admin'
-        };
-        const staticToken = 'pvs_static_' + Date.now();
-        localStorage.setItem('premavasam_admin_token', staticToken);
-        localStorage.setItem('premavasam_static_admin', JSON.stringify(adminData));
-        state.isLive = false;
-        setupDashboard(adminData);
-        showToast('Welcome back, Premavasam Administrator');
-        return true;
-      }
-
-      // Check guest users stored in browser storage for GitHub Pages
-      let staticGuests = [];
-      try {
-        staticGuests = JSON.parse(localStorage.getItem('premavasam_guest_users') || '[]');
-      } catch (_) {}
-      const guest = staticGuests.find(g => g.username && g.username.toLowerCase() === cleanUser && g.password === cleanPass);
-      if (guest) {
-        const guestData = {
-          id: guest.id,
-          name: guest.full_name,
+      // Demo Mode for static previews - Zero production credentials or privileges
+      if (cleanUser === 'demo' && (cleanPass === 'demo' || cleanPass === 'demomode')) {
+        const demoData = {
+          id: 'demo',
+          name: 'Demo Reviewer',
           role: 'Guest',
-          username: guest.username,
-          notes: guest.notes
+          email: 'demo@premavasam.org',
+          username: 'demo'
         };
-        const staticToken = 'pvs_static_guest_' + Date.now();
-        localStorage.setItem('premavasam_admin_token', staticToken);
-        localStorage.setItem('premavasam_static_admin', JSON.stringify(guestData));
+        const demoToken = 'pvs_demo_' + Date.now();
+        sessionStorage.setItem('premavasam_admin_token', demoToken);
+        sessionStorage.setItem('premavasam_static_admin', JSON.stringify(demoData));
         state.isLive = false;
-        setupDashboard(guestData);
-        showToast('Signed in as Guest (' + (guest.full_name || guest.username) + ')');
+        setupDashboard(demoData);
+        showToast('Viewing in Simulated Demo Mode (Read-Only)');
         return true;
       }
 
@@ -2065,7 +2045,8 @@
         if (res.ok) {
           const data = await res.json().catch(() => ({}));
           if (data.ok && data.token) {
-            localStorage.setItem('premavasam_admin_token', data.token);
+            sessionStorage.setItem('premavasam_admin_token', data.token);
+            localStorage.removeItem('premavasam_admin_token');
             state.isLive = true;
             setupDashboard(data.admin);
             if (data.previousSessionTerminated) {
@@ -2080,25 +2061,28 @@
           }
         }
 
-        // On static hosts (GitHub Pages) where /api/admin/login returns 404/405
+        // On static environments where /api/admin/login returns 404/405
         if (tryStaticAuth(username, password)) {
           btn.disabled = false;
           btn.innerText = 'Sign In to Dashboard';
           pendingLoginCredentials = null;
           return;
         } else {
-          err.innerText = 'Invalid username or password';
+          if (res.status === 404 || res.status === 405) {
+            err.innerText = 'Static Preview: Live administrator login requires an active Node.js server. Please connect to your production domain or run locally at http://localhost:3000.';
+          } else {
+            err.innerText = 'Invalid username or password';
+          }
           err.style.display = 'block';
         }
       } catch (networkErr) {
-        // Network connection error or GitHub Pages static environment
         if (tryStaticAuth(username, password)) {
           btn.disabled = false;
           btn.innerText = 'Sign In to Dashboard';
           pendingLoginCredentials = null;
           return;
         }
-        err.innerText = 'Invalid username or password';
+        err.innerText = 'Unable to reach authentication service. Please verify your connection or ensure the Node.js server is running.';
         err.style.display = 'block';
       }
 

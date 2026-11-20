@@ -7,21 +7,26 @@ package-lock.json
 .env.*
 !.env.example
 
-# SQLite Database Caches & Local Locks
+# SQLite Database & Storage (Never commit binary production databases)
+database.sqlite
+database.sqlite*
 database.sqlite-shm
 database.sqlite-wal
-
-# OS files
-.DS_Store
-Thumbs.db
-*.tmp
-
-# Logs
-*.log
-npm-debug.log*
+*.sqlite
+*.sqlite3
+*.db
 
 # Backups and database snapshots
 backups/
 data/
 *.bak
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS and Temporary files
+.DS_Store
+Thumbs.db
+*.tmp
 images/mumtaj_full.jpg

@@ -397,9 +397,16 @@
               <textarea id="dNotes" class="form-textarea" rows="2" placeholder="e.g. In memory of my mother, on my child's birthday, or general child nutrition..."></textarea>
             </div>
 
-            <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 20px; font-size: 0.84rem; color: var(--color-text-mid); line-height: 1.55;">
+            <div style="background: rgba(27, 67, 50, 0.04); border: 1px solid rgba(27, 67, 50, 0.12); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px; font-size: 0.84rem; color: var(--color-text-mid); line-height: 1.55;">
               <span style="font-weight: 600; color: var(--color-primary-deep); display: block; margin-bottom: 4px;">🔒 Privacy &amp; 80G Tax Filing Consent (DPDP Act 2023):</span>
               By submitting this contribution, you consent to Prema Vasam securely storing and processing your contact details and PAN solely for issuing official Section 80G tax receipts and filing statutory Form 10BD with the Income Tax Department. We never sell, rent, or commercialize your personal information. Read our <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.84rem; color: var(--color-text-mid); cursor: pointer;">
+                <input type="checkbox" id="dConsent" required style="margin-top: 3px;">
+                <span>I agree to the <a href="privacy.html" target="_blank" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a> and consent to the secure processing of my details for Section 80G receipt issuance.</span>
+              </label>
             </div>
 
             <button type="submit" id="dSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">
@@ -593,7 +600,8 @@
         transfer_type: document.getElementById('dTransferType').value,
         pan_number: document.getElementById('dPan').value.trim().toUpperCase(),
         reference_number: document.getElementById('dRef').value.trim(),
-        notes: document.getElementById('dNotes').value.trim()
+        notes: document.getElementById('dNotes').value.trim(),
+        privacy_consent: document.getElementById('dConsent').checked
       };
 
       let liveDone = false;
@@ -623,7 +631,8 @@
 
       if (!liveDone) {
         const newId = '#DON-' + (320 + Math.floor(Math.random() * 500));
-        const record = { id: newId, ...payload, receipt_status: 'pending', created_at: new Date().toISOString() };
+        const safePayload = { ...payload, pan_number: payload.pan_number ? (payload.pan_number.slice(0, 5) + '****' + payload.pan_number.slice(-1)) : '' };
+        const record = { id: newId, ...safePayload, receipt_status: 'pending', created_at: new Date().toISOString() };
         try {
           const existing = JSON.parse(localStorage.getItem('premavasam_public_donations') || '[]');
           existing.unshift(record);
