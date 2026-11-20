@@ -133,11 +133,10 @@ article p {
   text-align: center;
 }
 
-/* Maintain clean alignment for tags, buttons, forms, and headings */
+/* Maintain clean alignment for tags, forms, and headings */
 .section-tag,
 .cause-cat,
 .nav-menu a,
-.btn,
 .form-label,
 input, select, textarea {
   text-align: left;
@@ -339,6 +338,7 @@ input, select, textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   gap: 8px;
   padding: 12px 26px;
   font-size: 0.92rem;
@@ -2283,20 +2283,36 @@ input, select, textarea {
     border-radius: 8px;
   }
 
+  /* Mobile Donate Box & Forms */
+  .donate-box {
+    padding: 28px 18px !important;
+    border-radius: var(--radius-lg);
+    box-sizing: border-box;
+    width: 100%;
+  }
+
   /* Full-width responsive submit buttons */
   .booking-form-box button[type="submit"],
   .booking-form-box .btn,
   .modal-card .btn,
   .form-card .btn,
-  .donation-form .btn {
+  .donation-form .btn,
+  .donate-box .btn,
+  .donate-box button[type="submit"],
+  form button[type="submit"],
+  .btn[style*="width: 100%"],
+  .btn[style*="width:100%"] {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;
     white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
     text-align: center;
-    padding: 14px 18px;
-    font-size: 0.95rem;
-    line-height: 1.25;
+    padding: 13px 18px !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
     justify-content: center;
     margin-top: 8px;
   }
@@ -2373,9 +2389,42 @@ input, select, textarea {
     padding: 18px 14px !important;
     border-radius: var(--radius-md);
   }
+  .donate-box {
+    padding: 22px 14px !important;
+  }
+  .booking-form-box button[type="submit"],
+  .booking-form-box .btn,
+  .modal-card .btn,
+  .form-card .btn,
+  .donation-form .btn,
+  .donate-box .btn,
+  .donate-box button[type="submit"],
+  form button[type="submit"],
+  .btn[style*="width: 100%"],
+  .btn[style*="width:100%"] {
+    padding: 12px 14px !important;
+    font-size: 0.84rem !important;
+    letter-spacing: 0.01em;
+  }
 }
 
 @media (max-width: 360px) {
+  .donate-box {
+    padding: 18px 10px !important;
+  }
+  .booking-form-box button[type="submit"],
+  .booking-form-box .btn,
+  .modal-card .btn,
+  .form-card .btn,
+  .donation-form .btn,
+  .donate-box .btn,
+  .donate-box button[type="submit"],
+  form button[type="submit"],
+  .btn[style*="width: 100%"],
+  .btn[style*="width:100%"] {
+    padding: 11px 10px !important;
+    font-size: 0.78rem !important;
+  }
   .navbar .container {
     padding: 0 8px;
     gap: 4px;
