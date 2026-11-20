@@ -113,11 +113,12 @@
 
         <!-- Category Filter Bar -->
         <div class="meal-filter-bar">
-          <button type="button" class="meal-filter-btn active" onclick="filterMeals('all', this)">🍽️ All Menus (10)</button>
+          <button type="button" class="meal-filter-btn active" onclick="filterMeals('all', this)">🍽️ All Menus (12)</button>
           <button type="button" class="meal-filter-btn" onclick="filterMeals('breakfast', this)">🌅 Breakfast</button>
           <button type="button" class="meal-filter-btn" onclick="filterMeals('lunch', this)">☀️ Lunch</button>
           <button type="button" class="meal-filter-btn" onclick="filterMeals('dinner', this)">🌙 Dinner</button>
           <button type="button" class="meal-filter-btn" onclick="filterMeals('snacks', this)">🍧 Snacks &amp; Ice-Cream</button>
+          <button type="button" class="meal-filter-btn" onclick="filterMeals('essentials', this)">🥛 Milk &amp; Daily Essentials</button>
         </div>
 
         <div class="meals-container">
@@ -195,6 +196,21 @@
               <h4>Ice-Cream</h4>
               <div class="tier-price">₹4,500</div>
               <div class="tier-desc">Chilled Ice-Cream Cups &amp; Cones for all 200+ special children</div>
+            </div>
+
+            <!-- Daily Essentials -->
+            <div class="tier-card" data-category="essentials">
+              <span class="tier-badge" style="background: #0284c7;">Daily Care</span>
+              <h4>Milk &amp; Baby Formula</h4>
+              <div class="tier-price">₹3,000</div>
+              <div class="tier-desc">Milk per day 45 liters<br>Baby Formula (Pedia Gold) for 5+ kids</div>
+            </div>
+
+            <div class="tier-card" data-category="essentials">
+              <span class="tier-badge" style="background: #16a34a;">Fresh Produce</span>
+              <h4>Fruits &amp; Vegetables</h4>
+              <div class="tier-price">₹3,500</div>
+              <div class="tier-desc">Fruits per day &amp; vegetables per day</div>
             </div>
 
           </div>
