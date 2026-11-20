@@ -1852,6 +1852,15 @@
     window.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('premavasam_admin_token');
       if (token) {
+        if (token.startsWith('pvs_static_')) {
+          let savedAdmin = null;
+          try { savedAdmin = JSON.parse(localStorage.getItem('premavasam_static_admin')); } catch (_) {}
+          if (savedAdmin) {
+            state.isLive = false;
+            setupDashboard(savedAdmin);
+            return;
+          }
+        }
         try {
           const res = await fetch('/api/admin/verify', {
             headers: { 'Authorization': 'Bearer ' + token }
@@ -1865,7 +1874,14 @@
             }
           }
         } catch (e) {
-          // Network or server error
+          // If on static host like GitHub Pages, restore saved admin
+          let savedAdmin = null;
+          try { savedAdmin = JSON.parse(localStorage.getItem('premavasam_static_admin')); } catch (_) {}
+          if (savedAdmin) {
+            state.isLive = false;
+            setupDashboard(savedAdmin);
+            return;
+          }
         }
         localStorage.removeItem('premavasam_admin_token');
       }
@@ -1937,6 +1953,54 @@
 
     let pendingLoginCredentials = null;
 
+    function tryStaticAuth(username, password) {
+      const cleanUser = (username || '').toLowerCase().trim();
+      const cleanPass = (password || '').trim();
+
+      // Superadmin authentication (Admin credentials)
+      const isSuperadmin = (cleanUser === 'admin' || cleanUser === 'premavasam1999@gmail.com') && cleanPass === 'prem$1999#vasam';
+      if (isSuperadmin) {
+        const adminData = {
+          name: 'Premavasam Administrator',
+          role: 'Superadmin',
+          email: 'premavasam1999@gmail.com',
+          username: 'admin'
+        };
+        const staticToken = 'pvs_static_' + Date.now();
+        localStorage.setItem('premavasam_admin_token', staticToken);
+        localStorage.setItem('premavasam_static_admin', JSON.stringify(adminData));
+        state.isLive = false;
+        setupDashboard(adminData);
+        showToast('Welcome back, Premavasam Administrator');
+        return true;
+      }
+
+      // Check guest users stored in browser storage for GitHub Pages
+      let staticGuests = [];
+      try {
+        staticGuests = JSON.parse(localStorage.getItem('premavasam_guest_users') || '[]');
+      } catch (_) {}
+      const guest = staticGuests.find(g => g.username && g.username.toLowerCase() === cleanUser && g.password === cleanPass);
+      if (guest) {
+        const guestData = {
+          id: guest.id,
+          name: guest.full_name,
+          role: 'Guest',
+          username: guest.username,
+          notes: guest.notes
+        };
+        const staticToken = 'pvs_static_guest_' + Date.now();
+        localStorage.setItem('premavasam_admin_token', staticToken);
+        localStorage.setItem('premavasam_static_admin', JSON.stringify(guestData));
+        state.isLive = false;
+        setupDashboard(guestData);
+        showToast('Signed in as Guest (' + (guest.full_name || guest.username) + ')');
+        return true;
+      }
+
+      return false;
+    }
+
     async function handleLogin(e, forceLogin = false) {
       if (e) e.preventDefault();
       const err = document.getElementById('loginError');
@@ -1970,10 +2034,8 @@
           body: JSON.stringify({ username, password, forceLogin })
         });
 
-        const data = await res.json().catch(() => ({}));
-
-        if (res.status === 409 && data.sessionConflict) {
-          // Session already exists: prompt user
+        if (res.status === 409) {
+          const data = await res.json().catch(() => ({}));
           pendingLoginCredentials = { username, password };
           btn.disabled = false;
           btn.innerText = 'Sign In to Dashboard';
@@ -1982,31 +2044,61 @@
           return;
         }
 
-        if (res.ok && data.ok && data.token) {
-          localStorage.setItem('premavasam_admin_token', data.token);
-          state.isLive = true;
-          setupDashboard(data.admin);
-          if (data.previousSessionTerminated) {
-            showToast('Previous session canceled. Welcome to Dashboard!');
-          } else {
-            showToast('Welcome back, ' + (data.admin.name || 'Admin'));
+        if (res.status === 401) {
+          const data = await res.json().catch(() => ({}));
+          err.innerText = data.error || 'Invalid username or password';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.innerText = 'Sign In to Dashboard';
+          return;
+        }
+
+        if (res.status === 429) {
+          const data = await res.json().catch(() => ({}));
+          err.innerText = data.error || 'Too many failed login attempts. Locked for 15 minutes.';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.innerText = 'Sign In to Dashboard';
+          return;
+        }
+
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (data.ok && data.token) {
+            localStorage.setItem('premavasam_admin_token', data.token);
+            state.isLive = true;
+            setupDashboard(data.admin);
+            if (data.previousSessionTerminated) {
+              showToast('Previous session canceled. Welcome to Dashboard!');
+            } else {
+              showToast('Welcome back, ' + (data.admin.name || 'Admin'));
+            }
+            btn.disabled = false;
+            btn.innerText = 'Sign In to Dashboard';
+            pendingLoginCredentials = null;
+            return;
           }
+        }
+
+        // On static hosts (GitHub Pages) where /api/admin/login returns 404/405
+        if (tryStaticAuth(username, password)) {
           btn.disabled = false;
           btn.innerText = 'Sign In to Dashboard';
           pendingLoginCredentials = null;
           return;
-        } else if (res.status === 401) {
-          err.innerText = data.error || 'Invalid username or password';
-          err.style.display = 'block';
-        } else if (res.status === 429) {
-          err.innerText = data.error || 'Too many failed login attempts. Locked for 15 minutes.';
-          err.style.display = 'block';
         } else {
-          err.innerText = data.error || 'Authentication service error. Please try again later.';
+          err.innerText = 'Invalid username or password';
           err.style.display = 'block';
         }
       } catch (networkErr) {
-        err.innerText = 'Unable to connect to authentication server. Please check backend connection.';
+        // Network connection error or GitHub Pages static environment
+        if (tryStaticAuth(username, password)) {
+          btn.disabled = false;
+          btn.innerText = 'Sign In to Dashboard';
+          pendingLoginCredentials = null;
+          return;
+        }
+        err.innerText = 'Invalid username or password';
         err.style.display = 'block';
       }
 
@@ -2138,9 +2230,29 @@
       state.volunteers = data.volunteers || [];
       state.contacts = data.contacts || [];
 
-      document.getElementById('badgeDonations').innerText = state.donations.length;
-      document.getElementById('badgeVolunteers').innerText = state.volunteers.length;
-      document.getElementById('badgeContacts').innerText = state.contacts.length;
+      try {
+        state.guests = JSON.parse(localStorage.getItem('premavasam_guest_users') || '[]');
+      } catch (_) {
+        state.guests = [];
+      }
+
+      const bDon = document.getElementById('badgeDonations');
+      if (bDon) bDon.innerText = state.donations.length;
+      const bVol = document.getElementById('badgeVolunteers');
+      if (bVol) bVol.innerText = state.volunteers.length;
+      const bCon = document.getElementById('badgeContacts');
+      if (bCon) bCon.innerText = state.contacts.length;
+      const bGst = document.getElementById('badgeGuests');
+      if (bGst) bGst.innerText = state.guests.length;
+
+      const sDon = document.getElementById('sidebarBadgeDonations');
+      if (sDon) sDon.innerText = state.donations.length;
+      const sVol = document.getElementById('sidebarBadgeVolunteers');
+      if (sVol) sVol.innerText = state.volunteers.length;
+      const sCon = document.getElementById('sidebarBadgeContacts');
+      if (sCon) sCon.innerText = state.contacts.length;
+      const sGst = document.getElementById('sidebarBadgeGuests');
+      if (sGst) sGst.innerText = state.guests.length;
 
       const totalFunds = state.donations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
       const unreadCount = state.contacts.filter(c => !c.is_read).length;
@@ -2158,6 +2270,7 @@
       renderDonationsTable();
       renderVolunteersTable();
       renderContactsTable();
+      renderGuestsTable();
     }
 
     // ── RENDER STATS & RECENT DONATIONS ──
@@ -2737,6 +2850,57 @@
       btn.disabled = true;
       btn.innerText = 'Creating Account...';
 
+      if (!state.isLive) {
+        // GitHub Pages / Static offline mode
+        let staticGuests = [];
+        try { staticGuests = JSON.parse(localStorage.getItem('premavasam_guest_users') || '[]'); } catch (_) {}
+        const existing = staticGuests.find(g => g.username && g.username.toLowerCase() === username.toLowerCase());
+        if (existing) {
+          errBox.textContent = 'A guest user with this username already exists.';
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.innerText = 'Create Guest Account';
+          return;
+        }
+
+        const newGuest = {
+          id: '#GST-' + (staticGuests.length + 101),
+          username: username.toLowerCase(),
+          password: password,
+          full_name,
+          role: 'Guest',
+          notes,
+          created_at: new Date().toISOString()
+        };
+        staticGuests.unshift(newGuest);
+        localStorage.setItem('premavasam_guest_users', JSON.stringify(staticGuests));
+
+        closeCreateGuestModal();
+        showToast('Guest account @' + username + ' created!');
+
+        const summaryDiv = document.createElement('div');
+        summaryDiv.style.lineHeight = '1.7';
+        summaryDiv.innerHTML = `
+          <div style="background:#FAF6F0; border:1.5px solid var(--border); padding:16px; border-radius:8px; margin-bottom:12px;">
+            <div><strong>Full Name:</strong> ${escapeHtml(full_name)}</div>
+            <div><strong>Username:</strong> <code style="color:var(--brand); font-weight:700;">${escapeHtml(username)}</code></div>
+            <div><strong>Password:</strong> <code style="color:#B45309; font-weight:700;">${escapeHtml(password)}</code></div>
+            <div><strong>Access Level:</strong> View-Only Guest</div>
+            ${notes ? `<div><strong>Notes:</strong> ${escapeHtml(notes)}</div>` : ''}
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+            Share these credentials securely with the guest user. Guest users have view-only access and cannot modify or delete any records.
+          </p>
+        `;
+        openModal('Guest Account Created: @' + username, summaryDiv);
+
+        loadStaticData();
+        showTab('guests', document.getElementById('tabBtnGuests'));
+        btn.disabled = false;
+        btn.innerText = 'Create Guest Account';
+        return;
+      }
+
       const token = localStorage.getItem('premavasam_admin_token');
 
       try {
@@ -2753,9 +2917,8 @@
 
         if (res.ok && data.ok) {
           closeCreateGuestModal();
-          showToast(`Guest account @${username} created!`);
+          showToast('Guest account @' + username + ' created!');
           
-          // Display credential summary modal for easy copy
           const summaryDiv = document.createElement('div');
           summaryDiv.style.lineHeight = '1.7';
           summaryDiv.innerHTML = `
@@ -2770,7 +2933,7 @@
               Share these credentials securely with the guest user. Guest users have view-only access and cannot modify or delete any records.
             </p>
           `;
-          openModal(`Guest Account Created: @${username}`, summaryDiv);
+          openModal('Guest Account Created: @' + username, summaryDiv);
 
           await fetchDashboardData();
           showTab('guests', document.getElementById('tabBtnGuests'));
@@ -2788,7 +2951,17 @@
     }
 
     async function deleteGuestUser(id, username) {
-      if (!confirm(`Revoke access for guest user @${username}? They will no longer be able to log in.`)) return;
+      if (!confirm('Revoke access for guest user @' + username + '? They will no longer be able to log in.')) return;
+
+      if (!state.isLive) {
+        let staticGuests = [];
+        try { staticGuests = JSON.parse(localStorage.getItem('premavasam_guest_users') || '[]'); } catch (_) {}
+        staticGuests = staticGuests.filter(g => g.id !== id);
+        localStorage.setItem('premavasam_guest_users', JSON.stringify(staticGuests));
+        showToast('Access for @' + username + ' has been revoked.');
+        loadStaticData();
+        return;
+      }
 
       const token = localStorage.getItem('premavasam_admin_token');
       try {
@@ -2803,7 +2976,7 @@
 
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.ok) {
-          showToast(`Access for @${username} has been revoked.`);
+          showToast('Access for @' + username + ' has been revoked.');
           await fetchDashboardData();
         } else {
           showToast(data.error || 'Failed to revoke guest account', false);
