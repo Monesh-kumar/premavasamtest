@@ -826,6 +826,28 @@
   </div>
 
   <!-- ════════════════════════════════════════════════════════
+       SESSION CONFLICT CONFIRMATION MODAL
+  ════════════════════════════════════════════════════════ -->
+  <div id="sessionConflictModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div style="background: #ffffff; border-radius: 16px; padding: 32px 28px; max-width: 440px; width: 90%; box-shadow: 0 20px 45px rgba(0,0,0,0.25); text-align: center; border: 1px solid var(--border, #e5e7eb);">
+      <div style="font-size: 2.8rem; line-height: 1; margin-bottom: 14px;">⚠️</div>
+      <h3 style="font-size: 1.35rem; color: #1B4332; margin-bottom: 10px; font-weight: 700;">Active Session Detected</h3>
+      <p style="color: #4B5563; font-size: 0.94rem; line-height: 1.55; margin-bottom: 24px;">
+        An active admin session is currently running on another browser or device.<br><br>
+        Would you like to <strong>cancel the previous session</strong> and sign in here?
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button type="button" onclick="cancelSessionConflict()" style="flex: 1; min-width: 120px; padding: 12px 18px; border-radius: 9999px; border: 1px solid #D1D5DB; background: #F9FAFB; color: #374151; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+          Cancel
+        </button>
+        <button type="button" id="confirmForceLoginBtn" onclick="confirmForceLogin()" style="flex: 1.4; min-width: 170px; padding: 12px 18px; border-radius: 9999px; border: none; background: #0A9A48; color: #ffffff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(10,154,72,0.3); transition: all 0.2s;">
+          Yes, Cancel Old &amp; Log In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
        2. AUTHENTICATED DASHBOARD VIEW
   ════════════════════════════════════════════════════════ -->
   <div id="dashboardView">
@@ -1349,14 +1371,24 @@
       }
     }
 
-    async function handleLogin(e) {
-      e.preventDefault();
+    let pendingLoginCredentials = null;
+
+    async function handleLogin(e, forceLogin = false) {
+      if (e) e.preventDefault();
       const err = document.getElementById('loginError');
       const btn = document.getElementById('loginSubmitBtn');
       err.style.display = 'none';
 
-      const username = document.getElementById('usernameInput').value.trim();
-      const password = document.getElementById('passwordInput').value.trim();
+      let username = '';
+      let password = '';
+
+      if (forceLogin && pendingLoginCredentials) {
+        username = pendingLoginCredentials.username;
+        password = pendingLoginCredentials.password;
+      } else {
+        username = document.getElementById('usernameInput').value.trim();
+        password = document.getElementById('passwordInput').value.trim();
+      }
 
       if (!username || !password) {
         err.innerText = 'Please enter both username and password.';
@@ -1365,36 +1397,48 @@
       }
 
       btn.disabled = true;
-      btn.innerText = 'Verifying credentials...';
+      btn.innerText = forceLogin ? 'Canceling old session...' : 'Verifying credentials...';
 
       try {
         const res = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, password, forceLogin })
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          if (data.ok && data.token) {
-            localStorage.setItem('premavasam_admin_token', data.token);
-            state.isLive = true;
-            setupDashboard(data.admin);
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 409 && data.sessionConflict) {
+          // Session already exists: prompt user
+          pendingLoginCredentials = { username, password };
+          btn.disabled = false;
+          btn.innerText = 'Sign In to Dashboard';
+          const modal = document.getElementById('sessionConflictModal');
+          if (modal) modal.style.display = 'flex';
+          return;
+        }
+
+        if (res.ok && data.ok && data.token) {
+          localStorage.setItem('premavasam_admin_token', data.token);
+          state.isLive = true;
+          setupDashboard(data.admin);
+          if (data.previousSessionTerminated) {
+            showToast('Previous session canceled. Welcome to Dashboard!');
+          } else {
             showToast('Welcome back, ' + (data.admin.name || 'Admin'));
-            btn.disabled = false;
-            btn.innerText = 'Sign In to Dashboard';
-            return;
           }
+          btn.disabled = false;
+          btn.innerText = 'Sign In to Dashboard';
+          pendingLoginCredentials = null;
+          return;
         } else if (res.status === 401) {
-          const data = await res.json().catch(() => ({}));
           err.innerText = data.error || 'Invalid username or password';
           err.style.display = 'block';
         } else if (res.status === 429) {
-          const data = await res.json().catch(() => ({}));
           err.innerText = data.error || 'Too many failed login attempts. Locked for 15 minutes.';
           err.style.display = 'block';
         } else {
-          err.innerText = 'Authentication service error. Please try again later.';
+          err.innerText = data.error || 'Authentication service error. Please try again later.';
           err.style.display = 'block';
         }
       } catch (networkErr) {
@@ -1404,6 +1448,23 @@
 
       btn.disabled = false;
       btn.innerText = 'Sign In to Dashboard';
+    }
+
+    function cancelSessionConflict() {
+      const modal = document.getElementById('sessionConflictModal');
+      if (modal) modal.style.display = 'none';
+      pendingLoginCredentials = null;
+      const btn = document.getElementById('loginSubmitBtn');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = 'Sign In to Dashboard';
+      }
+    }
+
+    async function confirmForceLogin() {
+      const modal = document.getElementById('sessionConflictModal');
+      if (modal) modal.style.display = 'none';
+      await handleLogin(null, true);
     }
 
     async function handleLogout() {
@@ -1441,6 +1502,18 @@
           fetch('/api/admin/volunteers', { headers }),
           fetch('/api/admin/contacts', { headers })
         ]);
+
+        if ([statsRes, donRes, volRes, conRes].some(r => r.status === 401)) {
+          localStorage.removeItem('premavasam_admin_token');
+          showLoginScreen();
+          const err = document.getElementById('loginError');
+          if (err) {
+            err.innerText = 'Session ended because your account was signed in from another window.';
+            err.style.display = 'block';
+          }
+          showToast('Session ended from another login', false);
+          return;
+        }
 
         if (!statsRes.ok || !donRes.ok || !volRes.ok || !conRes.ok) throw new Error('Live fetch failed');
 

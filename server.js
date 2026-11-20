@@ -210,6 +210,20 @@ function generateSessionToken(adminData) {
   return token;
 }
 
+function pruneExpiredSessions() {
+  const now = Date.now();
+  for (const [token, session] of activeSessions.entries()) {
+    if (session.expiresAt <= now) {
+      activeSessions.delete(token);
+    }
+  }
+}
+
+function hasActiveAdminSession() {
+  pruneExpiredSessions();
+  return activeSessions.size > 0;
+}
+
 function verifyAuth(req) {
   const authHeader = req.headers['authorization'];
   if (!authHeader || !authHeader.startsWith('Bearer ')) return false;
@@ -746,8 +760,27 @@ const server = http.createServer(async (req, res) => {
       const isPassValid = timingSafeCheck(passwordInput, ADMIN_PASSWORD.trim());
 
       if (isUserValid && isPassValid) {
-        // Reset brute-force counter on successful login
+        // Reset brute-force counter on successful credentials
         rateLimitStore.delete(`admin-login:${clientIp}`);
+
+        const forceLogin = Boolean(data.forceLogin);
+        const existingSessions = hasActiveAdminSession();
+
+        if (existingSessions && !forceLogin) {
+          appLog('info', 'Admin login conflict: existing active session detected', { clientIp, username: usernameInput });
+          return sendJson(res, 409, {
+            ok: false,
+            sessionConflict: true,
+            error: 'An active admin session already exists.',
+            message: 'An active session is currently running on another browser or device. Would you like to cancel the previous session and sign in here?'
+          });
+        }
+
+        // If forceLogin requested, terminate previous active sessions
+        if (existingSessions && forceLogin) {
+          appLog('info', 'Admin canceled previous active sessions to sign in', { clientIp, username: usernameInput });
+          activeSessions.clear();
+        }
 
         const adminData = {
           name: ADMIN_NAME,
@@ -756,12 +789,13 @@ const server = http.createServer(async (req, res) => {
         };
         const token = generateSessionToken(adminData);
 
-        appLog('info', 'Admin authentication succeeded', { clientIp, username: usernameInput });
+        appLog('info', 'Admin authentication succeeded', { clientIp, username: usernameInput, previousSessionTerminated: Boolean(existingSessions && forceLogin) });
 
         return sendJson(res, 200, {
           ok: true,
           token,
-          admin: adminData
+          admin: adminData,
+          previousSessionTerminated: Boolean(existingSessions && forceLogin)
         });
       }
 
