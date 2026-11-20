@@ -868,7 +868,7 @@ input, select, textarea {
   border-radius: var(--radius-pill);
 }
 
-/* Thumbnail preview row inside card body */
+/* Thumbnail preview row inside card body (Hidden globally per user preference) */
 .physio-thumb-row,
 .occupational-thumb-row,
 .specialEd-thumb-row,
@@ -884,15 +884,7 @@ input, select, textarea {
 .walking-thumb-row,
 .awards-thumb-row,
 .reachingOut-thumb-row {
-  display: flex;
-  position: relative;
-  gap: 6px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  display: none !important;
 }
 
 .physio-thumb-row::-webkit-scrollbar,

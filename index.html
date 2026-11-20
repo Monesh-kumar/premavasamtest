@@ -252,13 +252,6 @@
               <h3>Festive Joy &amp; Special Celebrations</h3>
               <p>Celebrating Krishna Jayanthi, Onam, Pongal, and Diwali with traditional costumes, floral pookkalams, music, dance therapy, and pride in achievements.</p>
 
-              <!-- Interactive Session Mini-Thumbnails -->
-              <div class="physio-thumb-row festive-thumb-row" title="Click to view festival photo">
-                <img src="images/celebration_krishna_jayanthi.jpg" class="physio-thumb festive-thumb active" onclick="setFestiveSlide(0, event)" alt="Krishna Jayanthi">
-                <img src="images/celebration_onam_pookkalam.jpg" class="physio-thumb festive-thumb" onclick="setFestiveSlide(1, event)" alt="Onam Pookkalam">
-                <img src="images/gallery/diwali_1.jpg" class="physio-thumb festive-thumb" onclick="setFestiveSlide(2, event)" alt="Diwali">
-              </div>
-
               <div class="cause-footer">
                 <a href="gallery.html" class="btn btn-sm btn-outline">View Moments →</a>
               </div>
@@ -535,15 +528,6 @@
                 <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(3, event)" aria-label="Photo 4 - Prem Niketan Elderly Care"></button>
                 <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(4, event)" aria-label="Photo 5 - Prem Niketan Pongal Celebration"></button>
               </div>
-            </div>
-
-            <!-- Mini-Thumbnails Strip -->
-            <div class="reachingOut-thumb-row" style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border);" title="Click to view institution photo">
-              <img src="images/institutions_prem_illam_campus.jpg" alt="Prem Illam" class="reachingOut-thumb active" onclick="setHomeInstSlide(0, event)">
-              <img src="images/institutions_prem_boys_home_yoga.jpg" alt="Boys Home Yoga" class="reachingOut-thumb" onclick="setHomeInstSlide(1, event)">
-              <img src="images/institutions_prem_boys_home_camp.jpg" alt="Boys Home Camp" class="reachingOut-thumb" onclick="setHomeInstSlide(2, event)">
-              <img src="images/institutions_prem_niketan_elderly_activity.jpg" alt="Prem Niketan Elderly" class="reachingOut-thumb" onclick="setHomeInstSlide(3, event)">
-              <img src="images/institutions_prem_niketan_pongal.jpg" alt="Prem Niketan Pongal" class="reachingOut-thumb" onclick="setHomeInstSlide(4, event)">
             </div>
           </div>
 
@@ -1005,14 +989,12 @@
       if (e) e.stopPropagation();
       const slides = document.querySelectorAll('#festiveCelebrationsCarousel .cause-slide');
       const dots = document.querySelectorAll('#festiveCelebrationsCarousel .cause-slider-dot');
-      const thumbs = document.querySelectorAll('.festive-thumb');
       if (!slides.length) return;
 
       currentFestiveSlide = (index + slides.length) % slides.length;
 
       slides.forEach((s, i) => s.classList.toggle('active', i === currentFestiveSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentFestiveSlide));
-      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentFestiveSlide));
     }
 
     function nextFestiveSlide(e) {
@@ -1054,20 +1036,12 @@
       if (e) { e.stopPropagation(); resetHomeInstTimer(); }
       const slides = document.querySelectorAll('#homeInstitutionsCarousel .cause-slide');
       const dots = document.querySelectorAll('#homeInstitutionsCarousel .cause-slider-dot');
-      const thumbs = document.querySelectorAll('#institutions .reachingOut-thumb');
       if (!slides.length) return;
 
       currentHomeInstSlide = (index + slides.length) % slides.length;
 
       slides.forEach((s, i) => s.classList.toggle('active', i === currentHomeInstSlide));
       dots.forEach((d, i) => d.classList.toggle('active', i === currentHomeInstSlide));
-      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentHomeInstSlide));
-      const activeThumb = thumbs[currentHomeInstSlide];
-      if (activeThumb && activeThumb.parentElement) {
-        const row = activeThumb.parentElement;
-        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
-        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
-      }
     }
 
     function nextHomeInstSlide(e) {
