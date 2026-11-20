@@ -328,6 +328,57 @@
             </div>
           </article>
 
+          <!-- 6. Reaching Out, Touching Lives -->
+          <article class="cause-card">
+            <div class="cause-media" id="reachingOutCarousel">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/institutions_prem_illam_campus.jpg" alt="Prem Illam campus: Residential vocational training &amp; independent living for young adult girls with special needs" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_boys_home_yoga.jpg" alt="Prem Boys Home: Young boys engaged in yoga and mindfulness training in Ranipet District" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_boys_home_camp.jpg" alt="Prem Boys Home: Healthcare and medical screening camp for growing boys" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_niketan_elderly_activity.jpg" alt="Prem Niketan: Compassionate care, companionship, and recreational therapy for elderly and cancer patients" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_niketan_pongal.jpg" alt="Prem Niketan: Traditional Pongal celebration and community harmony with senior residents" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevReachingOutSlide(event)" aria-label="Previous institution photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextReachingOutSlide(event)" aria-label="Next institution photo">›</button>
+
+              <!-- Indicators (5 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setReachingOutSlide(0, event)" aria-label="Photo 1 - Prem Illam Campus"></button>
+                <button type="button" class="cause-slider-dot" onclick="setReachingOutSlide(1, event)" aria-label="Photo 2 - Prem Boys Home Yoga"></button>
+                <button type="button" class="cause-slider-dot" onclick="setReachingOutSlide(2, event)" aria-label="Photo 3 - Prem Boys Home Medical Camp"></button>
+                <button type="button" class="cause-slider-dot" onclick="setReachingOutSlide(3, event)" aria-label="Photo 4 - Prem Niketan Elderly Care"></button>
+                <button type="button" class="cause-slider-dot" onclick="setReachingOutSlide(4, event)" aria-label="Photo 5 - Prem Niketan Pongal Celebration"></button>
+              </div>
+            </div>
+            <div class="cause-body">
+              <span class="cause-cat">Expanding Our Services • Three Institutions</span>
+              <h3>Reaching Out, Touching Lives</h3>
+              <p style="margin-bottom: 10px;">
+                Over the years, responding to the emerging needs of different sections of society, we have expanded our services by establishing three more institutions:
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 8px; color: var(--color-text-mid); font-size: 0.92rem; line-height: 1.6; margin-bottom: 12px;">
+                <div><strong>Prem Boys Home (2009):</strong> Established in Arakkonam, Ranipet District, Prem Boys Home provides care, protection, and a nurturing environment for young boys.</div>
+                <div><strong>Prem Niketan (2011) <a href="https://www.premniketan.org" target="_blank" rel="noopener" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">(www.premniketan.org)</a>:</strong> Located in Ranipet District, Prem Niketan offers care and support to people living with cancer, as well as to the elderly.</div>
+                <div><strong>Prem Illam (2017) <a href="https://www.premillam.org" target="_blank" rel="noopener" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;">(www.premillam.org)</a>:</strong> Established in Chengalpattu District, Prem Illam provides residential vocational education, skills training, and opportunities for independent living to young adult girls with special needs.</div>
+              </div>
+              <div style="background: rgba(27, 67, 50, 0.05); border-left: 3px solid var(--color-primary); padding: 10px 14px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-style: italic; color: var(--color-text-mid); font-size: 0.88rem; line-height: 1.55;">
+                "Each of these initiatives was born out of a specific need, reflecting our continued commitment to reaching out to the vulnerable and creating a safe, supportive and dignified life for all."
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -604,6 +655,53 @@
     if (awardsBox) {
       awardsBox.addEventListener('mouseenter', () => clearInterval(awardsAutoTimer));
       awardsBox.addEventListener('mouseleave', () => startAwardsTimer());
+    }
+
+    // ── REACHING OUT, TOUCHING LIVES MULTI-PHOTO SLIDER ──
+    let currentReachingOutSlide = 0;
+    let reachingOutAutoTimer = null;
+
+    function setReachingOutSlide(index, e) {
+      if (e) { e.stopPropagation(); resetReachingOutTimer(); }
+      const slides = document.querySelectorAll('#reachingOutCarousel .cause-slide');
+      const dots = document.querySelectorAll('#reachingOutCarousel .cause-slider-dot');
+      if (!slides.length) return;
+
+      currentReachingOutSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentReachingOutSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentReachingOutSlide));
+    }
+
+    function nextReachingOutSlide(e) {
+      if (e) e.stopPropagation();
+      setReachingOutSlide(currentReachingOutSlide + 1);
+      resetReachingOutTimer();
+    }
+
+    function prevReachingOutSlide(e) {
+      if (e) e.stopPropagation();
+      setReachingOutSlide(currentReachingOutSlide - 1);
+      resetReachingOutTimer();
+    }
+
+    function startReachingOutTimer() {
+      if (reachingOutAutoTimer) clearInterval(reachingOutAutoTimer);
+      reachingOutAutoTimer = setInterval(() => {
+        setReachingOutSlide(currentReachingOutSlide + 1);
+      }, 5000);
+    }
+
+    function resetReachingOutTimer() {
+      startReachingOutTimer();
+    }
+
+    startReachingOutTimer();
+
+    const reachingOutBox = document.getElementById('reachingOutCarousel');
+    if (reachingOutBox) {
+      reachingOutBox.addEventListener('mouseenter', () => clearInterval(reachingOutAutoTimer));
+      reachingOutBox.addEventListener('mouseleave', () => startReachingOutTimer());
     }
 
   </script>
