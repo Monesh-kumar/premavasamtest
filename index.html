@@ -474,8 +474,119 @@
       </div>
     </section>
 
-    <!-- 9. Photo Gallery (Yuna Filterable Lightbox) -->
-    <section class="section section-alt" id="gallery">
+    <!-- 9. Reaching Out, Touching Lives (Branch Institutions) -->
+    <section class="section section-alt" id="institutions">
+      <div class="container">
+        <div class="section-header" style="text-align: center; margin-bottom: 36px;">
+          <span class="section-tag">Expanding Our Care</span>
+          <h2 class="section-title">Reaching Out, Touching Lives</h2>
+          <p class="section-desc" style="max-width: 840px; margin: 0 auto;">
+            Over the years, responding to the emerging needs of different sections of society, we have expanded our services by establishing three more institutions:
+          </p>
+        </div>
+
+        <div class="institutions-showcase">
+          <!-- Left: 5-Photo Interactive Carousel -->
+          <div style="background: #ffffff; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--color-border); padding: 16px;">
+            <div class="cause-media" id="homeInstitutionsCarousel" style="border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16 / 11;">
+              <div class="cause-slider">
+                <div class="cause-slide active">
+                  <img src="images/institutions_prem_illam_campus.jpg" alt="Prem Illam campus: Residential vocational training & independent living for young adult girls with special needs" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_boys_home_yoga.jpg" alt="Prem Boys Home: Young boys engaged in yoga and mindfulness training in Ranipet District" style="object-position: center 30%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_boys_home_camp.jpg" alt="Prem Boys Home: Healthcare and medical screening camp for growing boys" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_niketan_elderly_activity.jpg" alt="Prem Niketan: Compassionate care, companionship, and recreational therapy for elderly and cancer patients" style="object-position: center 25%;">
+                </div>
+                <div class="cause-slide">
+                  <img src="images/institutions_prem_niketan_pongal.jpg" alt="Prem Niketan: Traditional Pongal celebration and community harmony with senior residents" style="object-position: center 25%;">
+                </div>
+              </div>
+
+              <!-- Slider Navigation Chevrons -->
+              <button type="button" class="cause-slider-btn prev" onclick="prevHomeInstSlide(event)" aria-label="Previous institution photo">‹</button>
+              <button type="button" class="cause-slider-btn next" onclick="nextHomeInstSlide(event)" aria-label="Next institution photo">›</button>
+
+              <!-- Indicators (5 dots) -->
+              <div class="cause-slider-dots">
+                <button type="button" class="cause-slider-dot active" onclick="setHomeInstSlide(0, event)" aria-label="Photo 1 - Prem Illam Campus"></button>
+                <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(1, event)" aria-label="Photo 2 - Prem Boys Home Yoga"></button>
+                <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(2, event)" aria-label="Photo 3 - Prem Boys Home Medical Camp"></button>
+                <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(3, event)" aria-label="Photo 4 - Prem Niketan Elderly Care"></button>
+                <button type="button" class="cause-slider-dot" onclick="setHomeInstSlide(4, event)" aria-label="Photo 5 - Prem Niketan Pongal Celebration"></button>
+              </div>
+            </div>
+
+            <!-- Mini-Thumbnails Strip -->
+            <div class="reachingOut-thumb-row" style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border);" title="Click to view institution photo">
+              <img src="images/institutions_prem_illam_campus.jpg" alt="Prem Illam" class="reachingOut-thumb active" onclick="setHomeInstSlide(0, event)">
+              <img src="images/institutions_prem_boys_home_yoga.jpg" alt="Boys Home Yoga" class="reachingOut-thumb" onclick="setHomeInstSlide(1, event)">
+              <img src="images/institutions_prem_boys_home_camp.jpg" alt="Boys Home Camp" class="reachingOut-thumb" onclick="setHomeInstSlide(2, event)">
+              <img src="images/institutions_prem_niketan_elderly_activity.jpg" alt="Prem Niketan Elderly" class="reachingOut-thumb" onclick="setHomeInstSlide(3, event)">
+              <img src="images/institutions_prem_niketan_pongal.jpg" alt="Prem Niketan Pongal" class="reachingOut-thumb" onclick="setHomeInstSlide(4, event)">
+            </div>
+          </div>
+
+          <!-- Right: 3 Institution Details Cards + Closing Statement -->
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Institution 1: Prem Boys Home -->
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 18px 20px; border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                <h4 style="font-size: 1.15rem; color: var(--color-primary-deep); margin: 0; font-family: var(--font-heading);">
+                  Prem Boys Home <span style="font-size: 0.95rem; font-weight: 500; color: var(--color-primary);">(2009)</span>
+                </h4>
+                <span style="font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(27, 67, 50, 0.08); color: var(--color-primary-deep); padding: 3px 8px; border-radius: var(--radius-pill);">Arakkonam, Ranipet</span>
+              </div>
+              <p style="margin: 0; font-size: 0.92rem; color: var(--color-text-mid); line-height: 1.6;">
+                Established in Arakkonam, Ranipet District, Prem Boys Home provides care, protection, and a nurturing environment for young boys.
+              </p>
+            </div>
+
+            <!-- Institution 2: Prem Niketan -->
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 18px 20px; border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                <h4 style="font-size: 1.15rem; color: var(--color-primary-deep); margin: 0; font-family: var(--font-heading);">
+                  Prem Niketan <span style="font-size: 0.95rem; font-weight: 500; color: var(--color-primary);">(2011)</span>
+                </h4>
+                <a href="https://www.premniketan.org" target="_blank" rel="noopener" style="font-size: 0.85rem; font-weight: 600; color: var(--color-primary); text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">
+                  🌐 www.premniketan.org ↗
+                </a>
+              </div>
+              <p style="margin: 0; font-size: 0.92rem; color: var(--color-text-mid); line-height: 1.6;">
+                Located in Ranipet District, Prem Niketan offers care and support to people living with cancer, as well as to the elderly.
+              </p>
+            </div>
+
+            <!-- Institution 3: Prem Illam -->
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 18px 20px; border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                <h4 style="font-size: 1.15rem; color: var(--color-primary-deep); margin: 0; font-family: var(--font-heading);">
+                  Prem Illam <span style="font-size: 0.95rem; font-weight: 500; color: var(--color-primary);">(2017)</span>
+                </h4>
+                <a href="https://www.premillam.org" target="_blank" rel="noopener" style="font-size: 0.85rem; font-weight: 600; color: var(--color-primary); text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">
+                  🌐 www.premillam.org ↗
+                </a>
+              </div>
+              <p style="margin: 0; font-size: 0.92rem; color: var(--color-text-mid); line-height: 1.6;">
+                Established in Chengalpattu District, Prem Illam provides residential vocational education, skills training, and opportunities for independent living to young adult girls with special needs.
+              </p>
+            </div>
+
+            <!-- Concluding Commitment Callout -->
+            <div style="background: rgba(27, 67, 50, 0.05); border-left: 4px solid var(--color-primary); padding: 14px 18px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-style: italic; color: var(--color-text-mid); font-size: 0.92rem; line-height: 1.6;">
+              "Each of these initiatives was born out of a specific need, reflecting our continued commitment to reaching out to the vulnerable and creating a safe, supportive and dignified life for all."
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Photo Gallery (Yuna Filterable Lightbox) -->
+    <section class="section" id="gallery">
       <div class="container">
         <div class="section-header">
           <span class="section-tag">Moments of Joy</span>
@@ -917,6 +1028,61 @@
     if (festBox) {
       festBox.addEventListener('mouseenter', () => clearInterval(festiveAutoTimer));
       festBox.addEventListener('mouseleave', () => startFestiveTimer());
+    }
+
+    // ── REACHING OUT, TOUCHING LIVES MULTI-PHOTO SLIDER ──
+    let currentHomeInstSlide = 0;
+    let homeInstAutoTimer = null;
+
+    function setHomeInstSlide(index, e) {
+      if (e) { e.stopPropagation(); resetHomeInstTimer(); }
+      const slides = document.querySelectorAll('#homeInstitutionsCarousel .cause-slide');
+      const dots = document.querySelectorAll('#homeInstitutionsCarousel .cause-slider-dot');
+      const thumbs = document.querySelectorAll('#institutions .reachingOut-thumb');
+      if (!slides.length) return;
+
+      currentHomeInstSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentHomeInstSlide));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentHomeInstSlide));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentHomeInstSlide));
+      const activeThumb = thumbs[currentHomeInstSlide];
+      if (activeThumb && activeThumb.parentElement) {
+        const row = activeThumb.parentElement;
+        const targetLeft = activeThumb.offsetLeft - (row.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      }
+    }
+
+    function nextHomeInstSlide(e) {
+      if (e) e.stopPropagation();
+      setHomeInstSlide(currentHomeInstSlide + 1);
+      resetHomeInstTimer();
+    }
+
+    function prevHomeInstSlide(e) {
+      if (e) e.stopPropagation();
+      setHomeInstSlide(currentHomeInstSlide - 1);
+      resetHomeInstTimer();
+    }
+
+    function startHomeInstTimer() {
+      if (homeInstAutoTimer) clearInterval(homeInstAutoTimer);
+      homeInstAutoTimer = setInterval(() => {
+        setHomeInstSlide(currentHomeInstSlide + 1);
+      }, 5000);
+    }
+
+    function resetHomeInstTimer() {
+      startHomeInstTimer();
+    }
+
+    startHomeInstTimer();
+
+    const homeInstBox = document.getElementById('homeInstitutionsCarousel');
+    if (homeInstBox) {
+      homeInstBox.addEventListener('mouseenter', () => clearInterval(homeInstAutoTimer));
+      homeInstBox.addEventListener('mouseleave', () => startHomeInstTimer());
     }
 
     // Default Date (tomorrow)

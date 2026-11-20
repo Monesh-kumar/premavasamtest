@@ -978,6 +978,20 @@ input, select, textarea {
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
+/* Branch Institutions Showcase on Home Page */
+.institutions-showcase {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .institutions-showcase {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
 /* Precision face positioning for Festival and Dance images */
 .cause-slide img[src*="celebration_"] {
   object-position: center 30%;
