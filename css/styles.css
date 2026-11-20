@@ -1716,9 +1716,10 @@ input, select, textarea {
 }
 
 /* ── 10.5 CONTACT & DIRECT INQUIRY ── */
-.contact-grid {
+.contact-grid,
+.home-contact-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: start;
 }
@@ -2175,7 +2176,7 @@ input, select, textarea {
   .stats-grid { grid-template-columns: 1fr; }
   .stat-item { border-right: none !important; border-bottom: 1px solid var(--color-border); }
   .causes-grid, .gallery-grid, .meals-tiers-grid { grid-template-columns: 1fr; gap: 16px; }
-  .contact-grid { grid-template-columns: 1fr; gap: 24px; width: 100%; }
+  .contact-grid, .home-contact-grid { grid-template-columns: 1fr; gap: 24px; width: 100%; }
   .inquiry-box { padding: 24px 16px; border-radius: var(--radius-lg); width: 100%; box-sizing: border-box; }
   .inquiry-box h2 { font-size: clamp(1.6rem, 6vw, 1.95rem) !important; line-height: 1.25 !important; }
   .inquiry-box .btn {
