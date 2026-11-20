@@ -457,8 +457,13 @@ function verifyAuth(req) {
   let token = null;
   const authHeader = req.headers['authorization'];
   if (authHeader && authHeader.startsWith('Bearer ')) {
-    token = authHeader.substring(7).trim();
-  } else if (req.headers['cookie']) {
+    const candidate = authHeader.substring(7).trim();
+    if (candidate && candidate.startsWith('pvs_')) {
+      token = candidate;
+    }
+  }
+  
+  if (!token && req.headers['cookie']) {
     const cookies = req.headers['cookie'].split(';');
     for (const c of cookies) {
       const [k, v] = c.trim().split('=');
@@ -569,7 +574,17 @@ function getCorsOrigin(reqOrigin) {
   if (APP_ENV !== 'production' && ALLOWED_ORIGIN === '*') {
     return '*';
   }
-  if (reqOrigin && (reqOrigin === ALLOWED_ORIGIN || reqOrigin === 'https://premavasam.org' || reqOrigin === 'https://www.premavasam.org')) {
+  if (!reqOrigin) return ALLOWED_ORIGIN;
+  if (
+    reqOrigin === ALLOWED_ORIGIN ||
+    reqOrigin === 'https://premavasam.org' ||
+    reqOrigin === 'https://www.premavasam.org' ||
+    reqOrigin.endsWith('.onrender.com') ||
+    reqOrigin.endsWith('.vercel.app') ||
+    reqOrigin.endsWith('.netlify.app') ||
+    reqOrigin.includes('localhost') ||
+    reqOrigin.includes('127.0.0.1')
+  ) {
     return reqOrigin;
   }
   return ALLOWED_ORIGIN !== '*' ? ALLOWED_ORIGIN : 'https://premavasam.org';
