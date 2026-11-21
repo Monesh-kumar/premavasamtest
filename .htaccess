@@ -1,14 +1,14 @@
 # ══════════════════════════════════════════════════════════════════════
-# PREMA VASAM • Apache / GoDaddy cPanel Web Server Configuration
-# Security Hardening • Forced HTTPS • Asset Compression • Database Protection
+# PREMA VASAM • Apache Web Server Configuration & Security Hardening
+# Defensive Headers • File Access Controls • Reverse Proxy • Clean URLs
 # ══════════════════════════════════════════════════════════════════════
 
 # 1. PREVENT DIRECTORY BROWSING
 Options -Indexes
 
-# 2. BLOCK SENSITIVE BACKEND & DATABASE FILES
-# Prevents direct download of database, server code, and environment secrets
-<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|env|json|lock|md|log|yml|yaml|dockerignore)$">
+# 2. BLOCK SENSITIVE BACKEND, DATABASE, AND SCRIPT FILES
+# Prevents direct download of database, server code, test suites, and environment secrets
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|env|json|lock|md|log|yml|yaml|dockerignore|conf|example|bak|sh|sql|ini)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -18,7 +18,8 @@ Options -Indexes
     </IfModule>
 </FilesMatch>
 
-<FilesMatch "^(server\.js|test_runner\.js|test_suite\.js|Dockerfile|docker-compose\.yml)$">
+# Block all root-level automation, testing, and server JavaScript/Docker files
+<FilesMatch "^(server\.js|backup\.js|security_audit_test\.js|test_runner\.js|test_suite\.js|ecosystem\.config\.js|Dockerfile|docker-compose\.yml)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -39,19 +40,55 @@ Options -Indexes
     </IfModule>
 </FilesMatch>
 
-# 3. FORCE HTTPS REDIRECT (SSL ENFORCEMENT)
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{HTTPS} off
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# 3. DEFENSIVE HTTP SECURITY HEADERS
+<IfModule mod_headers.c>
+    # Clickjacking protection (disallow iframe embedding by third parties)
+    Header always set X-Frame-Options "DENY"
+
+    # Prevent MIME sniffing confusion attacks
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Strict Referrer Policy (prevent URL leakage to external referrers)
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # HTTP Strict Transport Security (HSTS: 1 Year + Subdomains + Preload)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Restrict unnecessary browser APIs
+    Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=()"
+
+    # Remove server disclosure headers
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
 </IfModule>
 
-# 4. GZIP COMPRESSION (PERFORMANCE OPTIMIZATION)
+# 4. URL REWRITING, CLEAN URLS & REVERSE PROXY
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS Redirect
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Reverse Proxy /api requests to local Node.js process (if mod_proxy is active)
+    <IfModule mod_proxy.c>
+        RewriteRule ^api/(.*)$ http://127.0.0.1:3000/api/$1 [P,L]
+        RewriteRule ^api$ http://127.0.0.1:3000/api/ [P,L]
+    </IfModule>
+
+    # Clean URLs: Map /admin, /about, /sponsormeals, etc. to .html automatically
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^([^\.]+)$ $1.html [NC,L]
+</IfModule>
+
+# 5. GZIP COMPRESSION (PERFORMANCE OPTIMIZATION)
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
 </IfModule>
 
-# 5. BROWSER CACHING HEADERS
+# 6. BROWSER CACHING HEADERS
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 day"
