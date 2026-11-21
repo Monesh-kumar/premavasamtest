@@ -1146,7 +1146,8 @@ input, select, textarea {
   object-position: center 35%;
 }
 
-.story-narrative h3 {
+.story-narrative h3,
+.story-header h3 {
   font-size: 2.3rem;
   font-weight: 800;
   color: var(--color-primary-deep);
@@ -2344,6 +2345,103 @@ input, select, textarea {
     min-height: 40px;
     padding: 8px 18px;
     font-size: 0.88rem;
+  }
+
+  /* ── Story / Origin Mobile Layout Optimization ── */
+  .story-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .story-narrative {
+    display: contents;
+  }
+
+  .story-header {
+    order: 1;
+  }
+
+  .story-header .section-tag {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .story-header h3 {
+    font-size: clamp(1.75rem, 6.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--color-primary-deep);
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .story-visuals {
+    order: 2;
+    gap: 12px;
+    margin: 4px 0 8px 0;
+  }
+
+  .story-img-main {
+    border-radius: var(--radius-md);
+  }
+
+  .story-img-sub {
+    border-radius: var(--radius-md);
+  }
+
+  .story-text-body {
+    order: 3;
+  }
+
+  .story-text-body p,
+  .story-narrative p {
+    text-align: left;
+    font-size: 0.96rem;
+    line-height: 1.65;
+    color: var(--color-text);
+    margin-bottom: 16px;
+  }
+
+  .story-quote-block {
+    text-align: left;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    padding-left: 16px;
+    border-left: 4px solid var(--color-primary);
+    margin: 20px 0;
+    font-style: italic;
+  }
+
+  .founders-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .founder-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 14px 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+
+  .founder-pill h5 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-primary-deep);
+    margin: 0;
+  }
+
+  .founder-pill span {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
   }
 }
 
